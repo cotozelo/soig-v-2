@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<descricao_esquema>
+	<separador>Letra X</separador>
+	<primeira_letra>MVC</primeira_letra>
+	<segunda_letra>Identificador da Classe</segunda_letra>
+	<terceira_letra>CRUD</terceira_letra>
+	<numeros>5 dígitos aleatórios inseridos manualemente na classe.</numeros>
+</descricao_esquema>
+<lista_de_erros>
+	<CxAxCx00010>Erro no Create de AgenciaController - codigo 10</CxAxCx00010>
+	<CxAxCx00011>Erro no Create de AgenciaController - codigo 11</CxAxCx00011>
+	<CxAxUx00020>Erro no Update de AgenciaController - codigo 20</CxAxUx00020>
+	<CxAxDx00030>Erro no Delete de AgenciaController - codigo 30</CxAxDx00030>
+	<CxLxCx00010>Erro no Create de LogController - codigo 10</CxLxCx00010>
+	<CxExRx00001>Não retorna nenhuma ocorrência para indicador - codigo_00001</CxExRx00001>
+	<CxExRx00002>Não retorna nenhuma ocorrência para equacao - codigo_00002</CxExRx00002>
+	<CxExRx00024>Não retorna nenhuma ocorrência para indicador - codigo_00024</CxExRx00024>
+	<CxExCx00003>Não retorna nenhuma ocorrência para indicador - codigo_00003</CxExCx00003>
+	<CxExCx00004>Não retorna nenhuma ocorrência para equacao - codigo_00004</CxExCx00004>
+	<CxExUx00005>Não retorna nenhuma ocorrência para indicador - codigo_00005</CxExUx00005>
+	<CxExUx00006>Não retorna nenhuma ocorrência para equacao - codigo_00006</CxExUx00006>
+	<CxExUx00007>Não foi possível salvar indicador - codigo_00007</CxExUx00007>
+	<CxExDx00008>Não retorna nenhuma ocorrência para indicador - codigo_00008</CxExDx00008>
+	<CxExDx00009>Não retorna nenhuma ocorrência para equacao - codigo_00009</CxExDx00009>
+	<CxExDx00010>Não foi possível salvar indicador - codigo_000010</CxExDx000010>
+	<CxIxCx00011>Não foi possível salvar indicador - codigo_000011</CxIxCx00011>
+	<CxIxUx00012>Não retorna nenhuma ocorrência para indicador - codigo_00012</CxIxUx00012>
+	<CxIxUx00013>Não foi possível salvar indicador - codigo_00013</CxIxUx00013>
+	<CxIxDx00014>Não retorna nenhuma ocorrência para indicador - codigo_00014</CxIxDx00014>
+	<CxIxDx00015>Não foi possível deletar indicador - codigo_00015</CxIxDx00015>
+	<CxDxCx00016>Não foi possível salvar dado - codigo_00016</CxDxCx00016>
+	<CxDxUx00017>Não foi possível salvar dado - codigo_00017</CxDxUx00017>
+	<CxDxDx00018>Não retorna nenhuma ocorrência para dado - codigo_00018</CxDxDx00018>
+	<CxDxDx00019>Não foi possível deletar dado - codigo_00019</CxDxDx00019>
+	<CxUxCx00020>Não foi possível salvar usuario - codigo_00020</CxUxCx00020>
+	<CxUxUx00021>Não foi possível salvar usuario - codigo_00021</CxUxUx00021>
+	<CxUxDx00022>Não retorna nenhuma ocorrência para dado - codigo_00022</CxUxDx00022>
+	<CxUxDx00023>Não foi possível deletar usuario - codigo_00023</CxUxUx00023>
+	<CxUxRx00025>Não retorna nenhuma ocorrência para usuario - codigo_00025</CxUxRx00025>
+	<CxUxRx00026>Não retorna nenhuma ocorrência para usuario - codigo_00026</CxUxRx00026>
+	<CxUxRx00027>Não retorna nenhuma ocorrência para usuarioEntidade - codigo_00027</CxUxRx00027>
+	<CxUxCx00028>Não retorna nenhuma ocorrência para usuario - codigo_00028</CxUxCx00028>
+	<CxUxCx00029>Não retorna nenhuma ocorrência para usuarioEntidade - codigo_00029</CxUxCx00029>
+	<CxUxUx00030>Não retorna nenhuma ocorrência para usuario - codigo_00030</CxUxUx00030>
+	<CxUxUx00031>Não retorna nenhuma ocorrência para usuarioEntidade - codigo_00031</CxUxUx00031>
+	<CxUxUx00032>Não foi possível salvar usuarioEntidade - codigo_00032</CxUxUx00032>
+	<CxUxDx00033>Não retorna nenhuma ocorrência para usuario - codigo_00033</CxUxDx00033>
+	<CxUxDx00034>Não retorna nenhuma ocorrência para usuarioEntidade - codigo_00034</CxUxDx00034>
+	<CxUxDx00035>Não foi possível salvar usuario - codigo_00035</CxUxDx00035>
+	<CxUxRx00036>Não retorna nenhuma ocorrência para usuario - codigo_00036</CxUxRx00036>
+	<CxUxRx00037>Não retorna nenhuma ocorrência para usuario - codigo_00037</CxUxRx00037>
+	<CxUxRx00038>Não retorna nenhuma ocorrência para usuarioIndicador - codigo_00038</CxUxRx00038>
+	<CxUxCx00039>Não retorna nenhuma ocorrência para usuario - codigo_00039</CxUxCx00039>
+	<CxUxCx00040>Não retorna nenhuma ocorrência para usuarioIndicador - codigo_00040</CxUxCx00040>
+	<CxUxUx00041>Não retorna nenhuma ocorrência para usuario - codigo_00041</CxUxUx00041>
+	<CxUxUx00042>Não retorna nenhuma ocorrência para usuarioIndicador - codigo_00042</CxUxUx00042>
+	<CxUxUx00043>Não foi possível salvar usuarioIndicador - codigo_00043</CxUxUx00043>
+	<CxUxDx00044>Não retorna nenhuma ocorrência para usuario - codigo_00044</CxUxDx00044>
+	<CxUxDx00045>Não retorna nenhuma ocorrência para usuarioIndicador - codigo_00045</CxUxDx00034>
+	<CxUxDx00046>Não foi possível salvar usuario - codigo_00046</CxUxDx00035>
+	<CxUxRx00047>Não retorna nenhuma ocorrência para usuario - codigo_00047</CxUxRx00047>
+	<CxUxRx00048>Não retorna nenhuma ocorrência para usuario - codigo_00048</CxUxRx00048>
+	<CxUxRx00049>Não retorna nenhuma ocorrência para usuarioDado - codigo_00049</CxUxRx00049>
+	<CxUxCx00050>Não retorna nenhuma ocorrência para usuario - codigo_00050</CxUxCx00050>
+	<CxUxCx00051>Não retorna nenhuma ocorrência para usuarioDado - codigo_00051</CxUxCx00051>
+	<CxUxUx00052>Não retorna nenhuma ocorrência para usuario - codigo_00052</CxUxUx00052>
+	<CxUxUx00053>Não retorna nenhuma ocorrência para usuarioDado - codigo_00053</CxUxUx00053>
+	<CxUxUx00054>Não foi possível salvar usuarioDado - codigo_00054</CxUxUx00054>
+	<CxUxDx00055>Não retorna nenhuma ocorrência para usuario - codigo_00055</CxUxDx00055>
+	<CxUxDx00056>Não retorna nenhuma ocorrência para usuarioDado - codigo_00056</CxUxDx00056>
+	<CxUxDx00057>Não foi possível salvar usuario - codigo_00057</CxUxDx00057>
+	<CxAxRx00058>Não retorna nenhuma ocorrência para agencia - codigo_00058</CxAxRx00058>
+	<CxAxRx00059>Não retorna nenhuma ocorrência para agencia - codigo_00059</CxAxRx00059>
+	<CxAxCx00060>Não foi possível salvar agencia - codigo_00060</CxAxCx00060>
+	<CxAxUx00061>Não foi possível salvar agencia - codigo_00061</CxAxUx00061>
+	<CxAxDx00062>Não retorna nenhuma ocorrência para agencia - codigo_00062</CxAxDx00062>
+	<CxAxDx00063>Não foi possível remover agencia - codigo_00063</CxAxDx00063>
+	<CxAxUx00064>Não retorna nenhuma ocorrência para agencia - codigo_00064</CxAxUx00064>
+	<CxExRx00065>Não retorna nenhuma ocorrência para agencia - codigo_00065</CxExRx00065>
+	<CxExRx00066>Não retorna nenhuma ocorrência para entidade - codigo_00066</CxExRx00066>
+	<CxExRx00067>Não retorna nenhuma ocorrência para agencia - codigo_00067</CxExRx00067>
+	<CxExRx00068>Não retorna nenhuma ocorrência para entidade - codigo_00068</CxExRx00068>
+	<CxExCx00069>Não retorna nenhuma ocorrência para agencia - codigo_00069</CxExCx00069>
+	<CxExCx00070>Não retorna nenhuma ocorrência para entidade - codigo_00070</CxExCx00070>
+	<CxExUx00071>Não retorna nenhuma ocorrência para agencia - codigo_00071</CxExUx00071>
+	<CxExUx00072>Não retorna nenhuma ocorrência para entidade - codigo_00072</CxExCx00070>
+	<CxExUx00073>Não foi possível salvar agencia - codigo_00073</CxExUx00073>
+	<CxExDx00074>Não retorna nenhuma ocorrência para agencia - codigo_00074</CxExDx00074>
+	<CxExDx00075>Não retorna nenhuma ocorrência para entidade - codigo_00075</CxAxDx00062>
+	<CxExDx00076>Não foi possível remover agencia - codigo_00076</CxExDx00076>	
+	<CxAxRx00077>Não retorna nenhuma ocorrência para agencia - codigo_00071</CxAxRx00077>
+	<CxAxRx00078>Não retorna nenhuma ocorrência para entidade - codigo_00072</CxAxRx00078>
+	<CxAxRx00079>Não retorna nenhuma ocorrência para ano - codigo_00072</CxAxRx00079>
+	<CxAxRx00080>Não retorna nenhuma ocorrência para agencia - codigo_00080</CxAxRx00080>
+	<CxAxRx00081>Não retorna nenhuma ocorrência para entidade - codigo_00081</CxAxRx00078>
+	<CxAxRx00082>Não retorna nenhuma ocorrência para ano - codigo_00082</CxAxRx00079>
+	<CxAxCx00083>Não retorna nenhuma ocorrência para agencia - codigo_00083</CxAxCx00083>
+	<CxAxCx00084>Não retorna nenhuma ocorrência para entidade - codigo_00084</CxAxCx00084>
+	<CxAxCx00085>Não retorna nenhuma ocorrência para ano - codigo_00085</CxAxCx00085>
+	<CxAxCx00086>Não retorna nenhuma ocorrência para entidade - codigo_00084</CxAxCx00086>
+	<CxAxUx00087>Não retorna nenhuma ocorrência para agencia - codigo_00087</CxAxUx00087>
+	<CxAxUx00088>Não retorna nenhuma ocorrência para entidade - codigo_00088</CxAxUx00088>
+	<CxAxUx00089>Não retorna nenhuma ocorrência para ano - codigo_00089</CxAxUx00089>
+	<CxAxUx00090>Não retorna nenhuma ocorrência para entidade - codigo_00090</CxAxUx00090>
+	<CxAxDx00091>Não retorna nenhuma ocorrência para agencia - codigo_00091</CxAxDx00091>
+	<CxAxDx00092>Não retorna nenhuma ocorrência para entidade - codigo_00092</CxAxDx00092>
+	<CxAxDx00093>Não retorna nenhuma ocorrência para ano - codigo_00093</CxAxUx00089>
+	<CxAxDx00094>Não retorna nenhuma ocorrência para entidade - codigo_00094</CxAxUx00090>
+</lista_de_erros>
