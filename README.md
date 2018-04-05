@@ -1,29 +1,16 @@
-# README #
+…or create a new repository on the command line
+echo "# soig-v-2" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/cotozelo/soig-v-2.git
+git push -u origin master
 
-This README would normally document whatever steps are necessary to get your application up and running.
 
-### What is this repository for? ###
+…or push an existing repository from the command line
+git remote add origin https://github.com/cotozelo/soig-v-2.git
+git push -u origin master
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+…or import code from another repository
+You can initialize this repository with code from a Subversion, Mercurial, or TFS project.
