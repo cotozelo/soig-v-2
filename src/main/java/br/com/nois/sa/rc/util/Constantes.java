@@ -77,6 +77,7 @@ public final class Constantes {
 	// USUARIO_CONTROLLER_IMPL
 	public final String USUARIO_GETALL = "usuario_getall";
 	public final String USUARIO_GETBYID = "usuario_getbyid";
+	public final String USUARIO_GETBYNOMEDEUSUARIO = "usuario_getbynomedeusuario";
 	public final String USUARIO_INSERT = "usuario_insert";
 	public final String USUARIO_UPDATE = "usuario_update";
 	public final String USUARIO_DELETEBYID = "usuario_deletebyid";
