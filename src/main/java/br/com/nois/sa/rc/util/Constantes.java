@@ -109,6 +109,7 @@ public final class Constantes {
 	public final String ENTIDADE_GETALL = "entidade_getall";
 	public final String ENTIDADE_GETBYID = "entidade_getbyid";
 	public final String ENTIDADE_GETBYCODIGO = "entidade_getbycodigo";
+	public final String ENTIDADE_GETBYNOME = "entidade_getbynome";
 	public final String ENTIDADE_INSERT = "entidade_insert";
 	public final String ENTIDADE_UPDATE = "entidade_update";
 	public final String ENTIDADE_DELETEBYID = "entidade_deletebyid";
