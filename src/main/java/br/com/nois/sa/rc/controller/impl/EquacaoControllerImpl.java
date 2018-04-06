@@ -182,7 +182,7 @@ public class EquacaoControllerImpl implements EquacaoController {
 		}
 	}
 	
-	public Double result(Map<String, Double> variaveis, String formula) throws ScriptException {
+	/*public Double result(Map<String, Double> variaveis, String formula) throws ScriptException {
 		ScriptEngineManager manager = new ScriptEngineManager();
 		ScriptEngine engine = manager.getEngineByName("JavaScript");
 
@@ -193,5 +193,5 @@ public class EquacaoControllerImpl implements EquacaoController {
 		engine.eval("resultado = " + formula + ";");
 		
 		return Double.parseDouble("" + engine.get("resultado"));
-	}
+	}*/
 }

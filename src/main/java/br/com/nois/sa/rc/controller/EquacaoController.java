@@ -27,6 +27,6 @@ public interface EquacaoController {
 	public Equacao deleteById(@PathVariable("idIndicador") String idIndicador,
 			@PathVariable("idEquacao") String idEquacao);
 	
-	public Double result(MunicipioRepository municipioRepository, DadoRepository dadoRepository, LogRepository logRepository,
-			VersaoRepository versaoRepository, String formula) throws ScriptException;
+	/*public Double result(MunicipioRepository municipioRepository, DadoRepository dadoRepository, LogRepository logRepository,
+			VersaoRepository versaoRepository, String formula) throws ScriptException;*/
 }
