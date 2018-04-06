@@ -55,6 +55,13 @@ public class UsuarioControllerImpl implements UsuarioController {
 		this.logController.insert(new Log(new Constantes().USUARIO_GETBYID, usuario == null ? "" : usuario.toString()));
 		return usuario;
 	}
+	
+	@GetMapping("/informacao/{nomeDeUsuario}")
+	public Usuario getByNomeDeUsuario(@PathVariable("nomeDeUsuario") String nomeDeUsuario) {
+		Usuario usuario = this.usuarioRepository.findByNomeDeUsuario(nomeDeUsuario);
+		this.logController.insert(new Log(new Constantes().USUARIO_GETBYNOMEDEUSUARIO, usuario == null ? "" : usuario.toString()));
+		return usuario;
+	}
 
 	@PutMapping("/insert")
 	public Usuario insert(@RequestBody Usuario usuario) {

@@ -11,6 +11,8 @@ public interface UsuarioController {
 	public List<Usuario> getAll();
 
 	public Usuario getById(@PathVariable("id") String id);
+	
+	public Usuario getByNomeDeUsuario(@PathVariable("nomeDeUsuario") String nomeDeUsuario);
 
 	public Usuario insert(@RequestBody Usuario usuario);
 

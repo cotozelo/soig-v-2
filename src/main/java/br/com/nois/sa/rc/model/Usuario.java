@@ -21,11 +21,13 @@ public class Usuario {
 	private boolean ativo = false;
 	private String agencia_id;
 	private String senha;
+	private List<UsuarioAgencia> usuarioAgencia;
+	private List<UsuarioFuncionalidade> usuarioFuncionalidade;
 	private List<UsuarioEntidade> usuarioEntidades;
 	private List<UsuarioIndicador> usuarioIndicadores;
 	private List<UsuarioDado> usuarioDados;
 	private String error = null;
-
+	
 	public Usuario() {
 		super();
 	}
@@ -248,5 +250,28 @@ public class Usuario {
 				+ "], usuarioDados=[" + new Util().ListColectionToString((List<Object>) (List<?>) this.usuarioDados)
 				+ "]]";
 	}
+	
+	public List<UsuarioAgencia> getUsuarioAgencia() {
+		return usuarioAgencia;
+	}
 
+	public void setUsuarioAgencia(List<UsuarioAgencia> usuarioAgencia) {
+		this.usuarioAgencia = usuarioAgencia;
+	}
+
+	public List<UsuarioFuncionalidade> getUsuarioFuncionalidade() {
+		return usuarioFuncionalidade;
+	}
+
+	public void setUsuarioFuncionalidade(List<UsuarioFuncionalidade> usuarioFuncionalidade) {
+		this.usuarioFuncionalidade = usuarioFuncionalidade;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setError(String error) {
+
+}
 }

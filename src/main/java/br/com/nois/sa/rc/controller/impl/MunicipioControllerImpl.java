@@ -87,6 +87,21 @@ public class MunicipioControllerImpl implements MunicipioController {
 		return municipio;
 	}
 
+	@GetMapping("/nome/{nome}")
+	public Municipio getByNome(@PathVariable("nome") String nome) {
+		
+		Municipio municipio = this.municipioRepository.findByNome(nome);
+		if (municipio == null) {
+			String error = "Warning: CxExRx00069 ";
+			System.out.println(error);
+			this.logController.insert(new Log(new Constantes().ENTIDADE_GETBYNOME, error));
+			return new Municipio(error);
+		}
+
+		this.logController.insert(new Log(new Constantes().ENTIDADE_GETBYNOME, municipio.toString()));
+		return municipio;
+	}
+
 	@PutMapping("/insert")
 	public Municipio insert(@RequestBody Municipio municipio) {
 

@@ -13,6 +13,8 @@ public interface MunicipioController {
 	public List<Municipio> getByIdAgencia(@PathVariable("idAgencia") String idAgencia);
 
 	public Municipio getByCodigo(@PathVariable("codigo") String codigo);
+	
+	public Municipio getByNome(@PathVariable("nome") String nome);
 
 	public Municipio insert(@RequestBody Municipio municipio);
 
