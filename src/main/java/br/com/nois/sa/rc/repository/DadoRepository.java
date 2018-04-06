@@ -7,6 +7,7 @@ import br.com.nois.sa.rc.model.Dado;
 
 @Repository
 public interface DadoRepository extends MongoRepository<Dado, String> {
+	
 	Dado findById(String id);
 
 	Dado findBySigla(String sigla);
