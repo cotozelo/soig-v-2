@@ -56,11 +56,9 @@ public class Dado {
 		// 0; 1; 2; 3; 4; 5; 6; 7; 8; 9;
 		// 0 ; 1 ; 2; 3 ; 4 ; 5 ; 6; 7 ;8
 		// codmun;municipio;UF;codpre;prestadora;sigla;abrangencia;natureza;servico
-		@SuppressWarnings("unused")
 		MunicipioControllerImpl municipioController = new MunicipioControllerImpl(this.municipioRepository,
 				this.logRepository, this.versaoRepository);
 
-		@SuppressWarnings("unused")
 		PrestadoraControllerImpl prestadoraController = new PrestadoraControllerImpl(this.municipioRepository,
 				this.logRepository, this.versaoRepository);
 

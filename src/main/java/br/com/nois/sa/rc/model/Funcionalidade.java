@@ -2,36 +2,37 @@ package br.com.nois.sa.rc.model;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "funcionalidade")
-public class Funcionalidade {
+public abstract class Funcionalidade {
+
 	@Id
 	private String id;
 	private String nome;
-	
+
 	public Funcionalidade() {
 		super();
+		this.id = ObjectId.get().toString();
 	}
 
 	public Funcionalidade(String nome) {
 		super();
+		this.nome = nome;
 		this.id = ObjectId.get().toString();
-		this.nome = nome;
-	}
-	
-	public Funcionalidade(String id, String nome) {
-		super();
-		this.id = id;
-		this.nome = nome;
 	}
 
 	public String getId() {
-		return id;
+		if (this.id.isEmpty()) {
+			this.id = ObjectId.get().toString();
+		}
+		return this.id;
 	}
 
 	public void setId() {
 		this.id = ObjectId.get().toString();
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -40,5 +41,9 @@ public class Funcionalidade {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String toString() {
+		return "Funcionalidade [id=" + this.id + ", nome=" + this.getNome() + "]";
 	}
 }

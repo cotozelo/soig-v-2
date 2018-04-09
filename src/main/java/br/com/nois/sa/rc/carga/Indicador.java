@@ -52,11 +52,9 @@ public class Indicador {
 				this.versaoRepository);
 		List<Agencia> agencias = agenciaController.getAll();
 
-		@SuppressWarnings("unused")
 		MunicipioControllerImpl municipioController = new MunicipioControllerImpl(this.municipioRepository,
 				this.logRepository, this.versaoRepository);
 
-		@SuppressWarnings("unused")
 		PrestadoraControllerImpl prestadoraController = new PrestadoraControllerImpl(this.municipioRepository,
 				this.logRepository, this.versaoRepository);
 

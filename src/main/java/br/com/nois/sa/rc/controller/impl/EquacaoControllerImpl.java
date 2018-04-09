@@ -1,11 +1,6 @@
 package br.com.nois.sa.rc.controller.impl;
 
 import java.util.List;
-import java.util.Map;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -181,17 +176,18 @@ public class EquacaoControllerImpl implements EquacaoController {
 			return new Equacao(error);
 		}
 	}
-	
-	/*public Double result(Map<String, Double> variaveis, String formula) throws ScriptException {
-		ScriptEngineManager manager = new ScriptEngineManager();
-		ScriptEngine engine = manager.getEngineByName("JavaScript");
 
-		for (String key : variaveis.keySet()) {
-			engine.put(key, variaveis.get(key));
-		}
-
-		engine.eval("resultado = " + formula + ";");
-		
-		return Double.parseDouble("" + engine.get("resultado"));
-	}*/
+	/*
+	 * public Double result(Map<String, Double> variaveis, String formula)
+	 * throws ScriptException { ScriptEngineManager manager = new
+	 * ScriptEngineManager(); ScriptEngine engine =
+	 * manager.getEngineByName("JavaScript");
+	 * 
+	 * for (String key : variaveis.keySet()) { engine.put(key,
+	 * variaveis.get(key)); }
+	 * 
+	 * engine.eval("resultado = " + formula + ";");
+	 * 
+	 * return Double.parseDouble("" + engine.get("resultado")); }
+	 */
 }
