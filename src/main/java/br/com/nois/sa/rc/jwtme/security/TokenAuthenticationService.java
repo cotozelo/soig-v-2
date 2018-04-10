@@ -21,6 +21,7 @@ public class TokenAuthenticationService {
 	static final String HEADER_STRING = "Authorization";
 
 	static void addAuthentication(HttpServletResponse response, String username) {
+		System.out.println("\n addAuthentication");
 		String JWT = Jwts.builder().setSubject(username)
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 				.signWith(SignatureAlgorithm.HS512, SECRET).compact();
@@ -29,6 +30,7 @@ public class TokenAuthenticationService {
 	}
 
 	static Authentication getAuthentication(HttpServletRequest request) {
+		System.out.println("\n getAuthentication");
 		String token = request.getHeader(HEADER_STRING);
 
 		if (token != null) {

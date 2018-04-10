@@ -14,6 +14,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
+		System.out.println("\n configure 1");
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/home").permitAll()
 				.antMatchers(HttpMethod.POST, "/login").permitAll().anyRequest().authenticated().and()
 
@@ -28,6 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		System.out.println("\n configure 2");
 		// cria uma conta default
 		auth.inMemoryAuthentication().withUser("admin").password("password").roles("ADMIN");
 	}

@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import br.com.nois.sa.rc.carga.Dado;
 import br.com.nois.sa.rc.carga.Indicador;
 import br.com.nois.sa.rc.controller.RotinaCargaController;
+import br.com.nois.sa.rc.model.Usuario;
 import br.com.nois.sa.rc.repository.AgenciaRepository;
 import br.com.nois.sa.rc.repository.DadoRepository;
 import br.com.nois.sa.rc.repository.FuncionalidadeRepository;
@@ -18,6 +19,7 @@ import br.com.nois.sa.rc.repository.IndicadorRepository;
 import br.com.nois.sa.rc.repository.LogRepository;
 import br.com.nois.sa.rc.repository.MunicipioRepository;
 import br.com.nois.sa.rc.repository.UnidadeRepository;
+import br.com.nois.sa.rc.repository.UsuarioRepository;
 import br.com.nois.sa.rc.repository.VersaoRepository;
 
 @SpringBootApplication
@@ -43,6 +45,8 @@ public class Application implements CommandLineRunner {
 	MunicipioRepository municipioRepository;
 	@Autowired
 	VersaoRepository versaoRepository;
+	@Autowired
+	UsuarioRepository usuarioRepository;
 
 	RotinaCargaController rotinaCargaController;
 
@@ -52,6 +56,8 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... strings) throws Exception {
 		System.out.println("\n\nAPLICACAO NO AR...");
+		Usuario uss = usuarioRepository.findByNomeDeUsuario("usuario_01");
+		System.out.println("\n\nOK..." + uss.getNome());
 
 		/*
 		 * Map<String, Object> repositorios = new HashMap<String, Object>();

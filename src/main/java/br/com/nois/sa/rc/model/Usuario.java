@@ -137,4 +137,8 @@ public class Usuario {
 	public void setError(String error) {
 
 	}
+
+	public String getRole() {
+		return "ADMIN";
+	}
 }
