@@ -1,6 +1,8 @@
 package br.com.nois.sa.rc.controller.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nois.sa.rc.controller.LogController;
+import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.controller.UsuarioController;
 import br.com.nois.sa.rc.model.Log;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.json.UsuarioJSON;
-import br.com.nois.sa.rc.model.json.ErroJSON.ErroEnum;
 import br.com.nois.sa.rc.model.to.PerfilTO;
 import br.com.nois.sa.rc.model.to.UsuarioTO;
 import br.com.nois.sa.rc.repository.LogRepository;
@@ -41,25 +43,28 @@ public class UsuarioControllerImpl implements UsuarioController {
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 	}
 
-	@PostMapping("/insertAll/{username}")
-	public Object insert(@PathVariable("username") String username, @RequestBody UsuarioJSON usuarioJSON) {
+	@PostMapping("/atribuir/{username}")
+	public ResponseEntity<Response<UsuarioJSON>> insert(@PathVariable("username") String userName,
+			@RequestBody UsuarioJSON usuarioJSON) {
+		Response<UsuarioJSON> response = new Response<UsuarioJSON>();
 		try {
 			UsuarioTO usurioTO = new UsuarioTO(usuarioJSON);
 
 			this.logController.insert(new Log(new Constantes().USUARIO_INSERT, usurioTO.toString()));
-			this.usuarioRepository.insert(usurioTO);
+			usurioTO = this.usuarioRepository.insert(usurioTO);
 
 			usuarioJSON = new UsuarioJSON(usurioTO);
-
-			return usuarioJSON;
+			response.setData(usuarioJSON);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
-			return new ErroJSON(ex, ErroEnum.INVALIDO, this.getClass().getName() + "/insertAll/" + username);
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insertAll/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
 	@GetMapping("/informacao/{username}")
-	public Object getInformacao(@PathVariable("username") String userName) {
-
+	public ResponseEntity<Response<UsuarioJSON>> getInformacao(@PathVariable("username") String userName) {
+		Response<UsuarioJSON> response = new Response<UsuarioJSON>();
 		try {
 			UsuarioTO usuarioTO = this.usuarioRepository.findByNomeDeUsuario(userName);
 			if (usuarioTO != null) {
@@ -74,13 +79,16 @@ public class UsuarioControllerImpl implements UsuarioController {
 					usuarioJSON.setUsuarioFuncionalidades(perfilTO.getFuncionalidades());
 				}
 
-				return usuarioJSON;
+				response.setData(usuarioJSON);
+				return ResponseEntity.status(HttpStatus.OK).body(response);
 			} else {
-				return new ErroJSON(ErroEnum.GET_VAZIO, "VxUxRx00001", "",
-						this.getClass().getName() + "/informacao/" + userName);
+				response.setError(new ErroJSON("VxUxRx00001", this.getClass().getName() + "/informacao/" + userName));
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 			}
+
 		} catch (Exception ex) {
-			return new ErroJSON(ex, ErroEnum.GET, this.getClass().getName() + "/informacao/" + userName);
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/informacao/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 

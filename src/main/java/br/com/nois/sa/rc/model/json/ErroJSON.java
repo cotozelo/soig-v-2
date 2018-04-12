@@ -7,9 +7,7 @@ import java.util.Map;
 public class ErroJSON {
 
 	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-	int status = 0;
 	String error = "";
-	String exception = "";
 	String message = "";
 	String path = "";
 
@@ -17,19 +15,15 @@ public class ErroJSON {
 
 	}
 
-	public ErroJSON(ErroEnum status, String error, String exception, String path) {
-		this.status = status.getValor();
+	public ErroJSON(String error, String path) {
 		this.path = path;
 		this.error = error;
 		this.message = Tabela.getInstance().getMessage(error);
-		this.exception = exception;
 	}
 
-	public ErroJSON(Exception ex, ErroEnum status, String classe) {
-		this.status = status.getValor();
-		this.path = classe;
-		this.exception = ex.getClass().getName();
-		this.error = ex.toString();
+	public ErroJSON(Exception ex, String path) {
+		this.path = path;
+		this.error = ex.toString() + " " + ex.getClass().getName();
 		this.message = ex.getMessage();
 	}
 
@@ -41,28 +35,12 @@ public class ErroJSON {
 		this.timestamp = timestamp;
 	}
 
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
 	public String getError() {
 		return error;
 	}
 
 	public void setError(String error) {
 		this.error = error;
-	}
-
-	public String getException() {
-		return exception;
-	}
-
-	public void setException(String exception) {
-		this.exception = exception;
 	}
 
 	public String getMessage() {
@@ -112,20 +90,6 @@ public class ErroJSON {
 				INSTANCE.criateMap();
 			}
 			return INSTANCE;
-		}
-	}
-
-	public enum ErroEnum {
-		GET(200), POST(201), DELETE(204), GET_VAZIO(404), INVALIDO(422);
-
-		private int valor;
-
-		ErroEnum(int valor) {
-			this.valor = valor;
-		}
-
-		public int getValor() {
-			return this.valor;
 		}
 	}
 }

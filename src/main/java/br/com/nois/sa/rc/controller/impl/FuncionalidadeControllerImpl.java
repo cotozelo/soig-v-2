@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nois.sa.rc.controller.FuncionalidadeController;
 import br.com.nois.sa.rc.controller.LogController;
+import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.model.Log;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.json.FuncionalidadeJSON;
-import br.com.nois.sa.rc.model.json.ErroJSON.ErroEnum;
 import br.com.nois.sa.rc.model.to.FuncionalidadeTO;
 import br.com.nois.sa.rc.repository.FuncionalidadeRepository;
 import br.com.nois.sa.rc.repository.LogRepository;
@@ -48,7 +50,8 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 	}
 
 	@GetMapping("/all/{username}")
-	public Object getAll(@PathVariable("username") String userName) {
+	public ResponseEntity<Response<List<FuncionalidadeJSON>>> getAll(@PathVariable("username") String userName) {
+		Response<List<FuncionalidadeJSON>> response = new Response<List<FuncionalidadeJSON>>();
 		try {
 			List<FuncionalidadeTO> funcionalidades = this.funcionalidadeRepository.findAll();
 			if (!funcionalidades.isEmpty()) {
@@ -62,18 +65,22 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 				this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
 						new Util().ListColectionToString(new ArrayList<Object>(funcionalidadesJSON))));
 
-				return funcionalidadesJSON;
+				response.setData(funcionalidadesJSON);
+				return ResponseEntity.status(HttpStatus.OK).body(response);
 			} else {
-				return new ErroJSON(ErroEnum.GET_VAZIO, "VxFxRx00001", "",
-						this.getClass().getName() + "/all/" + userName);
+				response.setError(new ErroJSON("VxFxRx00001", this.getClass().getName() + "/all/" + userName));
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 			}
 		} catch (Exception ex) {
-			return new ErroJSON(ex, ErroEnum.GET, this.getClass().getName() + "/all/" + userName);
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/all/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
 	@GetMapping("/nome/{username}/{nome}")
-	public Object getByNome(@PathVariable("username") String userName, @PathVariable("nome") String nome) {
+	public ResponseEntity<Response<FuncionalidadeJSON>> getByNome(@PathVariable("username") String userName,
+			@PathVariable("nome") String nome) {
+		Response<FuncionalidadeJSON> response = new Response<FuncionalidadeJSON>();
 		try {
 			FuncionalidadeTO funcionalidadeTO = this.funcionalidadeRepository.findByNome(nome);
 			if (funcionalidadeTO != null) {
@@ -81,35 +88,41 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 
 				this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETBYNOME,
 						funcionalidadeJSON.toString()));
-				return funcionalidadeJSON;
+				response.setData(funcionalidadeJSON);
+				return ResponseEntity.status(HttpStatus.OK).body(response);
 			} else {
-				return new ErroJSON(ErroEnum.GET_VAZIO, "VxFxRx00002", "",
-						this.getClass().getName() + "/all/" + userName);
+				response.setError(new ErroJSON("VxFxRx00002", this.getClass().getName() + "/" + userName + "/" + nome));
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 			}
 		} catch (Exception ex) {
-			return new ErroJSON(ex, ErroEnum.GET, this.getClass().getName() + "/" + userName + "/" + nome);
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/nome/" + userName + "/" + nome));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
 	@PostMapping("/insert/{username}")
-	public Object insert(@PathVariable("username") String userName,
+	public ResponseEntity<Response<FuncionalidadeJSON>> insert(@PathVariable("username") String userName,
 			@RequestBody FuncionalidadeJSON funcionalidadeJSON) {
+		Response<FuncionalidadeJSON> response = new Response<FuncionalidadeJSON>();
 		try {
 
 			FuncionalidadeTO funcionalidadeTO = new FuncionalidadeTO(funcionalidadeJSON);
 
-			this.funcionalidadeRepository.insert(funcionalidadeTO);
+			funcionalidadeTO = this.funcionalidadeRepository.insert(funcionalidadeTO);
 			this.logController.insert(
 					new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERT, funcionalidadeTO.toString()));
-			return new FuncionalidadeJSON(funcionalidadeTO);
-		} catch (Exception e) {
-			return new ErroJSON(ErroEnum.POST, "VxFxIx00001", "", this.getClass().getName() + "/insert/" + userName);
+			response.setData(funcionalidadeJSON);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
 	@PostMapping("/inserts/{username}")
-	public Object inserts(@PathVariable("username") String userName,
+	public ResponseEntity<Response<List<FuncionalidadeJSON>>> inserts(@PathVariable("username") String userName,
 			@RequestBody List<FuncionalidadeJSON> funcionalidadesJSON) {
+		Response<List<FuncionalidadeJSON>> response = new Response<List<FuncionalidadeJSON>>();
 		try {
 
 			List<FuncionalidadeTO> funcionalidadesTO = new ArrayList<FuncionalidadeTO>();
@@ -119,16 +132,18 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 
 			this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERTS,
 					new Util().ListColectionToString(new ArrayList<Object>(funcionalidadesTO))));
-			this.funcionalidadeRepository.insert(funcionalidadesTO);
+			funcionalidadesTO = this.funcionalidadeRepository.insert(funcionalidadesTO);
 
 			funcionalidadesJSON.clear();
 			for (FuncionalidadeTO funcionalidadeTO : funcionalidadesTO) {
 				funcionalidadesJSON.add(new FuncionalidadeJSON(funcionalidadeTO));
 			}
 
-			return funcionalidadesJSON;
-		} catch (Exception e) {
-			return new ErroJSON(ErroEnum.POST, "VxFxIx00002", "", this.getClass().getName() + "/insert/" + userName);
+			response.setData(funcionalidadesJSON);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 

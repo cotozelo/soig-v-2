@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.controller.PerfilController;
+import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.model.Log;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.json.PerfilJSON;
-import br.com.nois.sa.rc.model.json.ErroJSON.ErroEnum;
 import br.com.nois.sa.rc.model.to.FuncionalidadeTO;
 import br.com.nois.sa.rc.model.to.PerfilTO;
 import br.com.nois.sa.rc.repository.FuncionalidadeRepository;
@@ -53,7 +55,8 @@ public class PerfilControllerImpl implements PerfilController {
 
 	@Override
 	@GetMapping("/all/{username}")
-	public Object getAll(@PathVariable("username") String userName) {
+	public ResponseEntity<Response<List<PerfilJSON>>> getAll(@PathVariable("username") String userName) {
+		Response<List<PerfilJSON>> response = new Response<List<PerfilJSON>>();
 		try {
 			List<PerfilTO> perfilsTO = this.perfilRepository.findAll();
 			if (!perfilsTO.isEmpty()) {
@@ -67,62 +70,78 @@ public class PerfilControllerImpl implements PerfilController {
 				this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
 						new Util().ListColectionToString(new ArrayList<Object>(perfilsJSON))));
 
-				return perfilsJSON;
-
+				response.setData(perfilsJSON);
+				return ResponseEntity.status(HttpStatus.OK).body(response);
 			} else {
-				return new ErroJSON(ErroEnum.GET_VAZIO, "VxPxRx00001", "",
-						this.getClass().getName() + "/all/" + userName);
+				response.setError(new ErroJSON("VxPxRx00001", this.getClass().getName() + "/all/" + userName));
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 			}
 		} catch (Exception ex) {
-			return new ErroJSON(ex, ErroEnum.GET, this.getClass().getName() + "/all/" + userName);
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/all/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
 	@Override
 	@PutMapping("/update/{username}")
-	public Object update(@PathVariable("username") String userName, @RequestBody List<PerfilJSON> perfilsJSON) {
-
+	public ResponseEntity<Response<List<PerfilJSON>>> update(@PathVariable("username") String userName,
+			@RequestBody List<PerfilJSON> perfilsJSON) {
+		Response<List<PerfilJSON>> response = new Response<List<PerfilJSON>>();
 		try {
+			List<PerfilJSON> perfilsJSONsave = new ArrayList<PerfilJSON>();
 			for (PerfilJSON perfilJSON : perfilsJSON) {
 				PerfilTO perfilTO = new PerfilTO(perfilJSON);
 
 				this.logController
 						.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL, perfilTO.toString()));
 
-				this.perfilRepository.save(perfilTO);
+				perfilTO = this.perfilRepository.save(perfilTO);
+				perfilsJSONsave.add(new PerfilJSON(perfilTO));
 			}
-			return perfilsJSON;
+			response.setData(perfilsJSONsave);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
-			return new ErroJSON(ErroEnum.INVALIDO, "VxPxUx00001", "", this.getClass().getName() + "/update/" + userName);
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/update/" + userName + "/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
 	@Override
 	@DeleteMapping("/{username}/{id}")
-	public Object deleteById(@PathVariable("username") String userName, @PathVariable("id") String id) {
+	public ResponseEntity<Response<PerfilJSON>> deleteById(@PathVariable("username") String userName,
+			@PathVariable("id") String id) {
+		Response<PerfilJSON> response = new Response<PerfilJSON>();
 		try {
-			PerfilTO perfil = this.perfilRepository.findById(id);
+			PerfilTO perfilTO = this.perfilRepository.findById(id);
 
 			this.logController
-					.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL, perfil.toString()));
+					.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL, perfilTO.toString()));
 
-			this.perfilRepository.delete(perfil);
+			this.perfilRepository.delete(perfilTO);
 
-			return PerfilToJson(perfil);
+			response.setData(new PerfilJSON(perfilTO));
+			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
-			return new ErroJSON(ErroEnum.DELETE, "VxPxDx00001", "", this.getClass().getName() + "/update/" + userName);
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/" + userName + "/" + id));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
 	@Override
 	@PostMapping("/insert/{username}")
-	public Object insert(@PathVariable("username") String userName, @RequestBody PerfilJSON perfil) {
+	public ResponseEntity<Response<PerfilJSON>> insert(@PathVariable("username") String userName,
+			@RequestBody PerfilJSON perfilJSON) {
+		Response<PerfilJSON> response = new Response<PerfilJSON>();
+
 		try {
-			this.logController.insert(new Log(new Constantes().USUARIO_INSERT, perfil.toString()));
-			this.perfilRepository.insert(new PerfilTO(perfil));
-			return perfil;
-		} catch (Exception e) {
-			return new ErroJSON(ErroEnum.POST, "VxPxIx00001", "", this.getClass().getName() + "/insert/" + userName);
+			this.logController.insert(new Log(new Constantes().USUARIO_INSERT, perfilJSON.toString()));
+			PerfilTO perfilTO = this.perfilRepository.insert(new PerfilTO(perfilJSON));
+
+			response.setData(new PerfilJSON(perfilTO));
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
