@@ -10,11 +10,12 @@ import br.com.nois.sa.rc.model.json.FuncionalidadeJSON;
 public interface FuncionalidadeController {
 	public Long countByNome(@PathVariable("nome") String nome);
 
-	public List<FuncionalidadeJSON> getAll();
+	public Object getAll(@PathVariable("username") String userName);
 
-	public FuncionalidadeJSON getByNome(@PathVariable("nome") String nome);
+	public Object getByNome(@PathVariable("username") String userName, @PathVariable("nome") String nome);
 
-	public FuncionalidadeJSON insert(@RequestBody FuncionalidadeJSON funcionalidade);
+	public Object insert(@PathVariable("username") String userName, @RequestBody FuncionalidadeJSON funcionalidade);
 
-	public List<FuncionalidadeJSON> inserts(@RequestBody List<FuncionalidadeJSON> funcionalidades);
+	public Object inserts(@PathVariable("username") String userName,
+			@RequestBody List<FuncionalidadeJSON> funcionalidades);
 }

@@ -1,46 +1,32 @@
 package br.com.nois.sa.rc.model;
 
-import java.util.List;
-
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "usuario")
-public class Usuario {
+public abstract class Usuario {
 	@Id
 	private String id;
 	private String nome;
 	private String nomeDeUsuario;
-	private String perfil_id;
+	private String telefone;
+	private String perfilId;
 	private String email;
 	private boolean admin = false;
 	private boolean ativo = false;
-	private String agencia_id;
-	private String senha;
-	private List<UsuarioAgencia> usuarioAgencia;
-	private List<UsuarioFuncionalidade> usuarioFuncionalidade;
-	private String error = null;
 
 	public Usuario() {
-		super();
+		this.id = ObjectId.get().toString();
 	}
 
-	public Usuario(String error) {
-		super();
-		this.error = error;
-	}
-
-	public String getError() {
-		return this.error;
+	public Usuario(String nome) {
+		this.nome = nome;
+		this.id = ObjectId.get().toString();
 	}
 
 	public String getId() {
-		return id;
-	}
-
-	public void setId() {
-		this.id = ObjectId.get().toString();
+		if (this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public String getNome() {
@@ -51,6 +37,14 @@ public class Usuario {
 		this.nome = nome;
 	}
 
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
 	public String getNomeDeUsuario() {
 		return nomeDeUsuario;
 	}
@@ -59,12 +53,12 @@ public class Usuario {
 		this.nomeDeUsuario = nomeDeUsuario;
 	}
 
-	public String getPerfil_id() {
-		return perfil_id;
+	public String getPerfilId() {
+		return perfilId;
 	}
 
-	public void setPerfil_id(String perfil_id) {
-		this.perfil_id = perfil_id;
+	public void setPerfilId(String perfilId) {
+		this.perfilId = perfilId;
 	}
 
 	public String getEmail() {
@@ -91,54 +85,7 @@ public class Usuario {
 		this.ativo = ativo;
 	}
 
-	public String getAgencia_id() {
-		return agencia_id;
-	}
-
-	public void setAgencia_id(String agencia_id) {
-		this.agencia_id = agencia_id;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", nomeDeUsuario=" + nomeDeUsuario + ", perfil_id=" + perfil_id
-				+ ", email=" + email + ", admin=" + admin + ", ativo=" + ativo + ", agencia_id=" + agencia_id
-				+ ", senha=" + senha + "]";
-	}
-
-	public List<UsuarioAgencia> getUsuarioAgencia() {
-		return usuarioAgencia;
-	}
-
-	public void setUsuarioAgencia(List<UsuarioAgencia> usuarioAgencia) {
-		this.usuarioAgencia = usuarioAgencia;
-	}
-
-	public List<UsuarioFuncionalidade> getUsuarioFuncionalidade() {
-		return usuarioFuncionalidade;
-	}
-
-	public void setUsuarioFuncionalidade(List<UsuarioFuncionalidade> usuarioFuncionalidade) {
-		this.usuarioFuncionalidade = usuarioFuncionalidade;
-	}
-
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public void setError(String error) {
-
-	}
-
-	public String getRole() {
-		return "ADMIN";
 	}
 }

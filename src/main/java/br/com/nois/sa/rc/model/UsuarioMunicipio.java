@@ -1,47 +1,41 @@
 package br.com.nois.sa.rc.model;
 
-import java.util.List;
-
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "UsuarioMunicipio")
-public class UsuarioMunicipio {
+public abstract class UsuarioMunicipio {
 	@Id
 	private String id;
-	private Municipio municipio_id;
+	private String municipioId;
 	private String nome;
 	private boolean ver;
-	private boolean alterar;
-	private List<UsuarioPrestadora> usuarioPrestador;
-	private String error = null;
+	private boolean editar;
 
 	public UsuarioMunicipio() {
+		this.id = ObjectId.get().toString();
 	}
 
-	public UsuarioMunicipio(String error) {
-		this.error = error;
+	public UsuarioMunicipio(String nome) {
+		this.nome = nome;
+		this.id = ObjectId.get().toString();
 	}
 
 	public String getId() {
-		return id;
+		if (this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	public void setId() {
-		this.id = ObjectId.get().toString();
+	public String getMunicipioId() {
+		return municipioId;
 	}
 
-	public Municipio getMunicipio_id() {
-		return municipio_id;
-	}
-
-	public void setMunicipio_id(Municipio municipio_id) {
-		this.municipio_id = municipio_id;
+	public void setMunicipioId(String municipioId) {
+		this.municipioId = municipioId;
 	}
 
 	public String getNome() {
@@ -60,28 +54,12 @@ public class UsuarioMunicipio {
 		this.ver = ver;
 	}
 
-	public boolean isAlterar() {
-		return alterar;
+	public boolean isEditar() {
+		return editar;
 	}
 
-	public void setAlterar(boolean alterar) {
-		this.alterar = alterar;
-	}
-
-	public List<UsuarioPrestadora> getUsuarioPrestador() {
-		return usuarioPrestador;
-	}
-
-	public void setUsuarioPrestador(List<UsuarioPrestadora> usuarioPrestador) {
-		this.usuarioPrestador = usuarioPrestador;
-	}
-
-	public String getError() {
-		return error;
-	}
-
-	public void setError(String error) {
-		this.error = error;
+	public void setEditar(boolean editar) {
+		this.editar = editar;
 	}
 
 }

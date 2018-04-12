@@ -1,41 +1,41 @@
 package br.com.nois.sa.rc.model;
 
-import java.util.List;
-
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "UsuarioPrestadora")
-public class UsuarioPrestadora {
+public abstract class UsuarioPrestadora {
 	@Id
 	private String id;
-	private Prestadora prestadora_id;
+	private String prestadoraId;
 	private String nome;
 	private boolean ver;
-	private boolean alterar;
-	private List<UsuarioDado> usuarioDado;
-	private List<UsuarioIndicador> usuarioIndicador;
-	private String error = null;
+	private boolean editar;
 
 	public UsuarioPrestadora() {
-		super();
-		// TODO Auto-generated constructor stub
+		this.id = ObjectId.get().toString();
+	}
+
+	public UsuarioPrestadora(String nome) {
+		this.id = ObjectId.get().toString();
+		this.nome = nome;
 	}
 
 	public String getId() {
-		return id;
+		if (this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	public Prestadora getPrestadora_id() {
-		return prestadora_id;
+	public String getPrestadoraId() {
+		return prestadoraId;
 	}
 
-	public void setPrestadora_id(Prestadora prestadora_id) {
-		this.prestadora_id = prestadora_id;
+	public void setPrestadoraId(String prestadoraId) {
+		this.prestadoraId = prestadoraId;
 	}
 
 	public String getNome() {
@@ -54,36 +54,17 @@ public class UsuarioPrestadora {
 		this.ver = ver;
 	}
 
-	public boolean isAlterar() {
-		return alterar;
+	public boolean isEditar() {
+		return editar;
 	}
 
-	public void setAlterar(boolean alterar) {
-		this.alterar = alterar;
+	public void setEditar(boolean editar) {
+		this.editar = editar;
 	}
 
-	public List<UsuarioDado> getUsuarioDado() {
-		return usuarioDado;
+	@Override
+	public String toString() {
+		return "UsuarioPrestadora [id=" + id + ", prestadoraId=" + prestadoraId + ", nome=" + nome + ", ver=" + ver
+				+ ", editar=" + editar + "]";
 	}
-
-	public void setUsuarioDado(List<UsuarioDado> usuarioDado) {
-		this.usuarioDado = usuarioDado;
-	}
-
-	public List<UsuarioIndicador> getUsuarioIndicador() {
-		return usuarioIndicador;
-	}
-
-	public void setUsuarioIndicador(List<UsuarioIndicador> usuarioIndicador) {
-		this.usuarioIndicador = usuarioIndicador;
-	}
-
-	public String getError() {
-		return error;
-	}
-
-	public void setError(String error) {
-		this.error = error;
-	}
-
 }

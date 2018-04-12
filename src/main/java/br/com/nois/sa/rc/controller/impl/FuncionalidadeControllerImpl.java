@@ -15,6 +15,8 @@ import br.com.nois.sa.rc.controller.FuncionalidadeController;
 import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.model.Log;
 import br.com.nois.sa.rc.model.json.FuncionalidadeJSON;
+import br.com.nois.sa.rc.model.to.ErroTO;
+import br.com.nois.sa.rc.model.to.ErroTO.ErroEnum;
 import br.com.nois.sa.rc.model.to.FuncionalidadeTO;
 import br.com.nois.sa.rc.repository.FuncionalidadeRepository;
 import br.com.nois.sa.rc.repository.LogRepository;
@@ -45,34 +47,53 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 		return qtde;
 	}
 
-	@GetMapping("/all")
-	public List<FuncionalidadeJSON> getAll() {
-		List<FuncionalidadeTO> funcionalidades = this.funcionalidadeRepository.findAll();
+	@GetMapping("/all/{username}")
+	public Object getAll(@PathVariable("username") String userName) {
+		try {
+			List<FuncionalidadeTO> funcionalidades = this.funcionalidadeRepository.findAll();
+			if (!funcionalidades.isEmpty()) {
 
-		List<FuncionalidadeJSON> funcionalidadesJSON = new ArrayList<FuncionalidadeJSON>();
+				List<FuncionalidadeJSON> funcionalidadesJSON = new ArrayList<FuncionalidadeJSON>();
 
-		for (FuncionalidadeTO to : funcionalidades) {
-			funcionalidadesJSON.add(new FuncionalidadeJSON(to));
+				for (FuncionalidadeTO to : funcionalidades) {
+					funcionalidadesJSON.add(new FuncionalidadeJSON(to));
+				}
+
+				this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
+						new Util().ListColectionToString(new ArrayList<Object>(funcionalidadesJSON))));
+
+				return funcionalidadesJSON;
+			} else {
+				return new ErroTO(ErroEnum.GET_VAZIO, "VxFxRx00001", "",
+						this.getClass().getName() + "/all/" + userName);
+			}
+		} catch (Exception ex) {
+			return new ErroTO(ex, ErroEnum.GET, this.getClass().getName() + "/all/" + userName);
 		}
-
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
-				new Util().ListColectionToString(new ArrayList<Object>(funcionalidadesJSON))));
-
-		return funcionalidadesJSON;
 	}
 
-	@GetMapping("/nome/{nome}")
-	public FuncionalidadeJSON getByNome(@PathVariable("nome") String nome) {
-		FuncionalidadeTO funcionalidadeTO = this.funcionalidadeRepository.findByNome(nome);
-		FuncionalidadeJSON funcionalidadeJSON = new FuncionalidadeJSON(funcionalidadeTO);
+	@GetMapping("/nome/{username}/{nome}")
+	public Object getByNome(@PathVariable("username") String userName, @PathVariable("nome") String nome) {
+		try {
+			FuncionalidadeTO funcionalidadeTO = this.funcionalidadeRepository.findByNome(nome);
+			if (funcionalidadeTO != null) {
+				FuncionalidadeJSON funcionalidadeJSON = new FuncionalidadeJSON(funcionalidadeTO);
 
-		this.logController.insert(
-				new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETBYNOME, funcionalidadeJSON.toString()));
-		return funcionalidadeJSON;
+				this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETBYNOME,
+						funcionalidadeJSON.toString()));
+				return funcionalidadeJSON;
+			} else {
+				return new ErroTO(ErroEnum.GET_VAZIO, "VxFxRx00002", "",
+						this.getClass().getName() + "/all/" + userName);
+			}
+		} catch (Exception ex) {
+			return new ErroTO(ex, ErroEnum.GET, this.getClass().getName() + "/" + userName + "/" + nome);
+		}
 	}
 
-	@PostMapping("/insert")
-	public FuncionalidadeJSON insert(@RequestBody FuncionalidadeJSON funcionalidadeJSON) {
+	@PostMapping("/insert/{username}")
+	public Object insert(@PathVariable("username") String userName,
+			@RequestBody FuncionalidadeJSON funcionalidadeJSON) {
 		try {
 
 			FuncionalidadeTO funcionalidadeTO = new FuncionalidadeTO(funcionalidadeJSON);
@@ -82,13 +103,13 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 					new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERT, funcionalidadeTO.toString()));
 			return new FuncionalidadeJSON(funcionalidadeTO);
 		} catch (Exception e) {
-			System.out.println("Erro: CxFxCx00001 " + e.getMessage());
-			return null;
+			return new ErroTO(ErroEnum.POST, "VxFxIx00001", "", this.getClass().getName() + "/insert/" + userName);
 		}
 	}
 
-	@PostMapping("/inserts")
-	public List<FuncionalidadeJSON> inserts(@RequestBody List<FuncionalidadeJSON> funcionalidadesJSON) {
+	@PostMapping("/inserts/{username}")
+	public Object inserts(@PathVariable("username") String userName,
+			@RequestBody List<FuncionalidadeJSON> funcionalidadesJSON) {
 		try {
 
 			List<FuncionalidadeTO> funcionalidadesTO = new ArrayList<FuncionalidadeTO>();
@@ -107,17 +128,14 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 
 			return funcionalidadesJSON;
 		} catch (Exception e) {
-			System.out.println("Erro: CxFxCx00002 " + e.getMessage());
-			this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERTS,
-					new Util().ListColectionToString(new ArrayList<Object>(funcionalidadesJSON))));
-			return null;
+			return new ErroTO(ErroEnum.POST, "VxFxIx00002", "", this.getClass().getName() + "/insert/" + userName);
 		}
 	}
 
 	// TODO colocar os metodos de carga dentro do pacote rc.carga
 	public void insertTxt(ArrayList<String> itens) {
 		for (String item : itens) {
-			this.insert(new FuncionalidadeJSON(item));
+			this.insert("carga", new FuncionalidadeJSON(item));
 		}
 		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERTTXT, itens.toString()));
 
@@ -126,17 +144,16 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 	public int rotinaCarga(ArrayList<String> itens) {
 		int quantide = 0;
 		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_CARGA, "Carga"));
-		if (this.getAll().size() == 0) {
+		if (((List<FuncionalidadeJSON>) this.getAll("carga")).size() == 0) {
 			this.insertTxt(itens);
 		} else {
 			for (String item : itens) {
 				if (this.countByNome(item) == 0) {
-					this.insert(new FuncionalidadeJSON(item));
+					this.insert("carga", new FuncionalidadeJSON(item));
 					quantide++;
 				}
 			}
 		}
 		return quantide;
 	}
-
 }

@@ -21,7 +21,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.nois.sa.rc.model.Usuario;
+import br.com.nois.sa.rc.model.to.UsuarioTO;
 import br.com.nois.sa.rc.repository.UsuarioRepository;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
@@ -52,7 +52,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		System.out.println("\n ALINE: " + credentials.getUsername());
 		// Usuario account =
 		// accountRepository.findByNomeDeUsuario(credentials.getUsername());
-		Usuario account = usuarioRepository.findByNome("Usuario 01");
+		UsuarioTO account = usuarioRepository.findByNome("Usuario 01");
 		System.out.println("\n FIM: " + credentials.getUsername());
 		if (account != null) {
 			return (AuthenticationManager) new User(account.getNomeDeUsuario(), account.getSenha(), true, true, true,
