@@ -1,10 +1,10 @@
-package br.com.nois.sa.rc.model.to;
+package br.com.nois.sa.rc.model.json;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ErroTO {
+public class ErroJSON {
 
 	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	int status = 0;
@@ -13,11 +13,11 @@ public class ErroTO {
 	String message = "";
 	String path = "";
 
-	public ErroTO() {
+	public ErroJSON() {
 
 	}
 
-	public ErroTO(ErroEnum status, String error, String exception, String path) {
+	public ErroJSON(ErroEnum status, String error, String exception, String path) {
 		this.status = status.getValor();
 		this.path = path;
 		this.error = error;
@@ -25,7 +25,7 @@ public class ErroTO {
 		this.exception = exception;
 	}
 
-	public ErroTO(Exception ex, ErroEnum status, String classe) {
+	public ErroJSON(Exception ex, ErroEnum status, String classe) {
 		this.status = status.getValor();
 		this.path = classe;
 		this.exception = ex.getClass().getName();

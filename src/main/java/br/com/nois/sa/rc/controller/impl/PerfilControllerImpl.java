@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.controller.PerfilController;
 import br.com.nois.sa.rc.model.Log;
+import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.json.PerfilJSON;
-import br.com.nois.sa.rc.model.to.ErroTO;
-import br.com.nois.sa.rc.model.to.ErroTO.ErroEnum;
+import br.com.nois.sa.rc.model.json.ErroJSON.ErroEnum;
 import br.com.nois.sa.rc.model.to.FuncionalidadeTO;
 import br.com.nois.sa.rc.model.to.PerfilTO;
 import br.com.nois.sa.rc.repository.FuncionalidadeRepository;
@@ -70,11 +70,11 @@ public class PerfilControllerImpl implements PerfilController {
 				return perfilsJSON;
 
 			} else {
-				return new ErroTO(ErroEnum.GET_VAZIO, "VxPxRx00001", "",
+				return new ErroJSON(ErroEnum.GET_VAZIO, "VxPxRx00001", "",
 						this.getClass().getName() + "/all/" + userName);
 			}
 		} catch (Exception ex) {
-			return new ErroTO(ex, ErroEnum.GET, this.getClass().getName() + "/all/" + userName);
+			return new ErroJSON(ex, ErroEnum.GET, this.getClass().getName() + "/all/" + userName);
 		}
 	}
 
@@ -93,7 +93,7 @@ public class PerfilControllerImpl implements PerfilController {
 			}
 			return perfilsJSON;
 		} catch (Exception ex) {
-			return new ErroTO(ErroEnum.INVALIDO, "VxPxUx00001", "", this.getClass().getName() + "/update/" + userName);
+			return new ErroJSON(ErroEnum.INVALIDO, "VxPxUx00001", "", this.getClass().getName() + "/update/" + userName);
 		}
 	}
 
@@ -110,7 +110,7 @@ public class PerfilControllerImpl implements PerfilController {
 
 			return PerfilToJson(perfil);
 		} catch (Exception ex) {
-			return new ErroTO(ErroEnum.DELETE, "VxPxDx00001", "", this.getClass().getName() + "/update/" + userName);
+			return new ErroJSON(ErroEnum.DELETE, "VxPxDx00001", "", this.getClass().getName() + "/update/" + userName);
 		}
 	}
 
@@ -122,7 +122,7 @@ public class PerfilControllerImpl implements PerfilController {
 			this.perfilRepository.insert(new PerfilTO(perfil));
 			return perfil;
 		} catch (Exception e) {
-			return new ErroTO(ErroEnum.POST, "VxPxIx00001", "", this.getClass().getName() + "/insert/" + userName);
+			return new ErroJSON(ErroEnum.POST, "VxPxIx00001", "", this.getClass().getName() + "/insert/" + userName);
 		}
 	}
 

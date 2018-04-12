@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.nois.sa.rc.controller.FuncionalidadeController;
 import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.model.Log;
+import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.json.FuncionalidadeJSON;
-import br.com.nois.sa.rc.model.to.ErroTO;
-import br.com.nois.sa.rc.model.to.ErroTO.ErroEnum;
+import br.com.nois.sa.rc.model.json.ErroJSON.ErroEnum;
 import br.com.nois.sa.rc.model.to.FuncionalidadeTO;
 import br.com.nois.sa.rc.repository.FuncionalidadeRepository;
 import br.com.nois.sa.rc.repository.LogRepository;
@@ -64,11 +64,11 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 
 				return funcionalidadesJSON;
 			} else {
-				return new ErroTO(ErroEnum.GET_VAZIO, "VxFxRx00001", "",
+				return new ErroJSON(ErroEnum.GET_VAZIO, "VxFxRx00001", "",
 						this.getClass().getName() + "/all/" + userName);
 			}
 		} catch (Exception ex) {
-			return new ErroTO(ex, ErroEnum.GET, this.getClass().getName() + "/all/" + userName);
+			return new ErroJSON(ex, ErroEnum.GET, this.getClass().getName() + "/all/" + userName);
 		}
 	}
 
@@ -83,11 +83,11 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 						funcionalidadeJSON.toString()));
 				return funcionalidadeJSON;
 			} else {
-				return new ErroTO(ErroEnum.GET_VAZIO, "VxFxRx00002", "",
+				return new ErroJSON(ErroEnum.GET_VAZIO, "VxFxRx00002", "",
 						this.getClass().getName() + "/all/" + userName);
 			}
 		} catch (Exception ex) {
-			return new ErroTO(ex, ErroEnum.GET, this.getClass().getName() + "/" + userName + "/" + nome);
+			return new ErroJSON(ex, ErroEnum.GET, this.getClass().getName() + "/" + userName + "/" + nome);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 					new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERT, funcionalidadeTO.toString()));
 			return new FuncionalidadeJSON(funcionalidadeTO);
 		} catch (Exception e) {
-			return new ErroTO(ErroEnum.POST, "VxFxIx00001", "", this.getClass().getName() + "/insert/" + userName);
+			return new ErroJSON(ErroEnum.POST, "VxFxIx00001", "", this.getClass().getName() + "/insert/" + userName);
 		}
 	}
 
@@ -128,7 +128,7 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 
 			return funcionalidadesJSON;
 		} catch (Exception e) {
-			return new ErroTO(ErroEnum.POST, "VxFxIx00002", "", this.getClass().getName() + "/insert/" + userName);
+			return new ErroJSON(ErroEnum.POST, "VxFxIx00002", "", this.getClass().getName() + "/insert/" + userName);
 		}
 	}
 

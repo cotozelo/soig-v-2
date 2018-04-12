@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.controller.UsuarioController;
 import br.com.nois.sa.rc.model.Log;
+import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.json.UsuarioJSON;
-import br.com.nois.sa.rc.model.to.ErroTO;
-import br.com.nois.sa.rc.model.to.ErroTO.ErroEnum;
+import br.com.nois.sa.rc.model.json.ErroJSON.ErroEnum;
 import br.com.nois.sa.rc.model.to.PerfilTO;
 import br.com.nois.sa.rc.model.to.UsuarioTO;
 import br.com.nois.sa.rc.repository.LogRepository;
@@ -53,7 +53,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 
 			return usuarioJSON;
 		} catch (Exception ex) {
-			return new ErroTO(ex, ErroEnum.INVALIDO, this.getClass().getName() + "/insertAll/" + username);
+			return new ErroJSON(ex, ErroEnum.INVALIDO, this.getClass().getName() + "/insertAll/" + username);
 		}
 	}
 
@@ -76,11 +76,11 @@ public class UsuarioControllerImpl implements UsuarioController {
 
 				return usuarioJSON;
 			} else {
-				return new ErroTO(ErroEnum.GET_VAZIO, "VxUxRx00001", "",
+				return new ErroJSON(ErroEnum.GET_VAZIO, "VxUxRx00001", "",
 						this.getClass().getName() + "/informacao/" + userName);
 			}
 		} catch (Exception ex) {
-			return new ErroTO(ex, ErroEnum.GET, this.getClass().getName() + "/informacao/" + userName);
+			return new ErroJSON(ex, ErroEnum.GET, this.getClass().getName() + "/informacao/" + userName);
 		}
 	}
 
