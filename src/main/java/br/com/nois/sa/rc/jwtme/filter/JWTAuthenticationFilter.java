@@ -1,4 +1,4 @@
-package br.com.nois.sa.rc.jwtme.security;
+package br.com.nois.sa.rc.jwtme.filter;
 
 import java.io.IOException;
 
@@ -12,16 +12,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
+import br.com.nois.sa.rc.jwtme.service.TokenAuthenticationService;
+
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
-	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
 			throws IOException, ServletException {
-		System.out.println("\n doFilter");
 
 		Authentication authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest) request);
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+
 		filterChain.doFilter(request, response);
 	}
 

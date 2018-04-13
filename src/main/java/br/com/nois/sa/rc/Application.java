@@ -55,9 +55,7 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... strings) throws Exception {
-		System.out.println("\n\nAPLICACAO NO AR...");
-		Usuario uss = usuarioRepository.findByNomeDeUsuario("usuario_01");
-		System.out.println("\n\nOK..." + uss.getNome());
+		System.out.println("\n\nAPLICACAO NO AR...\n\n");
 
 		/*
 		 * Map<String, Object> repositorios = new HashMap<String, Object>();
