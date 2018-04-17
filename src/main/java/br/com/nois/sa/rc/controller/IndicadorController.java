@@ -5,18 +5,18 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.nois.sa.rc.model.Indicador;
+import br.com.nois.sa.rc.model.to.IndicadorTO;
 
 public interface IndicadorController {
-	public List<Indicador> getAll();
+	public List<IndicadorTO> getAll();
 
-	public Indicador getById(@PathVariable("id") String id);
+	public IndicadorTO getById(@PathVariable("id") String id);
 
-	public Indicador getBySigla(@PathVariable("sigla") String sigla);
+	public IndicadorTO getBySigla(@PathVariable("sigla") String sigla);
 
-	public Indicador insert(@RequestBody Indicador indicador);
+	public IndicadorTO insert(@RequestBody IndicadorTO indicador);
 
-	public Indicador update(@RequestBody Indicador indicador);
+	public IndicadorTO update(@RequestBody IndicadorTO indicador);
 
-	public Indicador deleteById(@PathVariable("idIndicador") String idIndicador);
+	public IndicadorTO deleteById(@PathVariable("idIndicador") String idIndicador);
 }

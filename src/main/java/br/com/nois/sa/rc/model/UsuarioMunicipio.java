@@ -12,7 +12,6 @@ public abstract class UsuarioMunicipio {
 	private boolean editar;
 
 	public UsuarioMunicipio() {
-		this.id = ObjectId.get().toString();
 	}
 
 	public UsuarioMunicipio(String nome) {
@@ -21,7 +20,7 @@ public abstract class UsuarioMunicipio {
 	}
 
 	public String getId() {
-		if (this.id.isEmpty())
+		if (this.id == null || this.id.isEmpty())
 			this.id = ObjectId.get().toString();
 		return this.id;
 	}

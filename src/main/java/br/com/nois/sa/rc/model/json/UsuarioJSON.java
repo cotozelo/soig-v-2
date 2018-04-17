@@ -30,6 +30,7 @@ public class UsuarioJSON extends Usuario {
 		super.setEmail(to.getEmail());
 		super.setAdmin(to.isAdmin());
 		super.setAtivo(to.isAtivo());
+		super.setSenha(to.getSenha());
 		super.setPerfilId(to.getPerfilId());
 		if (to.getUsuarioAgencias() != null) {
 			this.usuarioAgencias = new ArrayList<UsuarioAgenciaJSON>();

@@ -13,21 +13,15 @@ public class Inclinacao {
 	public Inclinacao() {
 		super();
 	}
-	
-	public Inclinacao(String nome) {
-		super();
-		this.id = ObjectId.get().toString();
-		this.nome = nome;
-	}
 
-	public Inclinacao(String id, String nome) {
-		super();
-		this.id = id;
+	public Inclinacao(String nome) {
 		this.nome = nome;
 	}
 
 	public String getId() {
-		return id;
+		if (this.id == null || this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId() {

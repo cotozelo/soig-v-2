@@ -17,6 +17,7 @@ import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.model.Equacao;
 import br.com.nois.sa.rc.model.Indicador;
 import br.com.nois.sa.rc.model.Log;
+import br.com.nois.sa.rc.model.to.IndicadorTO;
 import br.com.nois.sa.rc.repository.IndicadorRepository;
 import br.com.nois.sa.rc.repository.LogRepository;
 import br.com.nois.sa.rc.repository.VersaoRepository;
@@ -46,7 +47,7 @@ public class EquacaoControllerImpl implements EquacaoController {
 			String error = "Erro: CxExRx00024 ";
 			System.out.println(error);
 			this.logController.insert(new Log(new Constantes().EQUACAO_GETALL, error));
-			return (List<Equacao>) new Equacao(error);
+			return (List<Equacao>) new Equacao();
 		}
 		List<Equacao> equacoes = indicador.getEquacoes();
 		for (Equacao equacao : equacoes) {
@@ -69,14 +70,14 @@ public class EquacaoControllerImpl implements EquacaoController {
 			String error = "Erro: CxExRx00001 ";
 			System.out.println(error);
 			this.logController.insert(new Log(new Constantes().EQUACAO_GETBYID, error));
-			return new Equacao(error);
+			return new Equacao();
 		}
 		Equacao equacao = indicador.getEquacao(idEquacao);
 		if (equacao == null) {
 			String error = "Erro: CxExRx00002 ";
 			System.out.println(error);
 			this.logController.insert(new Log(new Constantes().EQUACAO_GETBYID, error));
-			return new Equacao(error);
+			return new Equacao();
 		}
 		this.logController.insert(new Log(new Constantes().EQUACAO_GETBYID, equacao.toString()));
 		return equacao;
@@ -84,12 +85,12 @@ public class EquacaoControllerImpl implements EquacaoController {
 
 	@PutMapping("/insert/{idIndicador}")
 	public Equacao insert(@PathVariable("idIndicador") String idIndicador, @RequestBody Equacao equacao) {
-		Indicador indicador = this.indicadorRepository.findById(idIndicador);
+		IndicadorTO indicador = this.indicadorRepository.findById(idIndicador);
 		if (indicador == null) {
 			String error = "Erro: CxExCx00003 ";
 			System.out.println(error);
 			this.logController.insert(new Log(new Constantes().EQUACAO_INSERT, error));
-			return new Equacao(error);
+			return new Equacao();
 		}
 		if (equacao.getId() == null) {
 			equacao.setId();
@@ -101,7 +102,7 @@ public class EquacaoControllerImpl implements EquacaoController {
 			String error = "Erro: CxExCx00004 ";
 			System.out.println(error);
 			this.logController.insert(new Log(new Constantes().EQUACAO_INSERT, error));
-			return new Equacao(error);
+			return new Equacao();
 		}
 		this.logController.insert(new Log(new Constantes().EQUACAO_INSERT, equacao.toString(), versaoGlobal));
 
@@ -113,12 +114,12 @@ public class EquacaoControllerImpl implements EquacaoController {
 	public Equacao update(@PathVariable("idIndicador") String idIndicador, @RequestBody Equacao equacao) {
 
 		try {
-			Indicador indicador = this.indicadorRepository.findById(idIndicador);
+			IndicadorTO indicador = this.indicadorRepository.findById(idIndicador);
 			if (indicador == null) {
 				String error = "Erro: CxExUx00005 ";
 				System.out.println(error);
 				this.logController.insert(new Log(new Constantes().EQUACAO_UPDATE, error));
-				return new Equacao(error);
+				return new Equacao();
 			}
 			long versaoGlobal = this.logController.getVersaoGlogal();
 			equacao.setVersaoGlobal(versaoGlobal);
@@ -128,7 +129,7 @@ public class EquacaoControllerImpl implements EquacaoController {
 				String error = "Erro: CxExUx00006 ";
 				System.out.println(error);
 				this.logController.insert(new Log(new Constantes().EQUACAO_UPDATE, error));
-				return new Equacao(error);
+				return new Equacao();
 			}
 
 			this.logController.insert(new Log(new Constantes().EQUACAO_UPDATE, equacao.toString(), versaoGlobal));
@@ -139,7 +140,7 @@ public class EquacaoControllerImpl implements EquacaoController {
 			String error = "Erro: CxExUx00007 ";
 			System.out.println(error + e.getMessage());
 			this.logController.insert(new Log(new Constantes().EQUACAO_UPDATE, error + e.getMessage()));
-			return new Equacao(error);
+			return new Equacao();
 		}
 	}
 
@@ -147,19 +148,19 @@ public class EquacaoControllerImpl implements EquacaoController {
 	public Equacao deleteById(@PathVariable("idIndicador") String idIndicador,
 			@PathVariable("idEquacao") String idEquacao) {
 		try {
-			Indicador indicador = this.indicadorRepository.findById(idIndicador);
+			IndicadorTO indicador = this.indicadorRepository.findById(idIndicador);
 			if (indicador == null) {
 				String error = "Erro: CxExDx00008 ";
 				System.out.println(error);
 				this.logController.insert(new Log(new Constantes().EQUACAO_DELETEBYID, error));
-				return new Equacao(error);
+				return new Equacao();
 			}
 			Equacao equacao = indicador.getEquacao(idEquacao);
 			if (equacao == null) {
 				String error = "Erro: CxExDx00009 ";
 				System.out.println(error);
 				this.logController.insert(new Log(new Constantes().EQUACAO_DELETEBYID, error));
-				return new Equacao(error);
+				return new Equacao();
 			}
 
 			equacao.setAtiva(false);
@@ -173,7 +174,7 @@ public class EquacaoControllerImpl implements EquacaoController {
 			String error = "Erro: CxExDx00010 ";
 			System.out.println(error + e.getMessage());
 			this.logController.insert(new Log(new Constantes().EQUACAO_DELETEBYID, error + e.getMessage()));
-			return new Equacao(error);
+			return new Equacao();
 		}
 	}
 

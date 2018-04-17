@@ -11,7 +11,6 @@ import br.com.nois.sa.rc.model.json.UsuarioJSON;
 
 @Document(collection = "usuario")
 public class UsuarioTO extends Usuario {
-	private String senha;
 	List<UsuarioAgenciaTO> usuarioAgencias;
 
 	public UsuarioTO() {
@@ -31,6 +30,7 @@ public class UsuarioTO extends Usuario {
 		super.setEmail(json.getEmail());
 		super.setAdmin(json.isAdmin());
 		super.setAtivo(json.isAtivo());
+		super.setSenha(json.getSenha());
 		super.setPerfilId(json.getPerfilId());
 		if (json.getUsuarioAgencias() != null) {
 			this.usuarioAgencias = new ArrayList<UsuarioAgenciaTO>();
@@ -46,14 +46,6 @@ public class UsuarioTO extends Usuario {
 
 	public void setUsuarioAgencias(List<UsuarioAgenciaTO> usuarioAgencia) {
 		this.usuarioAgencias = usuarioAgencia;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
 	}
 
 	@Override

@@ -14,7 +14,6 @@ public abstract class UsuarioIndicador {
 	private boolean editar = false;
 
 	public UsuarioIndicador() {
-		this.id = ObjectId.get().toString();
 	}
 
 	public UsuarioIndicador(String sigla) {
@@ -23,7 +22,7 @@ public abstract class UsuarioIndicador {
 	}
 
 	public String getId() {
-		if (this.id.isEmpty())
+		if (this.id == null || this.id.isEmpty())
 			this.id = ObjectId.get().toString();
 		return this.id;
 	}

@@ -7,10 +7,6 @@ public class UsuarioFuncionalidadeJSON extends Funcionalidade {
 		super();
 	}
 
-	public UsuarioFuncionalidadeJSON(String nome) {
-		super(nome);
-	}
-
 	public UsuarioFuncionalidadeJSON(Funcionalidade to) {
 		super();
 		super.setId(to.getId());

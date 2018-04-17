@@ -2,24 +2,25 @@ package br.com.nois.sa.rc.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.nois.sa.rc.model.Ano;
+import br.com.nois.sa.rc.model.json.AnoJSON;
 
 public interface AnoContoller {
-	public List<Ano> getAll(@PathVariable("idEntidade") String idEntidade,
-			@PathVariable("idPrestadora") String idPrestadora);
+	ResponseEntity<Response<List<AnoJSON>>> getAll(@PathVariable("username") String userName,
+			@PathVariable("municipioId") String municipioId, @PathVariable("prestadoraId") String prestadoraId);
 
-	public Ano getId(@PathVariable("idEntidade") String idEntidade, @PathVariable("idPrestadora") String idPrestadora,
-			@PathVariable("idAno") String idAno);
+	public ResponseEntity<Response<AnoJSON>> insert(@PathVariable("username") String userName,
+			@PathVariable("municipioId") String municipioId, @PathVariable("prestadoraId") String prestadoraId,
+			@RequestBody AnoJSON anoJSON);
 
-	public Ano insert(@PathVariable("idEntidade") String idEntidade, @PathVariable("idPrestadora") String idPrestadora,
-			@RequestBody Ano ano);
+	public ResponseEntity<Response<AnoJSON>> update(@PathVariable("username") String userName,
+			@PathVariable("municipioId") String municipioId, @PathVariable("prestadoraId") String prestadoraId,
+			@RequestBody AnoJSON anoJSON);
 
-	public Ano update(@PathVariable("idEntidade") String idEntidade, @PathVariable("idPrestadora") String idPrestadora,
-			@RequestBody Ano ano);
-
-	public Ano deleteById(@PathVariable("idEntidade") String idEntidade,
-			@PathVariable("idPrestadora") String idPrestadora, @PathVariable("idAno") String idAno);
+	public ResponseEntity<Response<AnoJSON>> update(@PathVariable("username") String userName,
+			@PathVariable("municipioId") String municipioId, @PathVariable("prestadoraId") String prestadoraId,
+			@PathVariable("dadoId") String dadoId);
 }

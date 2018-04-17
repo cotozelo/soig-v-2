@@ -10,10 +10,6 @@ public class FuncionalidadeJSON extends Funcionalidade {
 		super();
 	}
 
-	public FuncionalidadeJSON(String nome) {
-		super(nome);
-	}
-
 	public FuncionalidadeJSON(String id, String nome, boolean selecionada) {
 		super();
 		super.setId(id);
@@ -26,6 +22,11 @@ public class FuncionalidadeJSON extends Funcionalidade {
 		super.setId(to.getId());
 		super.setNome(to.getNome());
 		this.selecionada = false;
+	}
+
+	public FuncionalidadeJSON(String nome) {
+		super();
+		super.setNome(nome);
 	}
 
 	public boolean isSelecionada() {

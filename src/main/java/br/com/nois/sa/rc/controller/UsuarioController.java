@@ -11,18 +11,8 @@ public interface UsuarioController {
 	public ResponseEntity<Response<UsuarioJSON>> insert(@PathVariable("username") String username,
 			@RequestBody UsuarioJSON usuarioJSON);
 
-	public ResponseEntity<Response<UsuarioJSON>> getInformacao(@PathVariable("username") String username);
+	public ResponseEntity<Response<UsuarioJSON>> update(@PathVariable("username") String username,
+			@RequestBody UsuarioJSON usuarioJSON);
 
-	/*
-	 * public List<UsuarioJSON> getAll();
-	 * 
-	 * public UsuarioJSON getById(@PathVariable("id") String id);
-	 * 
-	 * public UsuarioJSON getByNomeDeUsuario(@PathVariable("nomeDeUsuario")
-	 * String nomeDeUsuario);
-	 * 
-	 * public UsuarioJSON update(@RequestBody UsuarioJSON usuario);
-	 * 
-	 * public UsuarioJSON deleteById(@PathVariable("id") String id);
-	 */
+	public ResponseEntity<Response<UsuarioJSON>> getInformacao(@PathVariable("username") String username);
 }

@@ -14,20 +14,14 @@ public class Grupo {
 		super();
 	}
 
-	public Grupo(String nome) {
-		super();
-		this.id= ObjectId.get().toString();
-		this.nome = nome;
-	}
-	
-	public Grupo(String id, String nome) {
-		super();
-		this.id = id;
-		this.nome = nome;
+	public Grupo(String item) {
+		nome = item;
 	}
 
 	public String getId() {
-		return id;
+		if (this.id == null || this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId() {

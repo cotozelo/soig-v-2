@@ -12,19 +12,16 @@ public class FuncionalidadeTO extends Funcionalidade {
 		super();
 	}
 
-	public FuncionalidadeTO(String nome) {
-		super(nome);
-	}
-
-	public FuncionalidadeTO(String id, String nome) {
-		super(nome);
-		super.setId(id);
-	}
-
 	public FuncionalidadeTO(FuncionalidadeJSON json) {
 		super();
 		super.setId(json.getId());
 		super.setNome(json.getNome());
+	}
+
+	public FuncionalidadeTO(String id, String nome) {
+		super();
+		super.setId(id);
+		super.setNome(nome);
 	}
 
 }

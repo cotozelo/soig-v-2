@@ -2,17 +2,17 @@ package br.com.nois.sa.rc.util;
 
 public final class Constantes {
 	// Enum Grafico
-	public final String GRAFICO_BARRA = "barra";
+	public final String GRAFICO_BARRA = "barra".toUpperCase();
 	// Enum AmplitudeAtuacao
-	public final String AMPLITUDEATUACAO_ESTADUAL = "Estadual";
-	public final String AMPLITUDEATUACAO_MUNICIPAL = "Municipal";
-	public final String AMPLITUDEATUACAO_REGIONAL = "Regional";
+	public final String AMPLITUDEATUACAO_ESTADUAL = "Estadual".toUpperCase();
+	public final String AMPLITUDEATUACAO_MUNICIPAL = "Municipal".toUpperCase();
+	public final String AMPLITUDEATUACAO_REGIONAL = "Regional".toUpperCase();
 	// Enum TipoCalculo
-	public final String TIPOCALCULO_ACUMULADO = "Acumulado";
-	public final String TIPOCALCULO_MENSAL = "Mensal";
+	public final String TIPOCALCULO_ACUMULADO = "Acumulado".toUpperCase();
+	public final String TIPOCALCULO_MENSAL = "Mensal".toUpperCase();
 	// Enum TipoDado
-	public final String TIPODADO_SOMATORIO = "Somatório";
-	public final String TIPODADO_ULTIMOVALOR = "Último Valor";
+	public final String TIPODADO_SOMATORIO = "Somatorio".toUpperCase();
+	public final String TIPODADO_ULTIMOVALOR = "Ultimo Valor".toUpperCase();
 	// Enum OperadorRelacional
 	public final String OPERADORRELACIONAL_LABEL_MAIOR = "Maior";
 	public final String OPERADORRELACIONAL_LABEL_MENOR = "Menor";
@@ -56,6 +56,31 @@ public final class Constantes {
 	public final String LOG_UNIDADE_CONTROLLER_GETBYNOME = "unidade_getByNome";
 	public final String LOG_UNIDADE_CONTROLLER_COUNTBYNOME = "unidade_countByNome";
 
+	// USUARIO_CONTROLLER_IMPL
+	public final String USUARIO_ATRIBURIR = "usuario_atribuir";
+	public final String USUARIO_INSERT = "usuario_insert";
+	public final String USUARIO_INFORMACAO = "usuario_informacao";
+	// AGENCIA_CONTROLLER_IMPL
+	public final String AGENCIA_LISTAGEM = "agencia_listagem";
+	public final String AGENCIA_INSERT = "agencia_insert";
+	public final String AGENCIA_UPDATE = "agencia_update";
+	public final String AGENCIA_DELETE = "agencia_delete";
+	// MUNICIPIO_CONTROLLER_IMPL
+	public final String MUNICIPIO_LISTAGEM = "municipio_listagem";
+	public final String MUNICIPIO_INSERT = "municipio_insert";
+	public final String MUNICIPIO_UPDATE = "municipio_update";
+	public final String MUNICIPIO_DELETE = "municipio_delete";
+	// PRESTADORA_CONTROLLER_IMPL
+	public final String PRESTADORA_LISTAGEM = "prestadora_listagem";
+	public final String PRESTADORA_INSERT = "prestadora_insert";
+	public final String PRESTADORA_UPDATE = "prestadora_update";
+	public final String PRESTADORA_DELETE = "prestadora_delete";
+	// ANO_CONTROLLER_IMPL
+	public final String ANO_LISTAGEM = "ano_listagem";
+	public final String ANO_INSERT = "ano_insert";
+	public final String ANO_UPDATE = "ano_update";
+	public final String ANO_DELETE = "ano_delete";
+
 	// EQUACAO_CONTROLLER_IMPL
 	public final String EQUACAO_GETALL = "equacao_getall";
 	public final String EQUACAO_GETBYID = "equacao_getbyid";
@@ -74,57 +99,5 @@ public final class Constantes {
 	public final String DADO_INSERT = "dado_insert";
 	public final String DADO_UPDATE = "dado_update";
 	public final String DADO_DELETEBYID = "dado_deletebyid";
-	// USUARIO_CONTROLLER_IMPL
-	public final String USUARIO_GETALL = "usuario_getall";
-	public final String USUARIO_GETBYID = "usuario_getbyid";
-	public final String USUARIO_GETBYNOMEDEUSUARIO = "usuario_getbynomedeusuario";
-	public final String USUARIO_INSERT = "usuario_insert";
-	public final String USUARIO_UPDATE = "usuario_update";
-	public final String USUARIO_DELETEBYID = "usuario_deletebyid";
-	// USUARIOENTIDADE_CONTROLLER_IMPL
-	public final String USUARIOENTIDADE_GETALL = "usuarioentidade_getall";
-	public final String USUARIOENTIDADE_GETBYID = "usuarioentidade_getbyid";
-	public final String USUARIOENTIDADE_INSERT = "usuarioentidade_insert";
-	public final String USUARIOENTIDADE_UPDATE = "usuarioentidade_update";
-	public final String USUARIOENTIDADE_DELETEBYID = "usuarioentidade_deletebyid";
-	// USUARIOINDICADOR_CONTROLLER_IMPL
-	public final String USUARIOINDICADOR_GETALL = "usuarioindicador_getall";
-	public final String USUARIOINDICADOR_GETBYID = "usuarioindicador_getbyid";
-	public final String USUARIOINDICADOR_INSERT = "usuarioindicador_insert";
-	public final String USUARIOINDICADOR_UPDATE = "usuarioindicador_update";
-	public final String USUARIOINDICADOR_DELETEBYID = "usuarioindicador_deletebyid";
-	// USUARIODADO_CONTROLLER_IMPL
-	public final String USUARIODADO_GETALL = "usuariodado_getall";
-	public final String USUARIODADO_GETBYID = "usuariodado_getbyid";
-	public final String USUARIODADO_INSERT = "usuariodado_insert";
-	public final String USUARIODADO_UPDATE = "usuariodado_update";
-	public final String USUARIODADO_DELETEBYID = "usuariodado_deletebyid";
-	// AGENCIA_CONTROLLER_IMPL
-	public final String AGENCIA_GETALL = "agencia_getall";
-	public final String AGENCIA_GETBYID = "agencia_getbyid";
-	public final String AGENCIA_INSERT = "agencia_insert";
-	public final String AGENCIA_UPDATE = "agencia_update";
-	public final String AGENCIA_DELETEBYID = "agencia_deletebyid";
-	// ENTIDADE_CONTROLLER_IMPL
-	public final String ENTIDADE_GETALL = "entidade_getall";
-	public final String ENTIDADE_GETBYID = "entidade_getbyid";
-	public final String ENTIDADE_GETBYCODIGO = "entidade_getbycodigo";
-	public final String ENTIDADE_GETBYNOME = "entidade_getbynome";
-	public final String ENTIDADE_INSERT = "entidade_insert";
-	public final String ENTIDADE_UPDATE = "entidade_update";
-	public final String ENTIDADE_DELETEBYID = "entidade_deletebyid";
-	// ANO_CONTROLLER_IMPL
-	public final String ANO_GETALL = "ano_getall";
-	public final String ANO_GETBYID = "ano_getbyid";
-	public final String ANO_INSERT = "ano_insert";
-	public final String ANO_UPDATE = "ano_update";
-	public final String ANO_DELETEBYID = "ano_deletebyid";
-	// ANO_CONTROLLER_IMPL
-	public final String PRESTADORA_GETALL = "prestadora_getall";
-	public final String PRESTADORA_GETBYID = "prestadora_getbyid";
-	public final String PRESTADORA_GETBYCODIGO = "prestadora_getbycodigo";
-	public final String PRESTADORA_INSERT = "prestadora_insert";
-	public final String PRESTADORA_UPDATE = "prestadora_update";
-	public final String PRESTADORA_DELETEBYID = "prestadora_deletebyid";
 
 }

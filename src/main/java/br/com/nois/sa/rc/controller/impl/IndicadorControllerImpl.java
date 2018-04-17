@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nois.sa.rc.controller.IndicadorController;
 import br.com.nois.sa.rc.controller.LogController;
-import br.com.nois.sa.rc.model.Indicador;
 import br.com.nois.sa.rc.model.Log;
+import br.com.nois.sa.rc.model.to.IndicadorTO;
 import br.com.nois.sa.rc.repository.IndicadorRepository;
 import br.com.nois.sa.rc.repository.LogRepository;
 import br.com.nois.sa.rc.repository.VersaoRepository;
@@ -40,8 +40,8 @@ public class IndicadorControllerImpl implements IndicadorController {
 	}
 
 	@GetMapping("/all")
-	public List<Indicador> getAll() {
-		List<Indicador> indicadores = this.indicadorRepository.findAll();
+	public List<IndicadorTO> getAll() {
+		List<IndicadorTO> indicadores = this.indicadorRepository.findAll();
 
 		this.logController.insert(new Log(new Constantes().INDICADOR_GETALL,
 				indicadores == null ? "" : new Util().ListColectionToString(new ArrayList<Object>(indicadores))));
@@ -50,23 +50,23 @@ public class IndicadorControllerImpl implements IndicadorController {
 	}
 
 	@GetMapping("/id/{id}")
-	public Indicador getById(@PathVariable("id") String id) {
-		Indicador indicador = this.indicadorRepository.findById(id);
+	public IndicadorTO getById(@PathVariable("id") String id) {
+		IndicadorTO indicador = this.indicadorRepository.findById(id);
 		this.logController
 				.insert(new Log(new Constantes().INDICADOR_GETBYID, indicador == null ? "" : indicador.toString()));
 		return indicador;
 	}
 
 	@GetMapping("/sigla/{sigla}")
-	public Indicador getBySigla(@PathVariable("sigla") String sigla) {
-		Indicador indicador = this.indicadorRepository.findBySigla(sigla);
+	public IndicadorTO getBySigla(@PathVariable("sigla") String sigla) {
+		IndicadorTO indicador = this.indicadorRepository.findBySigla(sigla);
 		this.logController
 				.insert(new Log(new Constantes().INDICADOR_GETBYID, indicador == null ? "" : indicador.toString()));
 		return indicador;
 	}
 
 	@PutMapping("/insert")
-	public Indicador insert(@RequestBody Indicador indicador) {
+	public IndicadorTO insert(@RequestBody IndicadorTO indicador) {
 		try {
 			this.logController.insert(new Log(new Constantes().INDICADOR_INSERT, indicador.toString()));
 			this.indicadorRepository.insert(indicador);
@@ -75,20 +75,20 @@ public class IndicadorControllerImpl implements IndicadorController {
 			String error = "Erro: CxIxCx00011 ";
 			this.logController.insert(new Log(new Constantes().INDICADOR_INSERT, error + e.getMessage()));
 			System.out.println(error + e.getMessage());
-			return new Indicador(error);
+			return new IndicadorTO();
 		}
 	}
 
 	@PostMapping("/update")
-	public Indicador update(@RequestBody Indicador indicador) {
+	public IndicadorTO update(@RequestBody IndicadorTO indicador) {
 		try {
 
-			Indicador indOdl = this.indicadorRepository.findById(indicador.getId());
+			IndicadorTO indOdl = this.indicadorRepository.findById(indicador.getId());
 			if (indOdl == null) {
 				String error = "Erro: CxIxUx00012 ";
 				System.out.println(error);
 				this.logController.insert(new Log(new Constantes().INDICADOR_UPDATE, error));
-				return new Indicador(error);
+				return new IndicadorTO();
 			}
 			indOdl.update(indicador);
 			this.logController.insert(new Log(new Constantes().INDICADOR_UPDATE, indOdl.toString()));
@@ -100,21 +100,21 @@ public class IndicadorControllerImpl implements IndicadorController {
 			System.out.println(error + e.getMessage());
 			this.logController.insert(new Log(new Constantes().INDICADOR_UPDATE, error + e.getMessage()));
 
-			return new Indicador(error);
+			return new IndicadorTO();
 		}
 	}
 
 	/// TODO talvez seja interessante colocar o como inativo ao invez
 	/// de deleta-lo, avaliar quando implementar o CRUD
 	@DeleteMapping("/delete/{id}")
-	public Indicador deleteById(@PathVariable("id") String id) {
+	public IndicadorTO deleteById(@PathVariable("id") String id) {
 		try {
-			Indicador indicador = this.indicadorRepository.findById(id);
+			IndicadorTO indicador = this.indicadorRepository.findById(id);
 			if (indicador == null) {
 				String error = "Erro: CxIxDx00014 ";
 				System.out.println(error);
 				this.logController.insert(new Log(new Constantes().INDICADOR_DELETEBYID, error));
-				return new Indicador(error);
+				return new IndicadorTO();
 			}
 
 			this.logController.insert(new Log(new Constantes().INDICADOR_DELETEBYID, indicador.toString()));
@@ -125,7 +125,7 @@ public class IndicadorControllerImpl implements IndicadorController {
 			String error = "Erro: CxIxDx00015 ";
 			System.out.println(error + e.getMessage());
 			this.logController.insert(new Log(new Constantes().INDICADOR_DELETEBYID, error + e.getMessage()));
-			return new Indicador(error);
+			return new IndicadorTO();
 		}
 	}
 

@@ -2,20 +2,22 @@ package br.com.nois.sa.rc.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.nois.sa.rc.model.Agencia;
+import br.com.nois.sa.rc.model.json.AgenciaJSON;
 
 public interface AgenciaController {
 
-	public List<Agencia> getAll();
+	public ResponseEntity<Response<List<AgenciaJSON>>> getAll(@PathVariable("username") String userName);
 
-	public Agencia getById(@PathVariable("id") String id);
+	public ResponseEntity<Response<AgenciaJSON>> insert(@PathVariable("username") String userName,
+			@RequestBody AgenciaJSON agencia);
 
-	public Agencia insert(@RequestBody Agencia agencia);
+	public ResponseEntity<Response<AgenciaJSON>> update(@PathVariable("username") String userName,
+			@RequestBody AgenciaJSON agencia);
 
-	public Agencia update(@RequestBody Agencia agencia);
-
-	public Agencia deleteById(@PathVariable("id") String id);
+	public ResponseEntity<Response<AgenciaJSON>> deleteById(@PathVariable("username") String userName,
+			@PathVariable("id") String id);
 }

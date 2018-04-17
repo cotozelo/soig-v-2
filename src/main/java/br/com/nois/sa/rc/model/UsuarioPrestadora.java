@@ -12,7 +12,6 @@ public abstract class UsuarioPrestadora {
 	private boolean editar;
 
 	public UsuarioPrestadora() {
-		this.id = ObjectId.get().toString();
 	}
 
 	public UsuarioPrestadora(String nome) {
@@ -21,7 +20,7 @@ public abstract class UsuarioPrestadora {
 	}
 
 	public String getId() {
-		if (this.id.isEmpty())
+		if (this.id == null || this.id.isEmpty())
 			this.id = ObjectId.get().toString();
 		return this.id;
 	}

@@ -14,7 +14,6 @@ public abstract class UsuarioDado {
 	private boolean editar = false;
 
 	public UsuarioDado() {
-		this.id = ObjectId.get().toString();
 	}
 
 	public UsuarioDado(String sigla) {
@@ -23,7 +22,7 @@ public abstract class UsuarioDado {
 	}
 
 	public String getId() {
-		if (this.id.isEmpty())
+		if (this.id == null || this.id.isEmpty())
 			this.id = ObjectId.get().toString();
 		return this.id;
 	}

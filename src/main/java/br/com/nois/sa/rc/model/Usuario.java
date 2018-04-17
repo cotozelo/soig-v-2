@@ -11,11 +11,11 @@ public abstract class Usuario {
 	private String telefone;
 	private String perfilId;
 	private String email;
+	private String senha;
 	private boolean admin = false;
 	private boolean ativo = false;
 
 	public Usuario() {
-		this.id = ObjectId.get().toString();
 	}
 
 	public Usuario(String nome) {
@@ -24,7 +24,7 @@ public abstract class Usuario {
 	}
 
 	public String getId() {
-		if (this.id.isEmpty())
+		if (this.id == null || this.id.isEmpty())
 			this.id = ObjectId.get().toString();
 		return this.id;
 	}
@@ -87,5 +87,13 @@ public abstract class Usuario {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 }

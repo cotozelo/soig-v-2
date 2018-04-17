@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import br.com.nois.sa.rc.model.Indicador;
+import br.com.nois.sa.rc.model.to.IndicadorTO;
 import br.com.nois.sa.rc.repository.IndicadorRepository;
 import br.com.nois.sa.rc.repository.LogRepository;
 import br.com.nois.sa.rc.repository.VersaoRepository;
@@ -42,7 +42,7 @@ public class Equacao {
 			if (linhaSplit[0].toUpperCase().contains("equacao".toUpperCase())) {
 
 			} else if (linhaSplit.length == 3) {
-				Indicador indicador = this.indicadorRepository.findBySigla(linhaSplit[2]);
+				IndicadorTO indicador = this.indicadorRepository.findBySigla(linhaSplit[2]);
 				if (indicador != null) {
 					List<br.com.nois.sa.rc.model.Equacao> equacoes = indicador.getEquacoes();
 					boolean temEquacao = false;
@@ -59,7 +59,7 @@ public class Equacao {
 						equacao.setFormula(linhaSplit[0]);
 						equacao.setAtiva(true);
 						indicador.setEquacao(equacao);
-						Indicador ob = this.indicadorRepository.save(indicador);
+						IndicadorTO ob = this.indicadorRepository.save(indicador);
 						if (ob == null) {
 							System.out
 									.println("[ERRO] " + linhaSplit[2] + " | " + linhaSplit[1] + " | " + linhaSplit[0]);
