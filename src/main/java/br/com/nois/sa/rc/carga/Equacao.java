@@ -35,7 +35,7 @@ public class Equacao {
 		if (linhas == null || linhas.size() < 1) {
 			return;
 		}
-		ArrayList<String> errosInsert = new ArrayList<>();
+		//ArrayList<String> errosInsert = new ArrayList<>();
 		for (String linha : linhas) {
 
 			String[] linhaSplit = linha.split(";");

@@ -6,10 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import br.com.nois.sa.rc.carga.Dado;
-import br.com.nois.sa.rc.carga.Indicador;
 import br.com.nois.sa.rc.controller.RotinaCargaController;
-import br.com.nois.sa.rc.model.Usuario;
 import br.com.nois.sa.rc.repository.AgenciaRepository;
 import br.com.nois.sa.rc.repository.DadoRepository;
 import br.com.nois.sa.rc.repository.FuncionalidadeRepository;
@@ -51,13 +48,11 @@ public class Application implements CommandLineRunner {
 	RotinaCargaController rotinaCargaController;
 
 	// private Scanner ler;
-	private String PATH_CARGA = "/home/dev/Work/SOIG_V2/src/main/java/br/com/nois/sa/rc/carga/arquivos/";
+	//private String PATH_CARGA = "/home/dev/Work/SOIG_V2/src/main/java/br/com/nois/sa/rc/carga/arquivos/";
 
 	@Override
 	public void run(String... strings) throws Exception {
-		System.out.println("\n\nAPLICACAO NO AR...");
-		Usuario uss = usuarioRepository.findByNomeDeUsuario("usuario_01");
-		System.out.println("\n\nOK..." + uss.getNome());
+		System.out.println("\n\nAPLICACAO NO AR...\n\n");
 
 		/*
 		 * Map<String, Object> repositorios = new HashMap<String, Object>();
@@ -71,7 +66,7 @@ public class Application implements CommandLineRunner {
 		 * repositorios.put("municipioRepository", this.municipioRepository);
 		 * repositorios.put("indicadorRepository", this.indicadorRepository);
 		 * repositorios.put("versaoRepository", this.versaoRepository);
-		 */
+		 
 
 		Indicador indicador = null;
 		Dado dado = null;

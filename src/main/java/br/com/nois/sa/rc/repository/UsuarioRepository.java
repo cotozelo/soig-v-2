@@ -13,6 +13,9 @@ public interface UsuarioRepository extends MongoRepository<Usuario, String> {
 
 	Usuario findByNome(String nome);
 
-	/*@Query(fields = "{ 'nome': 1, 'nomeDeUsuario': 1, 'telefone': 1, 'email': 1, 'admin': 1, 'usuarioAgencia': 1, 'usuarioFuncionalidade': 1}")*/
+	//@Query(fields = "{ 'nome': 1, 'nomeDeUsuario': 1, 'telefone': 1, 'email': 1, 'admin': 1, 'usuarioAgencia': 1, 'usuarioFuncionalidade': 1}")
 	Usuario findByNomeDeUsuario(String nomeDeUsuario);
+	
+	@Query(value = "{'nomeDeUsuario' : ?0, 'senha': ?1}", fields = "{ 'nome': 1, 'nomeDeUsuario': 1, 'senha': 1, 'ativo': 1}")
+	Usuario login(String nomeDeUsuario, String senha);
 }
