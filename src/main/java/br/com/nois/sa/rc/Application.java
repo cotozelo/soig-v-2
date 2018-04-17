@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import br.com.nois.sa.rc.carga.Dado;
 import br.com.nois.sa.rc.carga.Indicador;
 import br.com.nois.sa.rc.controller.RotinaCargaController;
-import br.com.nois.sa.rc.model.Usuario;
 import br.com.nois.sa.rc.repository.AgenciaRepository;
 import br.com.nois.sa.rc.repository.DadoRepository;
 import br.com.nois.sa.rc.repository.FuncionalidadeRepository;

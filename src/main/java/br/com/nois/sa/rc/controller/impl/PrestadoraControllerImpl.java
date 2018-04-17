@@ -56,7 +56,8 @@ public class PrestadoraControllerImpl implements PrestadoraController {
 		if (municipioTO == null) {
 			response.setError(new ErroJSON("VxAxRx00001",
 					this.getClass().getName() + "/lisgatem/" + userName + "/" + municipioId));
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			response.setData(new ArrayList<>());
+			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
 
 		List<PrestadoraJSON> prestadorasJSON = new ArrayList<PrestadoraJSON>();

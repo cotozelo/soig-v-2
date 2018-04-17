@@ -74,7 +74,8 @@ public class PerfilControllerImpl implements PerfilController {
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			} else {
 				response.setError(new ErroJSON("VxPxRx00001", this.getClass().getName() + "/all/" + userName));
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+				response.setData(new ArrayList<>());
+				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
 		} catch (Exception ex) {
 			response.setError(new ErroJSON(ex, this.getClass().getName() + "/all/" + userName));
