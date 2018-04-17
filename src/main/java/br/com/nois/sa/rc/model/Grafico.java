@@ -3,24 +3,7 @@ package br.com.nois.sa.rc.model;
 import br.com.nois.sa.rc.util.Constantes;
 
 public enum Grafico {
-	BARRA(0);
-
-	private int val;
-
-	private Grafico(int num) {
-		this.val = num;
-	}
-
-	private Grafico(String name) {
-		if (name.toUpperCase().equals(new Constantes().GRAFICO_BARRA.toString())) {
-			this.val = 0;
-		}
-	}
-
-	@SuppressWarnings("unused")
-	private int getValue() {
-		return this.val;
-	}
+	BARRA, barra;
 
 	public String getLabel(Grafico grafico) {
 		String retorno = "";
@@ -28,8 +11,11 @@ public enum Grafico {
 		case BARRA:
 			retorno = new Constantes().GRAFICO_BARRA.toString();
 			break;
-
+		case barra:
+			retorno = new Constantes().GRAFICO_BARRA.toString();
+			break;
 		default:
+			retorno = new Constantes().GRAFICO_BARRA.toString();
 			break;
 		}
 		return retorno;

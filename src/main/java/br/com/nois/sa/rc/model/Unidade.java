@@ -27,7 +27,9 @@ public class Unidade {
 	}
 
 	public String getId() {
-		return id;
+		if (this.id == null || this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId() {

@@ -20,37 +20,10 @@ public class DadoMeta {
 		super();
 	}
 
-	
-	public DadoMeta(String dado_id, String nome) {
-		super();
-		this.id = ObjectId.get().toString();
-		this.dado_id = dado_id;
-		this.nome = nome;
-	}
-
-	public DadoMeta(String dado_id, String nome, OperadorRelacional operadorRelacional, double valor,
-			int versaoGlobal) {
-		super();
-		this.id = ObjectId.get().toString();
-		this.dado_id = dado_id;
-		this.nome = nome;
-		this.operadorRelacional = operadorRelacional;
-		this.valor = valor;
-	}
-
-	public DadoMeta(String id, String dado_id, String nome, OperadorRelacional operadorRelacional, double valor,
-			int versaoGlobal) {
-		super();
-		this.id = id;
-		this.dado_id = dado_id;
-		this.nome = nome;
-		this.operadorRelacional = operadorRelacional;
-		this.valor = valor;
-		this.versaoGlobal = versaoGlobal;
-	}
-
 	public String getId() {
-		return id;
+		if (this.id == null || this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId() {

@@ -2,10 +2,8 @@ package br.com.nois.sa.rc.model;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "IndicadorValor")
-public class IndicadorValor {
+public abstract class IndicadorValor {
 
 	@Id
 	private String id;
@@ -37,6 +35,7 @@ public class IndicadorValor {
 	private String totalJustificativa;
 	private TipoCalculo tipo;
 	private String sigla;
+	private String indicadorId;
 	private int versaoGlobal;
 	private String pai_id;
 
@@ -44,95 +43,10 @@ public class IndicadorValor {
 		super();
 	}
 
-	public IndicadorValor(TipoCalculo tipo, String sigla) {
-		super();
-		this.id = ObjectId.get().toString();
-		this.tipo = tipo;
-		this.sigla = sigla;
-	}
-
-	public IndicadorValor(String mes01, String mes02, String mes03, String mes04, String mes05, String mes06,
-			String mes07, String mes08, String mes09, String mes10, String mes11, String mes12, String total,
-			String mes01Justificativa, String mes02Justificativa, String mes03Justificativa, String mes04Justificativa,
-			String mes05Justificativa, String mes06Justificativa, String mes07Justificativa, String mes08Justificativa,
-			String mes09Justificativa, String mes10Justificativa, String mes11Justificativa, String mes12Justificativa,
-			String totalJustificativa, TipoCalculo tipo, String sigla, int versaoGlobal, String pai_id) {
-		super();
-		this.id = ObjectId.get().toString();
-		this.mes01 = mes01;
-		this.mes02 = mes02;
-		this.mes03 = mes03;
-		this.mes04 = mes04;
-		this.mes05 = mes05;
-		this.mes06 = mes06;
-		this.mes07 = mes07;
-		this.mes08 = mes08;
-		this.mes09 = mes09;
-		this.mes10 = mes10;
-		this.mes11 = mes11;
-		this.mes12 = mes12;
-		this.total = total;
-		this.mes01Justificativa = mes01Justificativa;
-		this.mes02Justificativa = mes02Justificativa;
-		this.mes03Justificativa = mes03Justificativa;
-		this.mes04Justificativa = mes04Justificativa;
-		this.mes05Justificativa = mes05Justificativa;
-		this.mes06Justificativa = mes06Justificativa;
-		this.mes07Justificativa = mes07Justificativa;
-		this.mes08Justificativa = mes08Justificativa;
-		this.mes09Justificativa = mes09Justificativa;
-		this.mes10Justificativa = mes10Justificativa;
-		this.mes11Justificativa = mes11Justificativa;
-		this.mes12Justificativa = mes12Justificativa;
-		this.totalJustificativa = totalJustificativa;
-		this.tipo = tipo;
-		this.sigla = sigla;
-		this.versaoGlobal = versaoGlobal;
-		this.pai_id = pai_id;
-	}
-
-	public IndicadorValor(String id, String mes01, String mes02, String mes03, String mes04, String mes05, String mes06,
-			String mes07, String mes08, String mes09, String mes10, String mes11, String mes12, String total,
-			String mes01Justificativa, String mes02Justificativa, String mes03Justificativa, String mes04Justificativa,
-			String mes05Justificativa, String mes06Justificativa, String mes07Justificativa, String mes08Justificativa,
-			String mes09Justificativa, String mes10Justificativa, String mes11Justificativa, String mes12Justificativa,
-			String totalJustificativa, TipoCalculo tipo, String sigla, int versaoGlobal, String pai_id) {
-		super();
-		this.id = id;
-		this.mes01 = mes01;
-		this.mes02 = mes02;
-		this.mes03 = mes03;
-		this.mes04 = mes04;
-		this.mes05 = mes05;
-		this.mes06 = mes06;
-		this.mes07 = mes07;
-		this.mes08 = mes08;
-		this.mes09 = mes09;
-		this.mes10 = mes10;
-		this.mes11 = mes11;
-		this.mes12 = mes12;
-		this.total = total;
-		this.mes01Justificativa = mes01Justificativa;
-		this.mes02Justificativa = mes02Justificativa;
-		this.mes03Justificativa = mes03Justificativa;
-		this.mes04Justificativa = mes04Justificativa;
-		this.mes05Justificativa = mes05Justificativa;
-		this.mes06Justificativa = mes06Justificativa;
-		this.mes07Justificativa = mes07Justificativa;
-		this.mes08Justificativa = mes08Justificativa;
-		this.mes09Justificativa = mes09Justificativa;
-		this.mes10Justificativa = mes10Justificativa;
-		this.mes11Justificativa = mes11Justificativa;
-		this.mes12Justificativa = mes12Justificativa;
-		this.totalJustificativa = totalJustificativa;
-		this.tipo = tipo;
-		this.sigla = sigla;
-		this.versaoGlobal = versaoGlobal;
-		this.pai_id = pai_id;
-	}
-
 	public String getId() {
-		return id;
+		if (this.id == null || this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId() {
@@ -355,12 +269,16 @@ public class IndicadorValor {
 		this.tipo = tipo;
 	}
 
-	public String getIndicador_id() {
+	public String getSigla() {
 		return sigla;
 	}
 
-	public void setIndicador_id(String sigla) {
+	public void setSigla(String sigla) {
 		this.sigla = sigla;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public int getVersaoGlobal() {
@@ -377,6 +295,14 @@ public class IndicadorValor {
 
 	public void setPai_id(String pai_id) {
 		this.pai_id = pai_id;
+	}
+
+	public String getIndicadorId() {
+		return indicadorId;
+	}
+
+	public void setIndicadorId(String indicadorId) {
+		this.indicadorId = indicadorId;
 	}
 
 	@Override

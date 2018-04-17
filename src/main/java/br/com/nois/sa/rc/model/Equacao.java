@@ -14,23 +14,15 @@ public class Equacao {
 	private long versaoGlobal;
 	private String pai_id;
 	private Boolean ativa = true;
-	private String error = null;
 
 	public Equacao() {
 		super();
 	}
 
-	public Equacao(String error) {
-		super();
-		this.error = error;
-	}
-
-	public String getError() {
-		return this.error;
-	}
-
 	public String getId() {
-		return id;
+		if (this.id == null || this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId() {

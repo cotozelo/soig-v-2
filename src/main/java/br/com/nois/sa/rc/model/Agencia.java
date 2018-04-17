@@ -2,10 +2,8 @@ package br.com.nois.sa.rc.model;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "agencia")
-public class Agencia {
+public abstract class Agencia {
 	@Id
 	private String id;
 	private String nome;
@@ -18,23 +16,14 @@ public class Agencia {
 	private String estado;
 	private AmplitudeAtuacao atuacao;
 	private boolean ativo = false;
-	private String error = null;
 
 	public Agencia() {
-		super();
-	}
-
-	public Agencia(String error) {
-		super();
-		this.error = error;
-	}
-
-	public String getError() {
-		return error;
 	}
 
 	public String getId() {
-		return id;
+		if (this.id == null || this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId() {

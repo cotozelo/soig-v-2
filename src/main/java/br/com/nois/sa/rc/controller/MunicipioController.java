@@ -2,23 +2,22 @@ package br.com.nois.sa.rc.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.nois.sa.rc.model.Municipio;
+import br.com.nois.sa.rc.model.json.MunicipioJSON;
 
 public interface MunicipioController {
-	public List<Municipio> getAll();
+	public ResponseEntity<Response<List<MunicipioJSON>>> getAll(@PathVariable("username") String userName,
+			@PathVariable("agenciaId") String agenciaId);
 
-	public List<Municipio> getByIdAgencia(@PathVariable("idAgencia") String idAgencia);
+	public ResponseEntity<Response<MunicipioJSON>> insert(@PathVariable("username") String userName,
+			@RequestBody MunicipioJSON municipio);
 
-	public Municipio getByCodigo(@PathVariable("codigo") String codigo);
-	
-	public Municipio getByNome(@PathVariable("nome") String nome);
+	public ResponseEntity<Response<MunicipioJSON>> update(@PathVariable("username") String userName,
+			@RequestBody MunicipioJSON municipio);
 
-	public Municipio insert(@RequestBody Municipio municipio);
-
-	public Municipio update(@RequestBody Municipio municipio);
-
-	public Municipio deleteById(@PathVariable("idMunicipio") String idMunicipio);
+	public ResponseEntity<Response<MunicipioJSON>> deleteById(@PathVariable("username") String userName,
+			@PathVariable("idMunicipio") String idMunicipio);
 }

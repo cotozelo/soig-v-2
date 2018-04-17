@@ -2,84 +2,82 @@ package br.com.nois.sa.rc.model;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "UsuarioDado")
-public class UsuarioDado {
+public abstract class UsuarioDado {
 
 	@Id
 	private String id;
-	private String dado_id;
-	private boolean ler = false;
-	private boolean alterar = false;
+	private String dadoId;
+	private String sigla;
+	private boolean favorito = false;
+	private boolean ver = false;
+	private boolean editar = false;
 
 	public UsuarioDado() {
-		super();
 	}
 
-	public UsuarioDado(String dado_id) {
-		super();
+	public UsuarioDado(String sigla) {
+		this.sigla = sigla;
 		this.id = ObjectId.get().toString();
-		this.dado_id = dado_id;
-	}
-
-	public UsuarioDado(String dado_id, boolean ler, boolean alterar) {
-		super();
-		this.id = ObjectId.get().toString();
-		this.dado_id = dado_id;
-		this.ler = ler;
-		this.alterar = alterar;
-	}
-
-	public UsuarioDado(String id, String dado_id, boolean ler, boolean alterar) {
-		super();
-		this.id = id;
-		this.dado_id = dado_id;
-		this.ler = ler;
-		this.alterar = alterar;
 	}
 
 	public String getId() {
-		return id;
+		if (this.id == null || this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId() {
 		this.id = ObjectId.get().toString();
 	}
 
-	public String getDado_id() {
-		return dado_id;
+	public String getSigla() {
+		return sigla;
 	}
 
-	public void setDado_id(String dado_id) {
-		this.dado_id = dado_id;
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
 	}
 
-	public boolean isLer() {
-		return ler;
+	public boolean isFavorito() {
+		return favorito;
 	}
 
-	public void setLer(boolean ler) {
-		this.ler = ler;
+	public void setFavorito(boolean favorito) {
+		this.favorito = favorito;
 	}
 
-	public boolean isAlterar() {
-		return alterar;
+	public boolean isVer() {
+		return ver;
 	}
 
-	public void setAlterar(boolean alterar) {
-		this.alterar = alterar;
+	public void setVer(boolean ver) {
+		this.ver = ver;
+	}
+
+	public boolean isEditar() {
+		return editar;
+	}
+
+	public void setEditar(boolean editar) {
+		this.editar = editar;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getDadoId() {
+		return dadoId;
+	}
+
+	public void setDadoId(String dadoId) {
+		this.dadoId = dadoId;
 	}
 
 	@Override
 	public String toString() {
-		return "UsuarioDado [id=" + id + ", dado_id=" + dado_id + ", ler=" + ler + ", alterar=" + alterar + "]";
-	}
-
-	public void update(UsuarioDado usuarioDado) {
-		this.dado_id = usuarioDado.getDado_id();
-		this.ler = usuarioDado.isLer();
-		this.alterar = usuarioDado.isAlterar();
-
+		return "UsuarioDado [id=" + id + ", dadoId=" + dadoId + ", sigla=" + sigla + ", favorito=" + favorito + ", ver="
+				+ ver + ", editar=" + editar + "]";
 	}
 }

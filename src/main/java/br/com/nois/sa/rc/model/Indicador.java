@@ -7,8 +7,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "indicador")
-public class Indicador {
+public abstract class Indicador {
 
 	@Id
 	private String id;
@@ -24,23 +23,15 @@ public class Indicador {
 	private String grafico;
 	private boolean ativo = false;
 	private List<Equacao> equacoes;
-	private String error = null;
 
 	public Indicador() {
 		super();
 	}
 
-	public Indicador(String error) {
-		super();
-		this.error = error;
-	}
-
-	public String getError() {
-		return this.error;
-	}
-
 	public String getId() {
-		return id;
+		if (this.id == null || this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId() {

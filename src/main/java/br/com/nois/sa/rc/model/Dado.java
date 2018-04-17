@@ -2,10 +2,8 @@ package br.com.nois.sa.rc.model;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "dado")
-public class Dado {
+public abstract class Dado {
 	@Id
 	private String id;
 	private String sigla;
@@ -21,9 +19,7 @@ public class Dado {
 	private TipoDado tipoDado;
 	private boolean ativo = false;
 	private boolean decimal;
-	private String error = null;
-	private Double valor; //Apenas para testes
-	
+	private Double valor; // Apenas para testes
 
 	public Double getValor() {
 		return valor;
@@ -32,25 +28,15 @@ public class Dado {
 	public void setValor(Double valor) {
 		this.valor = valor;
 	}
-	
-	
-	
 
 	public Dado() {
 		super();
 	}
 
-	public Dado(String error) {
-		super();
-		this.error = error;
-	}
-
-	public String getError() {
-		return this.error;
-	}
-
 	public String getId() {
-		return id;
+		if (this.id == null || this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId() {
@@ -130,7 +116,7 @@ public class Dado {
 	}
 
 	public Grafico getGrafico() {
-		return grafico;
+		return this.grafico;
 	}
 
 	public void setGrafico(Grafico grafico) {
@@ -166,7 +152,7 @@ public class Dado {
 		return "Dado [id=" + id + ", sigla=" + sigla + ", descricao=" + descricao + ", observacao=" + observacao
 				+ ", grupo_id=" + grupo_id + ", grupo_nome=" + grupo_nome + ", inclinacao_id=" + inclinacao_id
 				+ ", inclinacao_nome=" + inclinacao_nome + ", unidade_id=" + unidade_id + ", unidade_nome="
-				+ unidade_nome + ", grafico=" + grafico + ", tipoDado=" + tipoDado + ", ativo=" + ativo + ", decimal="
+				+ unidade_nome + ", grafico=" + "grafico" + ", tipoDado=" + tipoDado + ", ativo=" + ativo + ", decimal="
 				+ decimal + "]";
 	}
 

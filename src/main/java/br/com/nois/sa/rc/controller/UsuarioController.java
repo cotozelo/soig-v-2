@@ -1,22 +1,18 @@
 package br.com.nois.sa.rc.controller;
 
-import java.util.List;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.nois.sa.rc.model.Usuario;
+import br.com.nois.sa.rc.model.json.UsuarioJSON;
 
 public interface UsuarioController {
-	public List<Usuario> getAll();
 
-	public Usuario getById(@PathVariable("id") String id);
-	
-	public Usuario getByNomeDeUsuario(@PathVariable("nomeDeUsuario") String nomeDeUsuario);
+	public ResponseEntity<Response<UsuarioJSON>> insert(@PathVariable("username") String username,
+			@RequestBody UsuarioJSON usuarioJSON);
 
-	public Usuario insert(@RequestBody Usuario usuario);
+	public ResponseEntity<Response<UsuarioJSON>> update(@PathVariable("username") String username,
+			@RequestBody UsuarioJSON usuarioJSON);
 
-	public Usuario update(@RequestBody Usuario usuario);
-
-	public Usuario deleteById(@PathVariable("id") String id);
+	public ResponseEntity<Response<UsuarioJSON>> getInformacao(@PathVariable("username") String username);
 }

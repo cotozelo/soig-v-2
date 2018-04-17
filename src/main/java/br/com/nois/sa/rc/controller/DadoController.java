@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.nois.sa.rc.model.Dado;
+import br.com.nois.sa.rc.model.to.DadoTO;
 
 public interface DadoController {
 
-	public List<Dado> getAll();
+	public List<DadoTO> getAll();
 
-	public Dado getById(@PathVariable("id") String id);
+	public DadoTO getById(@PathVariable("id") String id);
 
-	public Dado insert(@RequestBody Dado dado);
+	public DadoTO insert(@RequestBody DadoTO dado);
 
-	public Dado update(@RequestBody Dado dado);
+	public DadoTO update(@RequestBody DadoTO dado);
 
-	public Dado deleteById(@PathVariable("id") String id);
+	public DadoTO deleteById(@PathVariable("id") String id);
 }

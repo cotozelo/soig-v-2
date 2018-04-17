@@ -11,19 +11,11 @@ public abstract class Funcionalidade {
 
 	public Funcionalidade() {
 		super();
-		this.id = ObjectId.get().toString();
-	}
-
-	public Funcionalidade(String nome) {
-		super();
-		this.nome = nome;
-		this.id = ObjectId.get().toString();
 	}
 
 	public String getId() {
-		if (this.id.isEmpty()) {
+		if (this.id == null || this.id.isEmpty())
 			this.id = ObjectId.get().toString();
-		}
 		return this.id;
 	}
 

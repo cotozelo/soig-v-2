@@ -20,35 +20,10 @@ public class IndicadorMeta {
 		super();
 	}
 
-	public IndicadorMeta(String indicador_id, String nome) {
-		super();
-		this.id = ObjectId.get().toString();
-		this.indicador_id = indicador_id;
-		this.nome = nome;
-	}
-
-	public IndicadorMeta(String indicador_id, String nome, OperadorRelacional operadorRelacional, double valor) {
-		super();
-		this.id = ObjectId.get().toString();
-		this.indicador_id = indicador_id;
-		this.nome = nome;
-		this.operadorRelacional = operadorRelacional;
-		this.valor = valor;
-	}
-
-	public IndicadorMeta(String id, String indicador_id, String nome, OperadorRelacional operadorRelacional,
-			double valor, int versaoGlobal) {
-		super();
-		this.id = id;
-		this.indicador_id = indicador_id;
-		this.nome = nome;
-		this.operadorRelacional = operadorRelacional;
-		this.valor = valor;
-		this.versaoGlobal = versaoGlobal;
-	}
-
 	public String getId() {
-		return id;
+		if (this.id == null || this.id.isEmpty())
+			this.id = ObjectId.get().toString();
+		return this.id;
 	}
 
 	public void setId() {

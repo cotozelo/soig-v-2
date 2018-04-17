@@ -10,12 +10,11 @@ public abstract class Perfil {
 	private String nome;
 
 	public Perfil(String nome) {
-		this.id = ObjectId.get().toString();
 		this.nome = nome;
 	}
 
 	public Perfil() {
-		this.id = ObjectId.get().toString();
+		super();
 	}
 
 	public String getNome() {

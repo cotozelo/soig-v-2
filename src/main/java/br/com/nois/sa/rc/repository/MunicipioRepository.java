@@ -3,18 +3,26 @@ package br.com.nois.sa.rc.repository;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import br.com.nois.sa.rc.model.Municipio;
+import br.com.nois.sa.rc.model.to.MunicipioTO;
 
 @Repository
-public interface MunicipioRepository extends MongoRepository<Municipio, String> {
+public interface MunicipioRepository extends MongoRepository<MunicipioTO, String> {
 
-	Municipio findById(String id);
+	// @Query(fields = "{ 'nome': 1, 'agenciaId': 1, 'codigo': 1, 'cidade': 1,
+	// 'estado': 1, 'contatoTelefone': 1, 'contatoNome': 1, 'contatoEmail': 1,
+	// 'ativo':1}")
 
-	Municipio findByNome(String nome);
+	List<MunicipioTO> findAll();
 
-	List<Municipio> findByIdAgencia(String idAgencia);
+	MunicipioTO findById(String id);
 
-	Municipio findByCodigo(String codigo);
+	MunicipioTO findByNome(String nome);
+
+	@Query(fields = "{ 'nome': 1, 'agenciaId': 1, 'codigo': 1, 'cidade': 1, 'estado': 1, 'contatoTelefone': 1, 'contatoNome': 1, 'contatoEmail': 1, 'ativo':1}")
+	List<MunicipioTO> findByAgenciaId(String agenciaId);
+
+	MunicipioTO findByCodigo(String codigo);
 }
