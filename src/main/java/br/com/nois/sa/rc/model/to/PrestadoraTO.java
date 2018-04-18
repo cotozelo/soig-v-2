@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import br.com.nois.sa.rc.model.Ano;
 import br.com.nois.sa.rc.model.Prestadora;
+import br.com.nois.sa.rc.model.json.PrestadoraJSON;
 
 @Document(collection = "prestadora")
 public class PrestadoraTO extends Prestadora {
@@ -16,7 +17,7 @@ public class PrestadoraTO extends Prestadora {
 		super();
 	}
 
-	public PrestadoraTO(Prestadora json) {
+	public PrestadoraTO(PrestadoraJSON json) {
 		super();
 		super.setAbrangencia(json.getAbrangencia());
 		super.setCodigo(json.getCodigo());
@@ -25,6 +26,9 @@ public class PrestadoraTO extends Prestadora {
 		super.setNome(json.getNome());
 		super.setServico(json.getServico());
 		super.setSigla(json.getSigla());
+		super.setContatoNome(json.getContatoNome());
+		super.setContatoTelefone(json.getContatoTelefone());
+		super.setContatoEmail(json.getContatoEmail());
 	}
 
 	public List<AnoTO> getAnos() {
@@ -110,5 +114,8 @@ public class PrestadoraTO extends Prestadora {
 		super.setNatureza(prestadora.getNatureza());
 		super.setServico(prestadora.getServico());
 		super.setSigla(prestadora.getSigla());
+		super.setContatoNome(prestadora.getContatoNome());
+		super.setContatoTelefone(prestadora.getContatoTelefone());
+		super.setContatoEmail(prestadora.getContatoEmail());
 	}
 }

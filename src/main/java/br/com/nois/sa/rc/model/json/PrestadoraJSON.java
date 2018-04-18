@@ -18,6 +18,9 @@ public class PrestadoraJSON extends Prestadora {
 		super.setNome(to.getNome());
 		super.setServico(to.getServico());
 		super.setSigla(to.getSigla());
+		super.setContatoNome(to.getContatoNome());
+		super.setContatoTelefone(to.getContatoTelefone());
+		super.setContatoEmail(to.getContatoEmail());
 	}
 
 	@Override
@@ -35,5 +38,8 @@ public class PrestadoraJSON extends Prestadora {
 		super.setNatureza(prestadora.getNatureza());
 		super.setServico(prestadora.getServico());
 		super.setSigla(prestadora.getSigla());
+		super.setContatoNome(prestadora.getContatoNome());
+		super.setContatoTelefone(prestadora.getContatoTelefone());
+		super.setContatoEmail(prestadora.getContatoEmail());
 	}
 }

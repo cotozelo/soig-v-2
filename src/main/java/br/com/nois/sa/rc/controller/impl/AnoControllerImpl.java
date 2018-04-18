@@ -64,13 +64,15 @@ public class AnoControllerImpl implements AnoContoller {
 		if (municipioTO == null) {
 			response.setError(new ErroJSON("VxPxRx00001",
 					this.getClass().getName() + "/listagem/" + userName + "/" + municipioId + "/" + prestadoraId));
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			response.setData(new ArrayList<>());
+			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
 		PrestadoraTO prestadoraTO = municipioTO.getPrestadora(prestadoraId);
 		if (prestadoraTO == null) {
 			response.setError(new ErroJSON("VxPxRx00002",
 					this.getClass().getName() + "/lisgatem/" + userName + "/" + municipioId + "/" + prestadoraId));
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			response.setData(new ArrayList<>());
+			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
 
 		List<AnoJSON> anosJSON = new ArrayList<AnoJSON>();

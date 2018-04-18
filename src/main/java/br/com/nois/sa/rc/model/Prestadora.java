@@ -13,6 +13,9 @@ public abstract class Prestadora {
 	private String abrangencia;
 	private String natureza;
 	private String servico;
+	private String contatoTelefone;
+	private String contatoNome;
+	private String contatoEmail;
 	// private List<Ano> anos;
 
 	public Prestadora() {
@@ -79,5 +82,29 @@ public abstract class Prestadora {
 
 	public void setServico(String servico) {
 		this.servico = servico;
+	}
+
+	public String getContatoTelefone() {
+		return contatoTelefone;
+	}
+
+	public void setContatoTelefone(String contatoTelefone) {
+		this.contatoTelefone = contatoTelefone;
+	}
+
+	public String getContatoNome() {
+		return contatoNome;
+	}
+
+	public void setContatoNome(String contatoNome) {
+		this.contatoNome = contatoNome;
+	}
+
+	public String getContatoEmail() {
+		return contatoEmail;
+	}
+
+	public void setContatoEmail(String contatoEmail) {
+		this.contatoEmail = contatoEmail;
 	}
 }

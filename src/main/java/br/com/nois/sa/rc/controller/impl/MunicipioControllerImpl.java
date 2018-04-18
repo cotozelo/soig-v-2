@@ -54,7 +54,8 @@ public class MunicipioControllerImpl implements MunicipioController {
 			List<MunicipioTO> municipiosTO = this.municipioRepository.findByAgenciaId(agenciaId);
 			if (municipiosTO == null || municipiosTO.isEmpty()) {
 				response.setError(new ErroJSON("VxMxRx00001", this.getClass().getName() + "/listagem/" + userName));
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+				response.setData(new ArrayList<>());
+				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
 
 			this.logController.insert(new Log(new Constantes().MUNICIPIO_LISTAGEM, municipiosTO.toString()));
