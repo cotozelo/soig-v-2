@@ -2,17 +2,15 @@ package br.com.nois.sa.rc.model;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "equacao")
-public class Equacao {
+public abstract class Equacao {
 
 	@Id
 	private String id;
 	private String ano;
 	private String formula;
 	private long versaoGlobal;
-	private String pai_id;
+	private String paiId;
 	private Boolean ativa = true;
 
 	public Equacao() {
@@ -53,15 +51,19 @@ public class Equacao {
 		this.versaoGlobal = versaoGlobal;
 	}
 
-	public String getPai_id() {
-		return pai_id;
+	public String getPaiId() {
+		return paiId;
 	}
 
-	public void setPai_id(String pai_id) {
-		this.pai_id = pai_id;
+	public void setPaiId(String paiId) {
+		this.paiId = paiId;
 	}
 
-	public Boolean getAtiva() {
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Boolean isAtiva() {
 		return ativa;
 	}
 
@@ -72,7 +74,7 @@ public class Equacao {
 	@Override
 	public String toString() {
 		return "Equacao [id=" + id + ", ano=" + ano + ", formula=" + formula + ", versaoGlobal=" + versaoGlobal
-				+ ", pai_id=" + pai_id + ", ativa=" + ativa + "]";
+				+ ", pai_id=" + paiId + ", ativa=" + ativa + "]";
 	}
 
 }

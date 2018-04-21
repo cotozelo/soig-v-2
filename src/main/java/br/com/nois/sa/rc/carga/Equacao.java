@@ -44,7 +44,7 @@ public class Equacao {
 			} else if (linhaSplit.length == 3) {
 				IndicadorTO indicador = this.indicadorRepository.findBySigla(linhaSplit[2]);
 				if (indicador != null) {
-					List<br.com.nois.sa.rc.model.Equacao> equacoes = indicador.getEquacoes();
+					List<br.com.nois.sa.rc.model.to.EquacaoTO> equacoes = indicador.getEquacoes();
 					boolean temEquacao = false;
 					if (equacoes != null && equacoes.size() > 0) {
 						for (br.com.nois.sa.rc.model.Equacao equacao : equacoes) {
@@ -54,7 +54,7 @@ public class Equacao {
 						}
 					}
 					if (temEquacao == false) {
-						br.com.nois.sa.rc.model.Equacao equacao = new br.com.nois.sa.rc.model.Equacao();
+						br.com.nois.sa.rc.model.to.EquacaoTO equacao = new br.com.nois.sa.rc.model.to.EquacaoTO();
 						equacao.setAno(linhaSplit[1]);
 						equacao.setFormula(linhaSplit[0]);
 						equacao.setAtiva(true);
