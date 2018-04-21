@@ -63,9 +63,9 @@ public class EquacaoControllerImpl implements EquacaoController {
 				EquacaoJSON equacao = new EquacaoJSON();
 				equacao.setAno(indicadorTO.getEquacaoAtiva().getAno());
 				equacao.setEquacaoId(indicadorTO.getEquacaoAtiva().getId());
-				equacao.setFormula(indicadorTO.getEquacaoAtiva().getFormula().toUpperCase());
+				equacao.setFormula(indicadorTO.getEquacaoAtiva().getFormula());
 				equacao.setIndicadorId(indicadorTO.getId());
-				equacao.setIndicadorSigla(indicadorTO.getSigla().toUpperCase());
+				equacao.setIndicadorSigla(indicadorTO.getSigla());
 
 				if (mEquacaoJSON.containsKey(indicadorTO.getEquacaoAtiva().getAno())) {
 					((List<EquacaoJSON>) mEquacaoJSON.get(indicadorTO.getEquacaoAtiva().getAno()))

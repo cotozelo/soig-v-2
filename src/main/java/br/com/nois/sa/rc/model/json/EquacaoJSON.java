@@ -28,7 +28,9 @@ public class EquacaoJSON {
 	}
 
 	public void setFormula(String formula) {
-		this.formula = formula;
+		if (formula != null) {
+			this.formula = formula.toUpperCase();
+		}
 	}
 
 	public String getIndicadorId() {
@@ -44,6 +46,8 @@ public class EquacaoJSON {
 	}
 
 	public void setIndicadorSigla(String indicadorSigla) {
-		this.indicadorSigla = indicadorSigla;
+		if (indicadorSigla != null) {
+			this.indicadorSigla = indicadorSigla.toUpperCase();
+		}
 	}
 }

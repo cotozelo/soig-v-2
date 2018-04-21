@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import br.com.nois.sa.rc.model.json.MunicipioJSON;
 
 public interface MunicipioController {
-	public ResponseEntity<Response<List<MunicipioJSON>>> getAll(@PathVariable("username") String userName,
+	public ResponseEntity<Response<List<MunicipioJSON>>> getByAgenciaId(@PathVariable("username") String userName,
 			@PathVariable("agenciaId") String agenciaId);
 
 	public ResponseEntity<Response<MunicipioJSON>> insert(@PathVariable("username") String userName,

@@ -57,7 +57,7 @@ public class PerfilControllerImpl implements PerfilController {
 	}
 
 	@Override
-	@GetMapping("/all/{username}")
+	@GetMapping("/listagem/{username}")
 	public ResponseEntity<Response<List<PerfilJSON>>> getAll(@PathVariable("username") String userName) {
 		Response<List<PerfilJSON>> response = new Response<List<PerfilJSON>>();
 		try {
