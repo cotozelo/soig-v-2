@@ -24,4 +24,9 @@ public class FuncionalidadeTO extends Funcionalidade {
 		super.setNome(nome);
 	}
 
+	public FuncionalidadeTO(String id) {
+		super();
+		super.setId(id);
+	}
+
 }

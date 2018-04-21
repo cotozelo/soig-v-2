@@ -14,9 +14,6 @@ public interface PerfilController {
 	public ResponseEntity<Response<List<PerfilJSON>>> update(@PathVariable("username") String userName,
 			@RequestBody List<PerfilJSON> perfilsJSON);
 
-	public ResponseEntity<Response<PerfilJSON>> insert(@PathVariable("username") String userName,
-			@RequestBody PerfilJSON perfil);
-
 	public ResponseEntity<Response<PerfilJSON>> deleteById(@PathVariable("username") String userName,
 			@PathVariable("id") String id);
 

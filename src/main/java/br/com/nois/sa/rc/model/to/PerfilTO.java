@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import br.com.nois.sa.rc.model.Funcionalidade;
 import br.com.nois.sa.rc.model.Perfil;
-import br.com.nois.sa.rc.model.json.FuncionalidadeJSON;
 import br.com.nois.sa.rc.model.json.PerfilJSON;
 
 @Document(collection = "perfil")
@@ -31,11 +30,8 @@ public class PerfilTO extends Perfil {
 			this.funcionalidades = new ArrayList<FuncionalidadeTO>();
 		}
 
-		for (FuncionalidadeJSON funcionalidadeJSON : json.getFuncionalidades()) {
-			if (funcionalidadeJSON.isSelecionada()) {
-				this.funcionalidades
-						.add(new FuncionalidadeTO(funcionalidadeJSON.getId(), funcionalidadeJSON.getNome()));
-			}
+		for (String funcionalidadeId : json.getFuncionalidades()) {
+			this.funcionalidades.add(new FuncionalidadeTO(funcionalidadeId));
 		}
 	}
 
