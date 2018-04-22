@@ -1,15 +1,15 @@
 package br.com.nois.sa.rc.model.json;
 
-import br.com.nois.sa.rc.model.Indicador;
-import br.com.nois.sa.rc.model.to.IndicadorTO;
+import br.com.nois.sa.rc.model.Dado;
+import br.com.nois.sa.rc.model.to.DadoTO;
 
-public class IndicadorJSON extends Indicador {
+public class DadoJSON extends Dado {
 
-	public IndicadorJSON() {
+	public DadoJSON() {
 		super();
 	}
 
-	public IndicadorJSON(IndicadorTO to) {
+	public DadoJSON(DadoTO to) {
 		super();
 		super.setAtivo(to.isAtivo());
 		super.setDescricao(to.getDescricao());
@@ -23,5 +23,7 @@ public class IndicadorJSON extends Indicador {
 		super.setUnidadeId(to.getUnidadeId());
 		super.setUnidadeNome(to.getUnidadeNome());
 		super.setId(to.getId());
+		super.setDecimal(to.isDecimal());
+		super.setTipoDado(to.getTipoDado());
 	}
 }

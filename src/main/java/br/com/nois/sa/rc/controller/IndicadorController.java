@@ -19,4 +19,7 @@ public interface IndicadorController {
 
 	public ResponseEntity<Response<IndicadorJSON>> deleteById(@PathVariable("username") String userName,
 			@PathVariable("indicadorid") String indicadorId);
+
+	public ResponseEntity<Response<String>> clonar(@PathVariable("username") String userName,
+			@PathVariable("anoorigem") String anoOrigem, @PathVariable("anodestino") String anoDestino);
 }

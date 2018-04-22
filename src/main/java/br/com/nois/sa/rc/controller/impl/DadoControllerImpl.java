@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nois.sa.rc.controller.DadoController;
 import br.com.nois.sa.rc.controller.LogController;
+import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.model.Log;
+import br.com.nois.sa.rc.model.json.DadoJSON;
+import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.to.DadoTO;
 import br.com.nois.sa.rc.repository.DadoRepository;
 import br.com.nois.sa.rc.repository.LogRepository;
@@ -39,74 +44,102 @@ public class DadoControllerImpl implements DadoController {
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 	}
 
-	@GetMapping("/all")
-	public List<DadoTO> getAll() {
-		List<DadoTO> dados = this.dadoRepository.findAll();
+	@GetMapping("/listagem/{username}")
+	public ResponseEntity<Response<List<DadoJSON>>> getAll(@PathVariable("username") String userName) {
 
-		this.logController.insert(new Log(new Constantes().DADO_GETALL,
-				dados == null ? "" : new Util().ListColectionToString(new ArrayList<Object>(dados))));
-
-		return dados;
-	}
-
-	@GetMapping("/id/{id}")
-	public DadoTO getById(@PathVariable("id") String id) {
-		DadoTO dado = this.dadoRepository.findById(id);
-		this.logController.insert(new Log(new Constantes().DADO_GETBYID, dado == null ? "" : dado.toString()));
-		return dado;
-	}
-
-	@PutMapping("/insert")
-	public DadoTO insert(@RequestBody DadoTO dado) {
+		Response<List<DadoJSON>> response = new Response<List<DadoJSON>>();
 		try {
-			this.logController.insert(new Log(new Constantes().DADO_INSERT, dado.toString()));
-			this.dadoRepository.insert(dado);
-			return dado;
-		} catch (Exception e) {
-			String error = "Erro: CxDxCx00016 ";
-			this.logController.insert(new Log(new Constantes().DADO_INSERT, error + e.getMessage()));
-			System.out.println(error + e.getMessage());
-			return new DadoTO();
+			List<DadoTO> dadosTO = this.dadoRepository.findAll();
+			if (dadosTO == null || dadosTO.isEmpty()) {
+				response.setError(new ErroJSON("VxMxRx00001", this.getClass().getName() + "/listagem/" + userName));
+				response.setData(new ArrayList<>());
+				return ResponseEntity.status(HttpStatus.OK).body(response);
+			}
+
+			List<DadoJSON> dadosJSON = new ArrayList<DadoJSON>();
+
+			for (DadoTO dadoTO : dadosTO) {
+				dadosJSON.add(new DadoJSON(dadoTO));
+			}
+
+			this.logController.insert(new Log(new Constantes().DADO_GETALL,
+					dadosJSON == null ? "" : new Util().ListColectionToString(new ArrayList<Object>(dadosJSON))));
+			response.setData(dadosJSON);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/listagem/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
-	@PostMapping("/update")
-	public DadoTO update(@RequestBody DadoTO dado) {
-		try {
-			this.logController.insert(new Log(new Constantes().DADO_UPDATE, dado.toString()));
-			return this.dadoRepository.save(dado);
-		} catch (Exception e) {
-			String error = "Erro: CxDxUx00017";
-			System.out.println(error + e.getMessage());
-			this.logController.insert(new Log(new Constantes().DADO_UPDATE, error + e.getMessage()));
+	@PostMapping("/insert/{username}")
+	public ResponseEntity<Response<DadoJSON>> insert(@PathVariable("username") String userName,
+			@RequestBody DadoJSON dadoJSON) {
 
-			return new DadoTO();
+		Response<DadoJSON> response = new Response<DadoJSON>();
+		try {
+			DadoTO dadoTO = new DadoTO(dadoJSON);
+
+			this.logController.insert(new Log(new Constantes().INDICADOR_INSERT, dadoTO.toString()));
+			dadoTO = this.dadoRepository.insert(dadoTO);
+
+			response.setData(new DadoJSON(dadoTO));
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
+	@PutMapping("/update/{username}")
+	public ResponseEntity<Response<DadoJSON>> update(@PathVariable("username") String userName,
+			@RequestBody DadoJSON dadoJSON) {
+
+		Response<DadoJSON> response = new Response<DadoJSON>();
+		try {
+			DadoTO dadoTO = this.dadoRepository.findById(dadoJSON.getId());
+			if (dadoTO == null) {
+				response.setError(new ErroJSON("VxMxRx00001", this.getClass().getName() + "/listagem/" + userName));
+				return ResponseEntity.status(HttpStatus.OK).body(response);
+			}
+
+			dadoTO.update(dadoJSON);
+
+			this.logController.insert(new Log(new Constantes().DADO_UPDATE, dadoTO.toString()));
+			dadoTO = this.dadoRepository.save(dadoTO);
+
+			response.setData(new DadoJSON(dadoTO));
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
 	/// TODO talvez seja interessante colocar o como inativo ao invez
 	/// de deleta-lo, avaliar quando implementar o CRUD
-	@DeleteMapping("/delete/{id}")
-	public DadoTO deleteById(@PathVariable("id") String id) {
+	@DeleteMapping("/delete/{username}/{dadoid}")
+	public ResponseEntity<Response<DadoJSON>> deleteById(@PathVariable("username") String userName,
+			@PathVariable("dadoid") String dadoId) {
+
+		Response<DadoJSON> response = new Response<DadoJSON>();
 		try {
-			DadoTO dado = this.dadoRepository.findById(id);
-
-			if (dado == null) {
-				String error = "Erro: CxDxDx00018 ";
-				System.out.println(error);
-				this.logController.insert(new Log(new Constantes().DADO_DELETEBYID, error));
-				return new DadoTO();
+			DadoTO dadoTO = this.dadoRepository.findById(dadoId);
+			if (dadoTO == null) {
+				response.setError(new ErroJSON("VxMxRx00001", this.getClass().getName() + "/listagem/" + userName));
+				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
+			DadoJSON dadoJSON = new DadoJSON(dadoTO);
+			this.dadoRepository.delete(dadoTO);
 
-			this.logController.insert(new Log(new Constantes().DADO_DELETEBYID, dado.toString()));
+			this.logController.insert(new Log(new Constantes().DADO_DELETEBYID, dadoTO.toString()));
 
-			this.dadoRepository.delete(dado);
-			return dado;
-		} catch (Exception e) {
-			String error = "Erro: CxDxDx00019 ";
-			System.out.println(error + e.getMessage());
-			this.logController.insert(new Log(new Constantes().DADO_DELETEBYID, error + e.getMessage()));
-			return new DadoTO();
+			response.setData(dadoJSON);
+			response.setData(new DadoJSON(dadoTO));
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 }

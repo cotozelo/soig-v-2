@@ -74,6 +74,61 @@ public class IndicadorControllerImpl implements IndicadorController {
 		}
 	}
 
+	@PutMapping("/clonar/{username}/{anoorigem}/{anodestino}")
+	public ResponseEntity<Response<String>> clonar(@PathVariable("username") String userName,
+			@PathVariable("anoorigem") String anoOrigem, @PathVariable("anodestino") String anoDestino) {
+
+		Response<String> response = new Response<String>();
+		try {
+			List<IndicadorTO> indicadoresTO = this.indicadorRepository.findAll();
+			if (indicadoresTO == null || indicadoresTO.isEmpty()) {
+				response.setError(new ErroJSON("VxMxRx00001", this.getClass().getName() + "/listagem/" + userName));
+				return ResponseEntity.status(HttpStatus.OK).body(response);
+			}
+
+			for (IndicadorTO indicadorTO : indicadoresTO) {
+
+				if (indicadorTO.getEquacaoAtiva() != null && !indicadorTO.getEquacaoAtiva().isEmpty()) {
+					for (EquacaoTO equacaoOrigem : indicadorTO.getEquacaoAtiva()) {
+
+						if (equacaoOrigem.getAno().equals(anoOrigem)) {
+							EquacaoTO equacaoAtual = new EquacaoTO();
+							equacaoAtual.setId();
+							equacaoAtual.setAno(anoDestino);
+							equacaoAtual.setAtiva(true);
+							equacaoAtual.setFormula(equacaoOrigem.getFormula());
+							equacaoAtual.setPaiId("-1");
+							equacaoAtual.setVersaoGlobal(this.logController.getVersaoGlogal());
+
+							for (EquacaoTO equacaoDestino : indicadorTO.getEquacaoAtiva()) {
+								if (equacaoDestino.getAno().equals(anoDestino)) {
+									equacaoDestino.setAtiva(false);
+									equacaoAtual.setPaiId(equacaoDestino.getId());
+									break;
+								}
+							}
+							indicadorTO.setEquacao(equacaoAtual);
+							break;
+						}
+
+					}
+				}
+
+			}
+
+			indicadoresTO = this.indicadorRepository.save(indicadoresTO);
+			this.logController.insert(new Log(new Constantes().INDICADOR_GETALL, indicadoresTO == null ? ""
+					: new Util().ListColectionToString(new ArrayList<Object>(indicadoresTO))));
+
+			String retorno = "anoOrigem" + " : " + anoOrigem + ", anoDestino : " + anoDestino;
+			response.setData(retorno);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/listagem/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
 	@PostMapping("/insert/{username}")
 	public ResponseEntity<Response<IndicadorJSON>> insert(@PathVariable("username") String userName,
 			@RequestBody IndicadorJSON indicadorJSON) {

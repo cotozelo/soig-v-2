@@ -23,7 +23,7 @@ public class IndicadorTO extends Indicador {
 		super.setDescricao(json.getDescricao());
 		super.setGrafico(json.getGrafico());
 		super.setGrupoId(json.getGrupoId());
-		super.setGrupoName(json.getGrupoName());
+		super.setGrupoNome(json.getGrupoNome());
 		super.setInclinacaoId(json.getInclinacaoId());
 		super.setInclinacaoNome(json.getInclinacaoNome());
 		super.setObservacao(json.getObservacao());
@@ -38,7 +38,7 @@ public class IndicadorTO extends Indicador {
 		super.setDescricao(json.getDescricao());
 		super.setGrafico(json.getGrafico());
 		super.setGrupoId(json.getGrupoId());
-		super.setGrupoName(json.getGrupoName());
+		super.setGrupoNome(json.getGrupoNome());
 		super.setInclinacaoId(json.getInclinacaoId());
 		super.setInclinacaoNome(json.getInclinacaoNome());
 		super.setObservacao(json.getObservacao());
@@ -55,15 +55,16 @@ public class IndicadorTO extends Indicador {
 		return equacoes;
 	}
 
-	public EquacaoTO getEquacaoAtiva() {
+	public List<EquacaoTO> getEquacaoAtiva() {
+		List<EquacaoTO> aux = new ArrayList<EquacaoTO>();
 		if (this.equacoes != null) {
 			for (int ii = 0; ii < this.equacoes.size(); ii++) {
 				if (this.equacoes.get(ii).isAtiva()) {
-					return this.equacoes.get(ii);
+					aux.add(this.equacoes.get(ii));
 				}
 			}
 		}
-		return null;
+		return aux;
 	}
 
 	public EquacaoTO getEquacao(String equacaoId) {
@@ -125,7 +126,7 @@ public class IndicadorTO extends Indicador {
 	public String toString() {
 		return "Indicador [id=" + super.getId() + ", sigla=" + super.getSigla() + ", descricao=" + super.getDescricao()
 				+ ", observacao=" + super.getObservacao() + ", grupoId=" + super.getGrupoId() + ", grupoName="
-				+ super.getGrupoName() + ", inclinacaoId=" + super.getInclinacaoId() + ", inclinacaoNome="
+				+ super.getGrupoNome() + ", inclinacaoId=" + super.getInclinacaoId() + ", inclinacaoNome="
 				+ super.getInclinacaoNome() + ", unidadeId=" + super.getUnidadeId() + ", unidadeNome="
 				+ super.getUnidadeNome() + ", grafico=" + super.getGrafico() + ", ativo=" + super.isAtivo()
 				+ ", equacoes=" + equacoes.toString() + "]";

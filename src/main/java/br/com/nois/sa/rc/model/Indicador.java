@@ -11,7 +11,7 @@ public abstract class Indicador {
 	private String descricao;
 	private String observacao;
 	private String grupoId;
-	private String grupoName;
+	private String grupoNome;
 	private String inclinacaoId;
 	private String inclinacaoNome;
 	private String unidadeId;
@@ -71,13 +71,13 @@ public abstract class Indicador {
 		this.grupoId = grupoId;
 	}
 
-	public String getGrupoName() {
-		return grupoName;
+	public String getGrupoNome() {
+		return grupoNome;
 	}
 
-	public void setGrupoName(String grupoName) {
-		if (grupoName != null) {
-			this.grupoName = grupoName.toUpperCase();
+	public void setGrupoNome(String grupoNome) {
+		if (grupoNome != null) {
+			this.grupoNome = grupoNome.toUpperCase();
 		}
 	}
 
@@ -141,7 +141,7 @@ public abstract class Indicador {
 		this.descricao = indicador.getDescricao();
 		this.observacao = indicador.getObservacao();
 		this.grupoId = indicador.getGrupoId();
-		this.grupoName = indicador.getGrupoName();
+		this.grupoNome = indicador.getGrupoNome();
 		this.inclinacaoId = indicador.getInclinacaoId();
 		this.inclinacaoNome = indicador.getInclinacaoNome();
 		this.unidadeId = indicador.getUnidadeId();
@@ -153,7 +153,7 @@ public abstract class Indicador {
 	@Override
 	public String toString() {
 		return "Indicador [id=" + id + ", sigla=" + sigla + ", descricao=" + descricao + ", observacao=" + observacao
-				+ ", grupoId=" + grupoId + ", grupoName=" + grupoName + ", inclinacao_id=" + inclinacaoId
+				+ ", grupoId=" + grupoId + ", grupoNome=" + grupoNome + ", inclinacao_id=" + inclinacaoId
 				+ ", inclinacaoNome=" + inclinacaoNome + ", unidadeId=" + unidadeId + ", unidadeNome=" + unidadeNome
 				+ ", grafico=" + grafico + ", ativo=" + ativo + "]";
 	}

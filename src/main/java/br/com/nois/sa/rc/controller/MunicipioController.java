@@ -20,4 +20,8 @@ public interface MunicipioController {
 
 	public ResponseEntity<Response<MunicipioJSON>> deleteById(@PathVariable("username") String userName,
 			@PathVariable("idMunicipio") String idMunicipio);
+
+	public ResponseEntity<Response<MunicipioJSON>> move(@PathVariable("username") String userName,
+			@PathVariable("municipioid") String municipioId, @PathVariable("agenciaidorigem") String agenciaIdOrigem,
+			@PathVariable("agenciaiddestino") String agenciaIdDestino);
 }

@@ -58,22 +58,23 @@ public class EquacaoControllerImpl implements EquacaoController {
 		Map<String, Object> mEquacaoJSON = new HashMap<>();
 
 		for (IndicadorTO indicadorTO : indicadoresTO) {
-			if (indicadorTO.getEquacaoAtiva() != null) {
+			if (indicadorTO.getEquacaoAtiva() != null && !indicadorTO.getEquacaoAtiva().isEmpty()) {
+				for (EquacaoTO equacaoTO : indicadorTO.getEquacaoAtiva()) {
 
-				EquacaoJSON equacao = new EquacaoJSON();
-				equacao.setAno(indicadorTO.getEquacaoAtiva().getAno());
-				equacao.setEquacaoId(indicadorTO.getEquacaoAtiva().getId());
-				equacao.setFormula(indicadorTO.getEquacaoAtiva().getFormula());
-				equacao.setIndicadorId(indicadorTO.getId());
-				equacao.setIndicadorSigla(indicadorTO.getSigla());
+					EquacaoJSON equacao = new EquacaoJSON();
+					equacao.setAno(equacaoTO.getAno());
+					equacao.setEquacaoId(equacaoTO.getId());
+					equacao.setFormula(equacaoTO.getFormula());
+					equacao.setIndicadorId(indicadorTO.getId());
+					equacao.setIndicadorSigla(indicadorTO.getSigla());
 
-				if (mEquacaoJSON.containsKey(indicadorTO.getEquacaoAtiva().getAno())) {
-					((List<EquacaoJSON>) mEquacaoJSON.get(indicadorTO.getEquacaoAtiva().getAno()))
-							.add((EquacaoJSON) equacao);
-				} else {
-					List<EquacaoJSON> equacoesJSON = new ArrayList<EquacaoJSON>();
-					equacoesJSON.add(equacao);
-					mEquacaoJSON.put(indicadorTO.getEquacaoAtiva().getAno(), equacoesJSON);
+					if (mEquacaoJSON.containsKey(equacaoTO.getAno())) {
+						((List<EquacaoJSON>) mEquacaoJSON.get(equacaoTO.getAno())).add((EquacaoJSON) equacao);
+					} else {
+						List<EquacaoJSON> equacoesJSON = new ArrayList<EquacaoJSON>();
+						equacoesJSON.add(equacao);
+						mEquacaoJSON.put(equacaoTO.getAno(), equacoesJSON);
+					}
 				}
 			}
 		}
@@ -105,7 +106,12 @@ public class EquacaoControllerImpl implements EquacaoController {
 			equacaoTO.setId();
 			equacaoTO.setAno(equacaoJSON.getAno());
 
-			indicador.getEquacaoAtiva().setAtiva(false);
+			for (EquacaoTO equacao : indicador.getEquacaoAtiva()) {
+				// indicador.getEquacaoAtiva().setAtiva(false);
+				if (equacao.getAno().equals(equacaoJSON.getAno())) {
+					equacao.setAtiva(false);
+				}
+			}
 			indicador.setEquacao(equacaoTO);
 
 			this.logController.insert(new Log(new Constantes().EQUACAO_UPDATE, equacaoJSON.toString(), versaoGlobal));

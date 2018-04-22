@@ -119,6 +119,29 @@ public class MunicipioControllerImpl implements MunicipioController {
 		}
 	}
 
+	@PutMapping("/mover/{username}/{municipioid}/{agenciaidorigem}/{agenciaiddestino}")
+	public ResponseEntity<Response<MunicipioJSON>> move(@PathVariable("username") String userName,
+			@PathVariable("municipioid") String municipioId, @PathVariable("agenciaidorigem") String agenciaIdOrigem,
+			@PathVariable("agenciaiddestino") String agenciaIdDestino) {
+		Response<MunicipioJSON> response = new Response<MunicipioJSON>();
+		try {
+			MunicipioTO municipioTO = this.municipioRepository.findByIdAndAgenciaId(municipioId, agenciaIdOrigem);
+
+			this.logController.insert(new Log(new Constantes().MUNICIPIO_UPDATE, municipioTO.toString()));
+
+			municipioTO.setAgenciaId(agenciaIdDestino);
+
+			municipioTO = this.municipioRepository.save(municipioTO);
+			MunicipioJSON municipioJSON = new MunicipioJSON(municipioTO);
+
+			response.setData(municipioJSON);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/update/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
 	@DeleteMapping("/delete/{username}/{id}")
 	public ResponseEntity<Response<MunicipioJSON>> deleteById(@PathVariable("username") String userName,
 			@PathVariable("id") String id) {
