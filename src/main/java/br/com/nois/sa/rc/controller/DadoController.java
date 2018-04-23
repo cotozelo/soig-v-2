@@ -2,20 +2,22 @@ package br.com.nois.sa.rc.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.nois.sa.rc.model.to.DadoTO;
+import br.com.nois.sa.rc.model.json.DadoJSON;
 
 public interface DadoController {
 
-	public List<DadoTO> getAll();
+	public ResponseEntity<Response<List<DadoJSON>>> getAll(@PathVariable("username") String userName);
 
-	public DadoTO getById(@PathVariable("id") String id);
+	public ResponseEntity<Response<DadoJSON>> insert(@PathVariable("username") String userName,
+			@RequestBody DadoJSON dadoJSON);
 
-	public DadoTO insert(@RequestBody DadoTO dado);
+	public ResponseEntity<Response<DadoJSON>> update(@PathVariable("username") String userName,
+			@RequestBody DadoJSON dadoJSON);
 
-	public DadoTO update(@RequestBody DadoTO dado);
-
-	public DadoTO deleteById(@PathVariable("id") String id);
+	public ResponseEntity<Response<DadoJSON>> deleteById(@PathVariable("username") String userName,
+			@PathVariable("dadoid") String dadoId);
 }

@@ -60,6 +60,9 @@ public final class Constantes {
 	public final String USUARIO_ATRIBURIR = "usuario_atribuir";
 	public final String USUARIO_INSERT = "usuario_insert";
 	public final String USUARIO_INFORMACAO = "usuario_informacao";
+	public final String USUARIO_LISTAGEM = "usuario_listagem";
+	public final String USUARIO_UPDATE = "usuario_update";
+	public final String USUARIO_DELETE = "usuario_delete";
 	// AGENCIA_CONTROLLER_IMPL
 	public final String AGENCIA_LISTAGEM = "agencia_listagem";
 	public final String AGENCIA_INSERT = "agencia_insert";

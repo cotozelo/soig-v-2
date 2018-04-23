@@ -91,6 +91,9 @@ public class PrestadoraTO extends Prestadora {
 				if (this.anos.get(ii).getId() != null && this.anos.get(ii).getId().equals(ano.getId())) {
 					this.anos.get(ii).update(ano);
 					return ano;
+				} else if (this.anos.get(ii).getAno().equals(ano.getAno())) {
+					this.anos.get(ii).update(ano);
+					return ano;
 				}
 			}
 			this.anos.add(ano);

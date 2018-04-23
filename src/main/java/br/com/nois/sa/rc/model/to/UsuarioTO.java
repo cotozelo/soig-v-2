@@ -48,6 +48,17 @@ public class UsuarioTO extends Usuario {
 		this.usuarioAgencias = usuarioAgencia;
 	}
 
+	public void update(UsuarioJSON json) {
+		super.setId(json.getId());
+		super.setNome(json.getNome());
+		super.setNomeDeUsuario(json.getNomeDeUsuario());
+		super.setTelefone(json.getTelefone());
+		super.setEmail(json.getEmail());
+		super.setAdmin(json.isAdmin());
+		super.setAtivo(json.isAtivo());
+		super.setPerfilId(json.getPerfilId());
+	}
+
 	@Override
 	public String toString() {
 		String sUsuarioAgencia = "";

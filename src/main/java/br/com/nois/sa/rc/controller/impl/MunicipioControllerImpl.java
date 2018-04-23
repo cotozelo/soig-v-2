@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nois.sa.rc.controller.LogController;
@@ -46,8 +50,14 @@ public class MunicipioControllerImpl implements MunicipioController {
 		this.logController = new LogControllerImpl(this.logRepository, this.versaoRepository);
 	}
 
+	public Page<MunicipioTO> getAllByPage(@RequestParam(defaultValue = "0") int pagina,
+			@RequestParam(defaultValue = "10") int porPagina, @RequestParam(defaultValue = "nome") String ordenacao,
+			@RequestParam(defaultValue = "ASC") Sort.Direction direcao) {
+		return this.municipioRepository.findAll(new PageRequest(pagina, porPagina, new Sort(direcao, ordenacao)));
+	}
+
 	@GetMapping("/listagem/{username}/{agenciaId}")
-	public ResponseEntity<Response<List<MunicipioJSON>>> getAll(@PathVariable("username") String userName,
+	public ResponseEntity<Response<List<MunicipioJSON>>> getByAgenciaId(@PathVariable("username") String userName,
 			@PathVariable("agenciaId") String agenciaId) {
 		Response<List<MunicipioJSON>> response = new Response<List<MunicipioJSON>>();
 		try {
@@ -100,6 +110,29 @@ public class MunicipioControllerImpl implements MunicipioController {
 
 			municipioTO = this.municipioRepository.save(municipioTO);
 			municipioJSON = new MunicipioJSON(municipioTO);
+
+			response.setData(municipioJSON);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/update/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
+	@PutMapping("/mover/{username}/{municipioid}/{agenciaidorigem}/{agenciaiddestino}")
+	public ResponseEntity<Response<MunicipioJSON>> move(@PathVariable("username") String userName,
+			@PathVariable("municipioid") String municipioId, @PathVariable("agenciaidorigem") String agenciaIdOrigem,
+			@PathVariable("agenciaiddestino") String agenciaIdDestino) {
+		Response<MunicipioJSON> response = new Response<MunicipioJSON>();
+		try {
+			MunicipioTO municipioTO = this.municipioRepository.findByIdAndAgenciaId(municipioId, agenciaIdOrigem);
+
+			this.logController.insert(new Log(new Constantes().MUNICIPIO_UPDATE, municipioTO.toString()));
+
+			municipioTO.setAgenciaId(agenciaIdDestino);
+
+			municipioTO = this.municipioRepository.save(municipioTO);
+			MunicipioJSON municipioJSON = new MunicipioJSON(municipioTO);
 
 			response.setData(municipioJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);

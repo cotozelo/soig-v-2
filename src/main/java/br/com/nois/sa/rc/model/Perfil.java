@@ -26,7 +26,7 @@ public abstract class Perfil {
 	}
 
 	public String getId() {
-		if (this.id.isEmpty())
+		if (this.id == null || this.id.isEmpty())
 			this.id = ObjectId.get().toString();
 		return id;
 	}

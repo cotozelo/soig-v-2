@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import br.com.nois.sa.rc.model.json.MunicipioJSON;
 
 public interface MunicipioController {
-	public ResponseEntity<Response<List<MunicipioJSON>>> getAll(@PathVariable("username") String userName,
+	public ResponseEntity<Response<List<MunicipioJSON>>> getByAgenciaId(@PathVariable("username") String userName,
 			@PathVariable("agenciaId") String agenciaId);
 
 	public ResponseEntity<Response<MunicipioJSON>> insert(@PathVariable("username") String userName,
@@ -20,4 +20,8 @@ public interface MunicipioController {
 
 	public ResponseEntity<Response<MunicipioJSON>> deleteById(@PathVariable("username") String userName,
 			@PathVariable("idMunicipio") String idMunicipio);
+
+	public ResponseEntity<Response<MunicipioJSON>> move(@PathVariable("username") String userName,
+			@PathVariable("municipioid") String municipioId, @PathVariable("agenciaidorigem") String agenciaIdOrigem,
+			@PathVariable("agenciaiddestino") String agenciaIdDestino);
 }

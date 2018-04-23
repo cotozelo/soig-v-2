@@ -1,9 +1,12 @@
 package br.com.nois.sa.rc.controller.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nois.sa.rc.controller.IndicadorController;
 import br.com.nois.sa.rc.controller.LogController;
+import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.model.Log;
+import br.com.nois.sa.rc.model.json.ErroJSON;
+import br.com.nois.sa.rc.model.json.IndicadorJSON;
+import br.com.nois.sa.rc.model.to.EquacaoTO;
 import br.com.nois.sa.rc.model.to.IndicadorTO;
 import br.com.nois.sa.rc.repository.IndicadorRepository;
 import br.com.nois.sa.rc.repository.LogRepository;
@@ -39,94 +46,161 @@ public class IndicadorControllerImpl implements IndicadorController {
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 	}
 
-	@GetMapping("/all")
-	public List<IndicadorTO> getAll() {
-		List<IndicadorTO> indicadores = this.indicadorRepository.findAll();
+	@GetMapping("/listagem/{username}")
+	public ResponseEntity<Response<List<IndicadorJSON>>> getAll(@PathVariable("username") String userName) {
 
-		this.logController.insert(new Log(new Constantes().INDICADOR_GETALL,
-				indicadores == null ? "" : new Util().ListColectionToString(new ArrayList<Object>(indicadores))));
-
-		return indicadores;
-	}
-
-	@GetMapping("/id/{id}")
-	public IndicadorTO getById(@PathVariable("id") String id) {
-		IndicadorTO indicador = this.indicadorRepository.findById(id);
-		this.logController
-				.insert(new Log(new Constantes().INDICADOR_GETBYID, indicador == null ? "" : indicador.toString()));
-		return indicador;
-	}
-
-	@GetMapping("/sigla/{sigla}")
-	public IndicadorTO getBySigla(@PathVariable("sigla") String sigla) {
-		IndicadorTO indicador = this.indicadorRepository.findBySigla(sigla);
-		this.logController
-				.insert(new Log(new Constantes().INDICADOR_GETBYID, indicador == null ? "" : indicador.toString()));
-		return indicador;
-	}
-
-	@PutMapping("/insert")
-	public IndicadorTO insert(@RequestBody IndicadorTO indicador) {
+		Response<List<IndicadorJSON>> response = new Response<List<IndicadorJSON>>();
 		try {
-			this.logController.insert(new Log(new Constantes().INDICADOR_INSERT, indicador.toString()));
-			this.indicadorRepository.insert(indicador);
-			return indicador;
-		} catch (Exception e) {
-			String error = "Erro: CxIxCx00011 ";
-			this.logController.insert(new Log(new Constantes().INDICADOR_INSERT, error + e.getMessage()));
-			System.out.println(error + e.getMessage());
-			return new IndicadorTO();
+			List<IndicadorTO> indicadoresTO = this.indicadorRepository.findAll();
+			if (indicadoresTO == null || indicadoresTO.isEmpty()) {
+				response.setError(new ErroJSON("VxMxRx00001", this.getClass().getName() + "/listagem/" + userName));
+				response.setData(new ArrayList<>());
+				return ResponseEntity.status(HttpStatus.OK).body(response);
+			}
+
+			List<IndicadorJSON> indicadoresJSON = new ArrayList<IndicadorJSON>();
+
+			for (IndicadorTO indicadorTO : indicadoresTO) {
+				indicadoresJSON.add(new IndicadorJSON(indicadorTO));
+			}
+
+			this.logController.insert(new Log(new Constantes().INDICADOR_GETALL, indicadoresJSON == null ? ""
+					: new Util().ListColectionToString(new ArrayList<Object>(indicadoresJSON))));
+			response.setData(indicadoresJSON);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/listagem/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
-	@PostMapping("/update")
-	public IndicadorTO update(@RequestBody IndicadorTO indicador) {
+	@PutMapping("/clonar/{username}/{anoorigem}/{anodestino}")
+	public ResponseEntity<Response<String>> clonar(@PathVariable("username") String userName,
+			@PathVariable("anoorigem") String anoOrigem, @PathVariable("anodestino") String anoDestino) {
+
+		Response<String> response = new Response<String>();
 		try {
-
-			IndicadorTO indOdl = this.indicadorRepository.findById(indicador.getId());
-			if (indOdl == null) {
-				String error = "Erro: CxIxUx00012 ";
-				System.out.println(error);
-				this.logController.insert(new Log(new Constantes().INDICADOR_UPDATE, error));
-				return new IndicadorTO();
+			List<IndicadorTO> indicadoresTO = this.indicadorRepository.findAll();
+			if (indicadoresTO == null || indicadoresTO.isEmpty()) {
+				response.setError(new ErroJSON("VxMxRx00001", this.getClass().getName() + "/listagem/" + userName));
+				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
-			indOdl.update(indicador);
-			this.logController.insert(new Log(new Constantes().INDICADOR_UPDATE, indOdl.toString()));
 
-			indOdl = this.indicadorRepository.save(indOdl);
-			return indOdl;
-		} catch (Exception e) {
-			String error = "Erro: CxIxUx00013 ";
-			System.out.println(error + e.getMessage());
-			this.logController.insert(new Log(new Constantes().INDICADOR_UPDATE, error + e.getMessage()));
+			for (IndicadorTO indicadorTO : indicadoresTO) {
 
-			return new IndicadorTO();
+				if (indicadorTO.getEquacaoAtiva() != null && !indicadorTO.getEquacaoAtiva().isEmpty()) {
+					for (EquacaoTO equacaoOrigem : indicadorTO.getEquacaoAtiva()) {
+
+						if (equacaoOrigem.getAno().equals(anoOrigem)) {
+							EquacaoTO equacaoAtual = new EquacaoTO();
+							equacaoAtual.setId();
+							equacaoAtual.setAno(anoDestino);
+							equacaoAtual.setAtiva(true);
+							equacaoAtual.setFormula(equacaoOrigem.getFormula());
+							equacaoAtual.setPaiId("-1");
+							equacaoAtual.setVersaoGlobal(this.logController.getVersaoGlogal());
+
+							for (EquacaoTO equacaoDestino : indicadorTO.getEquacaoAtiva()) {
+								if (equacaoDestino.getAno().equals(anoDestino)) {
+									equacaoDestino.setAtiva(false);
+									equacaoAtual.setPaiId(equacaoDestino.getId());
+									break;
+								}
+							}
+							indicadorTO.setEquacao(equacaoAtual);
+							break;
+						}
+
+					}
+				}
+
+			}
+
+			indicadoresTO = this.indicadorRepository.save(indicadoresTO);
+			this.logController.insert(new Log(new Constantes().INDICADOR_GETALL, indicadoresTO == null ? ""
+					: new Util().ListColectionToString(new ArrayList<Object>(indicadoresTO))));
+
+			String retorno = "anoOrigem" + " : " + anoOrigem + ", anoDestino : " + anoDestino;
+			response.setData(retorno);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/listagem/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
+	@PostMapping("/insert/{username}")
+	public ResponseEntity<Response<IndicadorJSON>> insert(@PathVariable("username") String userName,
+			@RequestBody IndicadorJSON indicadorJSON) {
+
+		Response<IndicadorJSON> response = new Response<IndicadorJSON>();
+		try {
+			IndicadorTO indicadorTO = new IndicadorTO(indicadorJSON);
+			EquacaoTO equacaoTO = new EquacaoTO();
+			equacaoTO.setAno(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+			equacaoTO.setAtiva(true);
+			indicadorTO.setEquacao(equacaoTO);
+
+			this.logController.insert(new Log(new Constantes().INDICADOR_INSERT, indicadorTO.toString()));
+			indicadorTO = this.indicadorRepository.insert(indicadorTO);
+
+			response.setData(new IndicadorJSON(indicadorTO));
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
+	@PutMapping("/update/{username}")
+	public ResponseEntity<Response<IndicadorJSON>> update(@PathVariable("username") String userName,
+			@RequestBody IndicadorJSON indicadorJSON) {
+
+		Response<IndicadorJSON> response = new Response<IndicadorJSON>();
+		try {
+			IndicadorTO indicadorTO = this.indicadorRepository.findById(indicadorJSON.getId());
+			if (indicadorTO == null) {
+				response.setError(new ErroJSON("VxMxRx00001", this.getClass().getName() + "/listagem/" + userName));
+				return ResponseEntity.status(HttpStatus.OK).body(response);
+			}
+
+			indicadorTO.update(indicadorJSON);
+
+			this.logController.insert(new Log(new Constantes().INDICADOR_UPDATE, indicadorTO.toString()));
+			indicadorTO = this.indicadorRepository.save(indicadorTO);
+
+			response.setData(new IndicadorJSON(indicadorTO));
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
 	/// TODO talvez seja interessante colocar o como inativo ao invez
 	/// de deleta-lo, avaliar quando implementar o CRUD
-	@DeleteMapping("/delete/{id}")
-	public IndicadorTO deleteById(@PathVariable("id") String id) {
+	@DeleteMapping("/delete/{username}/{indicadorid}")
+	public ResponseEntity<Response<IndicadorJSON>> deleteById(@PathVariable("username") String userName,
+			@PathVariable("indicadorid") String indicadorId) {
+
+		Response<IndicadorJSON> response = new Response<IndicadorJSON>();
 		try {
-			IndicadorTO indicador = this.indicadorRepository.findById(id);
-			if (indicador == null) {
-				String error = "Erro: CxIxDx00014 ";
-				System.out.println(error);
-				this.logController.insert(new Log(new Constantes().INDICADOR_DELETEBYID, error));
-				return new IndicadorTO();
+			IndicadorTO indicadorTO = this.indicadorRepository.findById(indicadorId);
+			if (indicadorTO == null) {
+				response.setError(new ErroJSON("VxMxRx00001", this.getClass().getName() + "/listagem/" + userName));
+				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
+			IndicadorJSON indicadorJSON = new IndicadorJSON(indicadorTO);
+			this.indicadorRepository.delete(indicadorTO);
 
-			this.logController.insert(new Log(new Constantes().INDICADOR_DELETEBYID, indicador.toString()));
+			this.logController.insert(new Log(new Constantes().INDICADOR_DELETEBYID, indicadorTO.toString()));
 
-			this.indicadorRepository.delete(indicador);
-			return indicador;
-		} catch (Exception e) {
-			String error = "Erro: CxIxDx00015 ";
-			System.out.println(error + e.getMessage());
-			this.logController.insert(new Log(new Constantes().INDICADOR_DELETEBYID, error + e.getMessage()));
-			return new IndicadorTO();
+			response.setData(indicadorJSON);
+			response.setData(new IndicadorJSON(indicadorTO));
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
-
 }

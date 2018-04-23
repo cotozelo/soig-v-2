@@ -1,7 +1,9 @@
 package br.com.nois.sa.rc.controller.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ public class PerfilControllerImpl implements PerfilController {
 
 	@Autowired
 	LogController logController;
-	private List<FuncionalidadeTO> funcionalidades;
+	private Map<String, String> funcionalidades = new HashMap<String, String>();
 
 	public PerfilControllerImpl(PerfilRepository perfilRepository, FuncionalidadeRepository funcionalidadeRepository,
 			LogRepository logRepository, VersaoRepository versaoRepository) {
@@ -50,11 +51,13 @@ public class PerfilControllerImpl implements PerfilController {
 		this.logRepository = logRepository;
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 
-		funcionalidades = this.funcionalidadeRepository.findAll();
+		for (FuncionalidadeTO funcionalidade : this.funcionalidadeRepository.findAll()) {
+			this.funcionalidades.put(funcionalidade.getId(), funcionalidade.getNome());
+		}
 	}
 
 	@Override
-	@GetMapping("/all/{username}")
+	@GetMapping("/listagem/{username}")
 	public ResponseEntity<Response<List<PerfilJSON>>> getAll(@PathVariable("username") String userName) {
 		Response<List<PerfilJSON>> response = new Response<List<PerfilJSON>>();
 		try {
@@ -64,7 +67,7 @@ public class PerfilControllerImpl implements PerfilController {
 				List<PerfilJSON> perfilsJSON = new ArrayList<PerfilJSON>();
 
 				for (PerfilTO perfilTO : perfilsTO) {
-					perfilsJSON.add(PerfilToJson(perfilTO));
+					perfilsJSON.add(new PerfilJSON(perfilTO));
 				}
 
 				this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
@@ -92,7 +95,9 @@ public class PerfilControllerImpl implements PerfilController {
 			List<PerfilJSON> perfilsJSONsave = new ArrayList<PerfilJSON>();
 			for (PerfilJSON perfilJSON : perfilsJSON) {
 				PerfilTO perfilTO = new PerfilTO(perfilJSON);
-
+				for (FuncionalidadeTO funcionalidade : perfilTO.getFuncionalidades()) {
+					funcionalidade.setNome(this.funcionalidades.get(funcionalidade.getId()));
+				}
 				this.logController
 						.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL, perfilTO.toString()));
 
@@ -126,30 +131,5 @@ public class PerfilControllerImpl implements PerfilController {
 			response.setError(new ErroJSON(ex, this.getClass().getName() + "/" + userName + "/" + id));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
-	}
-
-	@Override
-	@PostMapping("/insert/{username}")
-	public ResponseEntity<Response<PerfilJSON>> insert(@PathVariable("username") String userName,
-			@RequestBody PerfilJSON perfilJSON) {
-		Response<PerfilJSON> response = new Response<PerfilJSON>();
-
-		try {
-			this.logController.insert(new Log(new Constantes().USUARIO_INSERT, perfilJSON.toString()));
-			PerfilTO perfilTO = this.perfilRepository.insert(new PerfilTO(perfilJSON));
-
-			response.setData(new PerfilJSON(perfilTO));
-			return ResponseEntity.status(HttpStatus.OK).body(response);
-		} catch (Exception ex) {
-			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-		}
-	}
-
-	private PerfilJSON PerfilToJson(PerfilTO to) {
-
-		PerfilJSON perfilsJSON = new PerfilJSON(to);
-		perfilsJSON.sincFuncionalidades(this.funcionalidades);
-		return perfilsJSON;
 	}
 }

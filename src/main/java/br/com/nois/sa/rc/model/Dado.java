@@ -9,25 +9,16 @@ public abstract class Dado {
 	private String sigla;
 	private String descricao;
 	private String observacao;
-	private String grupo_id;
-	private String grupo_nome;
-	private String inclinacao_id;
-	private String inclinacao_nome;
-	private String unidade_id;
-	private String unidade_nome;
+	private String grupoId;
+	private String grupoNome;
+	private String inclinacaoId;
+	private String inclinacaoNome;
+	private String unidadeId;
+	private String unidadeNome;
 	private Grafico grafico;
 	private TipoDado tipoDado;
 	private boolean ativo = false;
 	private boolean decimal;
-	private Double valor; // Apenas para testes
-
-	public Double getValor() {
-		return valor;
-	}
-
-	public void setValor(Double valor) {
-		this.valor = valor;
-	}
 
 	public Dado() {
 		super();
@@ -67,52 +58,56 @@ public abstract class Dado {
 		this.observacao = observacao;
 	}
 
-	public String getGrupo_id() {
-		return grupo_id;
+	public String getGrupoId() {
+		return grupoId;
 	}
 
-	public void setGrupo_id(String grupo_id) {
-		this.grupo_id = grupo_id;
+	public void setGrupoId(String grupoId) {
+		this.grupoId = grupoId;
 	}
 
-	public String getGrupo_nome() {
-		return grupo_nome;
+	public String getGrupoNome() {
+		return grupoNome;
 	}
 
-	public void setGrupo_nome(String grupo_nome) {
-		this.grupo_nome = grupo_nome;
+	public void setGrupoNome(String grupoNome) {
+		this.grupoNome = grupoNome;
 	}
 
-	public String getInclinacao_id() {
-		return inclinacao_id;
+	public String getInclinacaoId() {
+		return inclinacaoId;
 	}
 
-	public void setInclinacao_id(String inclinacao_id) {
-		this.inclinacao_id = inclinacao_id;
+	public void setInclinacaoId(String inclinacaoId) {
+		this.inclinacaoId = inclinacaoId;
 	}
 
-	public String getInclinacao_nome() {
-		return inclinacao_nome;
+	public String getInclinacaoNome() {
+		return inclinacaoNome;
 	}
 
-	public void setInclinacao_nome(String inclinacao_nome) {
-		this.inclinacao_nome = inclinacao_nome;
+	public void setInclinacaoNome(String inclinacaoNome) {
+		this.inclinacaoNome = inclinacaoNome;
 	}
 
-	public String getUnidade_id() {
-		return unidade_id;
+	public String getUnidadeId() {
+		return unidadeId;
 	}
 
-	public void setUnidade_id(String unidade_id) {
-		this.unidade_id = unidade_id;
+	public void setUnidadeId(String unidadeId) {
+		this.unidadeId = unidadeId;
 	}
 
-	public String getUnidade_nome() {
-		return unidade_nome;
+	public String getUnidadeNome() {
+		return unidadeNome;
 	}
 
-	public void setUnidade_nome(String unidade_nome) {
-		this.unidade_nome = unidade_nome;
+	public void setUnidadeNome(String unidadeNome) {
+		this.unidadeNome = unidadeNome;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Grafico getGrafico() {
@@ -150,10 +145,10 @@ public abstract class Dado {
 	@Override
 	public String toString() {
 		return "Dado [id=" + id + ", sigla=" + sigla + ", descricao=" + descricao + ", observacao=" + observacao
-				+ ", grupo_id=" + grupo_id + ", grupo_nome=" + grupo_nome + ", inclinacao_id=" + inclinacao_id
-				+ ", inclinacao_nome=" + inclinacao_nome + ", unidade_id=" + unidade_id + ", unidade_nome="
-				+ unidade_nome + ", grafico=" + "grafico" + ", tipoDado=" + tipoDado + ", ativo=" + ativo + ", decimal="
-				+ decimal + "]";
+				+ ", grupo_id=" + grupoId + ", grupo_nome=" + grupoNome + ", inclinacao_id=" + inclinacaoId
+				+ ", inclinacao_nome=" + inclinacaoNome + ", unidade_id=" + unidadeId + ", unidade_nome=" + unidadeNome
+				+ ", grafico=" + "grafico" + ", tipoDado=" + tipoDado + ", ativo=" + ativo + ", decimal=" + decimal
+				+ "]";
 	}
 
 }

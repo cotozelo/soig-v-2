@@ -1,24 +1,18 @@
 package br.com.nois.sa.rc.controller;
 
-import java.util.List;
+import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.nois.sa.rc.model.Equacao;
+import br.com.nois.sa.rc.model.json.EquacaoJSON;
 
 public interface EquacaoController {
-	public List<Equacao> getAll(@PathVariable("idIndicador") String idIndicador);
+	public ResponseEntity<Response<Map<String, Object>>> getAll(@PathVariable("idIndicador") String idIndicador);
 
-	public Equacao getById(@PathVariable("idIndicador") String idIndicador,
-			@PathVariable("idEquacao") String idEquacao);
-
-	public Equacao insert(@PathVariable("idIndicador") String idIndicador, @RequestBody Equacao equacao);
-
-	public Equacao update(@PathVariable("idIndicador") String idIndicador, @RequestBody Equacao equacao);
-
-	public Equacao deleteById(@PathVariable("idIndicador") String idIndicador,
-			@PathVariable("idEquacao") String idEquacao);
+	public ResponseEntity<Response<EquacaoJSON>> update(@PathVariable("userName") String userName,
+			@RequestBody EquacaoJSON equacaoJSON);
 
 	/*
 	 * public Double result(MunicipioRepository municipioRepository,
