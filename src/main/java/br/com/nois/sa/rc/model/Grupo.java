@@ -13,9 +13,10 @@ public class Grupo {
 	public Grupo() {
 		super();
 	}
-
-	public Grupo(String item) {
-		nome = item;
+	
+	public Grupo(String nome) {
+		super();
+		this.nome = nome;
 	}
 
 	public String getId() {
@@ -28,11 +29,19 @@ public class Grupo {
 		this.id = ObjectId.get().toString();
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getNome() {
 		return nome;
 	}
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String toString() {
+		return "Grupo [id=" + this.getId() + ", nome=" + this.getNome() + "]";
 	}
 }
