@@ -11,8 +11,6 @@ import br.com.nois.sa.rc.model.json.GrupoJSON;
 
 public interface GrupoController {
 	public Long countByNome(@PathVariable("nome") String nome);
-	
-	
 	public void insertTxt(@RequestBody ArrayList<String> itens);
 	public int rotinaCarga(ArrayList<String> itens);
 	

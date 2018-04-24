@@ -15,6 +15,7 @@ public class Inclinacao {
 	}
 
 	public Inclinacao(String nome) {
+		super();
 		this.nome = nome;
 	}
 
@@ -26,6 +27,10 @@ public class Inclinacao {
 
 	public void setId() {
 		this.id = ObjectId.get().toString();
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getNome() {
