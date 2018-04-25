@@ -126,7 +126,7 @@ public class PrestadoraControllerImpl implements PrestadoraController {
 			response.setData(new PrestadoraJSON(municipioTO.getPrestadora(prestadoraTO.getId())));
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
-			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/update/" + userName));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
@@ -152,10 +152,10 @@ public class PrestadoraControllerImpl implements PrestadoraController {
 			this.logController.insert(new Log(new Constantes().PRESTADORA_DELETE, prestadoraTO.toString()));
 			this.municipioRepository.save(municipioTO);
 
-			response.setData(new PrestadoraJSON(municipioTO.getPrestadora(prestadoraTO.getId())));
+			response.setData(new PrestadoraJSON(prestadoraTO));
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
-			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/delete/" + userName));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}

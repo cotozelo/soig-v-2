@@ -11,12 +11,14 @@ public class PrestadoraJSON extends Prestadora {
 
 	public PrestadoraJSON(Prestadora to) {
 		super();
-		super.setAbrangencia(to.getAbrangencia());
+		super.setAbrangenciaId(to.getAbrangenciaId());
+		super.setAbrangenciaNome(to.getAbrangenciaNome());
 		super.setCodigo(to.getCodigo());
 		super.setId(to.getId());
 		super.setNatureza(to.getNatureza());
 		super.setNome(to.getNome());
-		super.setServico(to.getServico());
+		super.setServicoId(to.getServicoId());
+		super.setServicoNome(to.getServicoNome());
 		super.setSigla(to.getSigla());
 		super.setContatoNome(to.getContatoNome());
 		super.setContatoTelefone(to.getContatoTelefone());
@@ -26,17 +28,20 @@ public class PrestadoraJSON extends Prestadora {
 	@Override
 	public String toString() {
 		return "Prestadora [id=" + super.getId() + ", nome=" + super.getNome() + ", codigo=" + super.getCodigo()
-				+ ", sigla=" + super.getSigla() + ", abrangencia=" + super.getAbrangencia() + ", natureza="
-				+ super.getNatureza() + ", servico=" + super.getServico() + "]";
+				+ ", sigla=" + super.getSigla() + ", abrangenciaId=" + super.getAbrangenciaId() + ", abrangenciaNome="
+				+ super.getAbrangenciaNome() + ", natureza=" + super.getNatureza() + ", servicoId="
+				+ super.getServicoId() + ", servicoNome=" + super.getServicoNome() + "]";
 	}
 
 	public void update(PrestadoraJSON prestadora) {
 		super.setNome(prestadora.getNome());
 		super.setCodigo(prestadora.getCodigo());
-		super.setAbrangencia(prestadora.getAbrangencia());
+		super.setAbrangenciaId(prestadora.getAbrangenciaId());
+		super.setAbrangenciaNome(prestadora.getAbrangenciaNome());
 		super.setId(prestadora.getId());
 		super.setNatureza(prestadora.getNatureza());
-		super.setServico(prestadora.getServico());
+		super.setServicoId(prestadora.getServicoId());
+		super.setServicoNome(prestadora.getServicoNome());
 		super.setSigla(prestadora.getSigla());
 		super.setContatoNome(prestadora.getContatoNome());
 		super.setContatoTelefone(prestadora.getContatoTelefone());

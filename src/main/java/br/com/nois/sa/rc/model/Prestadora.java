@@ -10,9 +10,11 @@ public abstract class Prestadora {
 	private String nome;
 	private String codigo;
 	private String sigla;
-	private String abrangencia;
+	private String abrangenciaId;
+	private String abrangenciaNome;
 	private String natureza;
-	private String servico;
+	private String servicoId;
+	private String servicoNome;
 	private String contatoTelefone;
 	private String contatoNome;
 	private String contatoEmail;
@@ -60,14 +62,6 @@ public abstract class Prestadora {
 		this.sigla = sigla;
 	}
 
-	public String getAbrangencia() {
-		return abrangencia;
-	}
-
-	public void setAbrangencia(String abrangencia) {
-		this.abrangencia = abrangencia;
-	}
-
 	public String getNatureza() {
 		return natureza;
 	}
@@ -76,12 +70,36 @@ public abstract class Prestadora {
 		this.natureza = natureza;
 	}
 
-	public String getServico() {
-		return servico;
+	public String getAbrangenciaId() {
+		return abrangenciaId;
 	}
 
-	public void setServico(String servico) {
-		this.servico = servico;
+	public void setAbrangenciaId(String id) {
+		this.abrangenciaId = id;
+	}
+
+	public String getAbrangenciaNome() {
+		return abrangenciaNome;
+	}
+
+	public void setAbrangenciaNome(String nome) {
+		this.abrangenciaNome = nome;
+	}
+
+	public String getServicoId() {
+		return servicoId;
+	}
+
+	public void setServicoId(String id) {
+		this.servicoId = id;
+	}
+
+	public String getServicoNome() {
+		return servicoNome;
+	}
+
+	public void setServicoNome(String nome) {
+		this.servicoNome = nome;
 	}
 
 	public String getContatoTelefone() {

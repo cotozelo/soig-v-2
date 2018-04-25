@@ -3,13 +3,13 @@ package br.com.nois.sa.rc.model;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
-public abstract class Eixo {
+public abstract class Servico {
 
 	@Id
 	private String id;
 	private String nome;
 
-	public Eixo() {
+	public Servico() {
 		super();
 	}
 
@@ -36,6 +36,6 @@ public abstract class Eixo {
 	}
 
 	public String toString() {
-		return "Eixo [id=" + this.id + ", nome=" + this.getNome() + "]";
+		return "Servico [id=" + this.id + ", nome=" + this.getNome() + "]";
 	}
 }
