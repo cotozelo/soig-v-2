@@ -148,7 +148,6 @@ public class EixoControllerImpl implements EixoController {
 		}
 	}
 
-	// TODO colocar os metodos de carga dentro do pacote rc.carga
 	public void insertTxt(ArrayList<String> itens) {
 		for (String item : itens) {
 			this.insert("carga", new EixoJSON(item));
