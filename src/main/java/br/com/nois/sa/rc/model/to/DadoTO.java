@@ -19,8 +19,8 @@ public class DadoTO extends Dado {
 		super.setGrafico(json.getGrafico());
 		super.setGrupoId(json.getGrupoId());
 		super.setGrupoNome(json.getGrupoNome());
-		super.setInclinacaoId(json.getInclinacaoId());
-		super.setInclinacaoNome(json.getInclinacaoNome());
+		super.setEixoId(json.getEixoId());
+		super.setEixoNome(json.getEixoNome());
 		super.setObservacao(json.getObservacao());
 		super.setSigla(json.getSigla());
 		super.setUnidadeId(json.getUnidadeId());
@@ -36,8 +36,8 @@ public class DadoTO extends Dado {
 		super.setGrafico(json.getGrafico());
 		super.setGrupoId(json.getGrupoId());
 		super.setGrupoNome(json.getGrupoNome());
-		super.setInclinacaoId(json.getInclinacaoId());
-		super.setInclinacaoNome(json.getInclinacaoNome());
+		super.setEixoId(json.getEixoId());
+		super.setEixoNome(json.getEixoNome());
 		super.setObservacao(json.getObservacao());
 		super.setSigla(json.getSigla());
 		super.setUnidadeId(json.getUnidadeId());
