@@ -13,6 +13,9 @@ public final class Constantes {
 	// Enum TipoDado
 	public final String TIPODADO_SOMATORIO = "Somatorio".toUpperCase();
 	public final String TIPODADO_ULTIMOVALOR = "Ultimo Valor".toUpperCase();
+	// Enum TipoFavorito
+	public final String DADO = "Dado".toUpperCase();
+	public final String INDICADOR = "Indicador".toUpperCase();
 	// Enum OperadorRelacional
 	public final String OPERADORRELACIONAL_LABEL_MAIOR = "Maior";
 	public final String OPERADORRELACIONAL_LABEL_MENOR = "Menor";

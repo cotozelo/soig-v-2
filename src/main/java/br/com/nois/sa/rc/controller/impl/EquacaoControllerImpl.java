@@ -44,6 +44,7 @@ public class EquacaoControllerImpl implements EquacaoController {
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 	}
 
+	@SuppressWarnings("unchecked")
 	@GetMapping("/listagem/{userName}")
 	public ResponseEntity<Response<Map<String, Object>>> getAll(@PathVariable("userName") String userName) {
 		Response<Map<String, Object>> response = new Response<Map<String, Object>>();

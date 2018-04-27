@@ -9,12 +9,4 @@ public class IndicadorValorTO extends IndicadorValor {
 	public IndicadorValorTO() {
 		super();
 	}
-
-	public IndicadorValorTO(IndicadorTO to) {
-		super();
-		super.setId();
-		super.setSigla(to.getSigla());
-		super.setIndicadorId(to.getId());
-	}
-
 }

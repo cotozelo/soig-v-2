@@ -18,7 +18,8 @@ public class ErroJSON {
 	public ErroJSON(String error, String path) {
 		this.path = path;
 		this.error = error;
-		this.message = Tabela.getInstance().getMessage(error);
+		Tabela.getInstance();
+		this.message = Tabela.getMessage(error);
 	}
 
 	public ErroJSON(Exception ex, String path) {
@@ -87,7 +88,7 @@ public class ErroJSON {
 		public static Tabela getInstance() {
 			if (INSTANCE == null) {
 				INSTANCE = new Tabela();
-				INSTANCE.criateMap();
+				Tabela.criateMap();
 			}
 			return INSTANCE;
 		}

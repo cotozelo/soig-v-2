@@ -9,10 +9,6 @@ public abstract class Ano {
 	private String ano;
 	private boolean editar = false;
 	private boolean exibir = false;
-	// private List<IndicadorValor> indicadorValores;
-	// private List<IndicadorMeta> indicadorMetas;
-	// private List<DadoValor> dadoValores;
-	// private List<DadoMeta> dadoMetas;
 
 	public Ano() {
 		super();

@@ -157,6 +157,7 @@ public class AbrangenciaControllerImpl implements AbrangenciaController {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public int rotinaCarga(ArrayList<String> itens) {
 		int quantide = 0;
 		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_CARGA, "Carga"));

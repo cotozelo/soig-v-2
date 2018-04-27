@@ -7,6 +7,13 @@ public abstract class IndicadorValor {
 
 	@Id
 	private String id;
+	private TipoCalculo tipo;
+	private String sigla;
+	private String confiabilidade;
+	private String exatidao;
+	private String nota;
+	private int versaoGlobal;
+	private String paiId;
 	private String mes01;
 	private String mes02;
 	private String mes03;
@@ -33,14 +40,47 @@ public abstract class IndicadorValor {
 	private String mes11Justificativa;
 	private String mes12Justificativa;
 	private String totalJustificativa;
-	private TipoCalculo tipo;
-	private String sigla;
-	private String indicadorId;
-	private int versaoGlobal;
-	private String pai_id;
 
 	public IndicadorValor() {
 		super();
+	}
+
+	public IndicadorValor(IndicadorValor indicadorValor) {
+		super();
+		this.setId(indicadorValor.getId());
+		this.setTipo(indicadorValor.getTipo());
+		this.setSigla(indicadorValor.getSigla());
+		this.setConfiabilidade(indicadorValor.getConfiabilidade());
+		this.setExatidao(indicadorValor.getExatidao());
+		this.setNota(indicadorValor.getNota());
+		this.setVersaoGlobal(indicadorValor.getVersaoGlobal());
+		this.setPaiId(indicadorValor.getPaiId());
+		this.setMes01(indicadorValor.getMes01());
+		this.setMes02(indicadorValor.getMes02());
+		this.setMes03(indicadorValor.getMes03());
+		this.setMes04(indicadorValor.getMes04());
+		this.setMes05(indicadorValor.getMes05());
+		this.setMes06(indicadorValor.getMes06());
+		this.setMes07(indicadorValor.getMes07());
+		this.setMes08(indicadorValor.getMes08());
+		this.setMes09(indicadorValor.getMes09());
+		this.setMes10(indicadorValor.getMes10());
+		this.setMes11(indicadorValor.getMes11());
+		this.setMes12(indicadorValor.getMes12());
+		this.setTotal(indicadorValor.getTotal());
+		this.setMes01Justificativa(indicadorValor.getMes01Justificativa());
+		this.setMes02Justificativa(indicadorValor.getMes02Justificativa());
+		this.setMes03Justificativa(indicadorValor.getMes03Justificativa());
+		this.setMes04Justificativa(indicadorValor.getMes04Justificativa());
+		this.setMes05Justificativa(indicadorValor.getMes05Justificativa());
+		this.setMes06Justificativa(indicadorValor.getMes06Justificativa());
+		this.setMes07Justificativa(indicadorValor.getMes07Justificativa());
+		this.setMes08Justificativa(indicadorValor.getMes08Justificativa());
+		this.setMes09Justificativa(indicadorValor.getMes09Justificativa());
+		this.setMes10Justificativa(indicadorValor.getMes10Justificativa());
+		this.setMes11Justificativa(indicadorValor.getMes11Justificativa());
+		this.setMes12Justificativa(indicadorValor.getMes12Justificativa());
+		this.setMes12Justificativa(indicadorValor.getTotalJustificativa());
 	}
 
 	public String getId() {
@@ -289,35 +329,52 @@ public abstract class IndicadorValor {
 		this.versaoGlobal = versaoGlobal;
 	}
 
-	public String getPai_id() {
-		return pai_id;
+	public String getPaiId() {
+		return paiId;
 	}
 
-	public void setPai_id(String pai_id) {
-		this.pai_id = pai_id;
+	public void setPaiId(String paiId) {
+		this.paiId = paiId;
 	}
 
-	public String getIndicadorId() {
-		return indicadorId;
+	public String getConfiabilidade() {
+		return confiabilidade;
 	}
 
-	public void setIndicadorId(String indicadorId) {
-		this.indicadorId = indicadorId;
+	public void setConfiabilidade(String confiabilidade) {
+		this.confiabilidade = confiabilidade;
+	}
+
+	public String getExatidao() {
+		return exatidao;
+	}
+
+	public void setExatidao(String exatidao) {
+		this.exatidao = exatidao;
+	}
+
+	public String getNota() {
+		return nota;
+	}
+
+	public void setNota(String nota) {
+		this.nota = nota;
 	}
 
 	@Override
 	public String toString() {
-		return "IndicadorValor [id=" + id + ", mes01=" + mes01 + ", mes02=" + mes02 + ", mes03=" + mes03 + ", mes04="
-				+ mes04 + ", mes05=" + mes05 + ", mes06=" + mes06 + ", mes07=" + mes07 + ", mes08=" + mes08 + ", mes09="
-				+ mes09 + ", mes10=" + mes10 + ", mes11=" + mes11 + ", mes12=" + mes12 + ", total=" + total
-				+ ", mes01Justificativa=" + mes01Justificativa + ", mes02Justificativa=" + mes02Justificativa
-				+ ", mes03Justificativa=" + mes03Justificativa + ", mes04Justificativa=" + mes04Justificativa
-				+ ", mes05Justificativa=" + mes05Justificativa + ", mes06Justificativa=" + mes06Justificativa
-				+ ", mes07Justificativa=" + mes07Justificativa + ", mes08Justificativa=" + mes08Justificativa
-				+ ", mes09Justificativa=" + mes09Justificativa + ", mes10Justificativa=" + mes10Justificativa
-				+ ", mes11Justificativa=" + mes11Justificativa + ", mes12Justificativa=" + mes12Justificativa
-				+ ", totalJustificativa=" + totalJustificativa + ", tipo=" + tipo + ", sigla=" + sigla
-				+ ", versaoGlobal=" + versaoGlobal + ", pai_id=" + pai_id + "]";
+		return "IndicadorValor [id=" + id + ", tipo=" + tipo + ", sigla=" + sigla + ", confiabilidade=" + confiabilidade
+				+ ", exatidao=" + exatidao + ", nota=" + nota + ", versaoGlobal=" + versaoGlobal + ", pai_id=" + paiId
+				+ ", mes01=" + mes01 + ", mes02=" + mes02 + ", mes03=" + mes03 + ", mes04=" + mes04 + ", mes05=" + mes05
+				+ ", mes06=" + mes06 + ", mes07=" + mes07 + ", mes08=" + mes08 + ", mes09=" + mes09 + ", mes10=" + mes10
+				+ ", mes11=" + mes11 + ", mes12=" + mes12 + ", total=" + total + ", mes01Justificativa="
+				+ mes01Justificativa + ", mes02Justificativa=" + mes02Justificativa + ", mes03Justificativa="
+				+ mes03Justificativa + ", mes04Justificativa=" + mes04Justificativa + ", mes05Justificativa="
+				+ mes05Justificativa + ", mes06Justificativa=" + mes06Justificativa + ", mes07Justificativa="
+				+ mes07Justificativa + ", mes08Justificativa=" + mes08Justificativa + ", mes09Justificativa="
+				+ mes09Justificativa + ", mes10Justificativa=" + mes10Justificativa + ", mes11Justificativa="
+				+ mes11Justificativa + ", mes12Justificativa=" + mes12Justificativa + ", totalJustificativa="
+				+ totalJustificativa + "]";
 	}
 
 }
