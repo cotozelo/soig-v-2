@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import br.com.nois.sa.rc.model.Ano;
-import br.com.nois.sa.rc.model.json.AnoIndicadorValorJSON;
+import br.com.nois.sa.rc.model.json.AnoIndicadorValoresJSON;
 import br.com.nois.sa.rc.util.Util;
 
 @Document(collection = "ano")
@@ -15,7 +15,7 @@ public class AnoTO extends Ano {
 		super();
 	}
 
-	public AnoTO(AnoIndicadorValorJSON json) {
+	public AnoTO(AnoIndicadorValoresJSON json) {
 		super();
 		super.setAno(json.getAno());
 		super.setEditar(json.isEditar());
@@ -68,7 +68,7 @@ public class AnoTO extends Ano {
 		this.setExibir(ano.isExibir());
 	}
 
-	public void update(AnoIndicadorValorJSON ano) {
+	public void update(AnoIndicadorValoresJSON ano) {
 		super.setAno(ano.getAno());
 		this.setEditar(ano.isEditar());
 		this.setExibir(ano.isExibir());

@@ -7,21 +7,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.nois.sa.rc.model.AnoListagem;
-import br.com.nois.sa.rc.model.json.AnoIndicadorValorJSON;
+import br.com.nois.sa.rc.model.json.AnoIndicadorValoresJSON;
 
 public interface AnoContoller {
 	ResponseEntity<Response<List<AnoListagem>>> getAll(@PathVariable("username") String userName,
 			@PathVariable("agenciaId") String agenciaId, @PathVariable("municipioId") String municipioId,
 			@PathVariable("prestadoraId") String prestadoraIdd);
 
-	public ResponseEntity<Response<AnoIndicadorValorJSON>> insert(@PathVariable("username") String userName,
-			@RequestBody AnoIndicadorValorJSON anoJSON);
+	public ResponseEntity<Response<AnoIndicadorValoresJSON>> insert(@PathVariable("username") String userName,
+			@RequestBody AnoIndicadorValoresJSON anoJSON);
 
-	public ResponseEntity<Response<AnoIndicadorValorJSON>> update(@PathVariable("username") String userName,
+	public ResponseEntity<Response<AnoIndicadorValoresJSON>> update(@PathVariable("username") String userName,
 			@PathVariable("municipioId") String municipioId, @PathVariable("prestadoraId") String prestadoraId,
-			@RequestBody AnoIndicadorValorJSON anoJSON);
+			@RequestBody AnoIndicadorValoresJSON anoJSON);
 
-	public ResponseEntity<Response<AnoIndicadorValorJSON>> update(@PathVariable("username") String userName,
+	public ResponseEntity<Response<AnoIndicadorValoresJSON>> update(@PathVariable("username") String userName,
 			@PathVariable("municipioId") String municipioId, @PathVariable("prestadoraId") String prestadoraId,
 			@PathVariable("dadoId") String dadoId);
 }
