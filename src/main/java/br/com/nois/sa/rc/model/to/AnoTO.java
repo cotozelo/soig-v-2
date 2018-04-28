@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import br.com.nois.sa.rc.model.Ano;
-import br.com.nois.sa.rc.model.json.AnoJSON;
+import br.com.nois.sa.rc.model.json.AnoIndicadorValorJSON;
 import br.com.nois.sa.rc.util.Util;
 
 @Document(collection = "ano")
@@ -15,7 +15,7 @@ public class AnoTO extends Ano {
 		super();
 	}
 
-	public AnoTO(AnoJSON json) {
+	public AnoTO(AnoIndicadorValorJSON json) {
 		super();
 		super.setAno(json.getAno());
 		super.setEditar(json.isEditar());
@@ -31,17 +31,17 @@ public class AnoTO extends Ano {
 	}
 
 	public void setIndicadorValores(List<IndicadorValorTO> indicadorValores) {
-		this.indicadorValores = indicadorValores;
-	}
-
-	public void setIndicador(List<IndicadorTO> indicadoresTO) {
-		if (this.indicadorValores == null || this.indicadorValores.isEmpty()) {
+		if (this.indicadorValores == null) {
 			this.indicadorValores = new ArrayList<IndicadorValorTO>();
 		}
+		this.indicadorValores.addAll(indicadorValores);
+	}
 
-		for (IndicadorTO indicadorTO : indicadoresTO) {
-			this.indicadorValores.add(new IndicadorValorTO(indicadorTO));
+	public void setIndicadorValores(IndicadorValorTO indicadorValor) {
+		if (this.indicadorValores == null) {
+			this.indicadorValores = new ArrayList<IndicadorValorTO>();
 		}
+		this.indicadorValores.add(indicadorValor);
 	}
 
 	public List<DadoValorTO> getDadoValores() {
@@ -49,28 +49,26 @@ public class AnoTO extends Ano {
 	}
 
 	public void setDadoValores(List<DadoValorTO> dadoValores) {
-		this.dadoValores = dadoValores;
-	}
-
-	public void setDado(List<DadoTO> dadosTO) {
-		if (this.dadoValores == null || this.dadoValores.isEmpty()) {
+		if (this.dadoValores == null) {
 			this.dadoValores = new ArrayList<DadoValorTO>();
 		}
+		this.dadoValores.addAll(dadoValores);
+	}
 
-		for (DadoTO dadoTO : dadosTO) {
-			this.dadoValores.add(new DadoValorTO(dadoTO));
+	public void setIndicadorValores(DadoValorTO dadoValor) {
+		if (this.dadoValores == null) {
+			this.dadoValores = new ArrayList<DadoValorTO>();
 		}
+		this.dadoValores.add(dadoValor);
 	}
 
 	public void update(AnoTO ano) {
 		super.setAno(ano.getAno());
 		this.setEditar(ano.isEditar());
 		this.setExibir(ano.isExibir());
-		this.dadoValores = ano.getDadoValores() != null ? ano.getDadoValores() : this.dadoValores;
-		this.indicadorValores = ano.getIndicadorValores() != null ? ano.getIndicadorValores() : this.indicadorValores;
 	}
 
-	public void update(AnoJSON ano) {
+	public void update(AnoIndicadorValorJSON ano) {
 		super.setAno(ano.getAno());
 		this.setEditar(ano.isEditar());
 		this.setExibir(ano.isExibir());

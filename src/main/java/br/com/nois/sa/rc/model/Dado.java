@@ -11,8 +11,8 @@ public abstract class Dado {
 	private String observacao;
 	private String grupoId;
 	private String grupoNome;
-	private String inclinacaoId;
-	private String inclinacaoNome;
+	private String eixoId;
+	private String eixoNome;
 	private String unidadeId;
 	private String unidadeNome;
 	private Grafico grafico;
@@ -74,20 +74,20 @@ public abstract class Dado {
 		this.grupoNome = grupoNome;
 	}
 
-	public String getInclinacaoId() {
-		return inclinacaoId;
+	public String getEixoId() {
+		return eixoId;
 	}
 
-	public void setInclinacaoId(String inclinacaoId) {
-		this.inclinacaoId = inclinacaoId;
+	public void setEixoId(String id) {
+		this.eixoId = id;
 	}
 
-	public String getInclinacaoNome() {
-		return inclinacaoNome;
+	public String getEixoNome() {
+		return eixoNome;
 	}
 
-	public void setInclinacaoNome(String inclinacaoNome) {
-		this.inclinacaoNome = inclinacaoNome;
+	public void setEixoNome(String nome) {
+		this.eixoNome = nome;
 	}
 
 	public String getUnidadeId() {
@@ -145,10 +145,9 @@ public abstract class Dado {
 	@Override
 	public String toString() {
 		return "Dado [id=" + id + ", sigla=" + sigla + ", descricao=" + descricao + ", observacao=" + observacao
-				+ ", grupo_id=" + grupoId + ", grupo_nome=" + grupoNome + ", inclinacao_id=" + inclinacaoId
-				+ ", inclinacao_nome=" + inclinacaoNome + ", unidade_id=" + unidadeId + ", unidade_nome=" + unidadeNome
-				+ ", grafico=" + "grafico" + ", tipoDado=" + tipoDado + ", ativo=" + ativo + ", decimal=" + decimal
-				+ "]";
+				+ ", grupo_id=" + grupoId + ", grupoNome=" + grupoNome + ", eixoId=" + eixoId + ", eixoNome=" + eixoNome
+				+ ", unidadeId=" + unidadeId + ", unidadeNome=" + unidadeNome + ", grafico=" + "grafico" + ", tipoDado="
+				+ tipoDado + ", ativo=" + ativo + ", decimal=" + decimal + "]";
 	}
 
 }

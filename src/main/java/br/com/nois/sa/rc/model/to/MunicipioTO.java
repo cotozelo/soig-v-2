@@ -88,6 +88,7 @@ public class MunicipioTO extends Municipio {
 		return prestadora;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public String toString() {
 		return "Municipio [id=" + super.getId() + ", nome=" + super.getNome() + ", codigo=" + super.getCodigo()

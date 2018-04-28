@@ -16,8 +16,8 @@ public class DadoJSON extends Dado {
 		super.setGrafico(to.getGrafico());
 		super.setGrupoId(to.getGrupoId());
 		super.setGrupoNome(to.getGrupoNome());
-		super.setInclinacaoId(to.getInclinacaoId());
-		super.setInclinacaoNome(to.getInclinacaoNome());
+		super.setEixoId(to.getEixoId());
+		super.setEixoNome(to.getEixoNome());
 		super.setObservacao(to.getObservacao());
 		super.setSigla(to.getSigla());
 		super.setUnidadeId(to.getUnidadeId());

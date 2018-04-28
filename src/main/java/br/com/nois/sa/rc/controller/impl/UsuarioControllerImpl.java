@@ -19,10 +19,14 @@ import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.controller.UsuarioController;
 import br.com.nois.sa.rc.model.Log;
+import br.com.nois.sa.rc.model.TipoFavorito;
 import br.com.nois.sa.rc.model.json.ErroJSON;
+import br.com.nois.sa.rc.model.json.FavoritoJSON;
 import br.com.nois.sa.rc.model.json.UsuarioJSON;
 import br.com.nois.sa.rc.model.to.PerfilTO;
 import br.com.nois.sa.rc.model.to.UsuarioAgenciaTO;
+import br.com.nois.sa.rc.model.to.UsuarioDadoTO;
+import br.com.nois.sa.rc.model.to.UsuarioIndicadorTO;
 import br.com.nois.sa.rc.model.to.UsuarioMunicipioTO;
 import br.com.nois.sa.rc.model.to.UsuarioPrestadoraTO;
 import br.com.nois.sa.rc.model.to.UsuarioTO;
@@ -70,6 +74,61 @@ public class UsuarioControllerImpl implements UsuarioController {
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
 			response.setError(new ErroJSON(ex, this.getClass().getName() + "/atribuir/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
+	@PutMapping("/favorito/{username}")
+	public ResponseEntity<Response<UsuarioJSON>> favorito(@PathVariable("username") String userName,
+			@RequestBody FavoritoJSON favoritoJSON) {
+		Response<UsuarioJSON> response = new Response<UsuarioJSON>();
+		try {
+			UsuarioTO usuarioTO = this.usuarioRepository.findByNomeDeUsuario(userName);
+
+			for (UsuarioAgenciaTO usuarioAgenciaTO : usuarioTO.getUsuarioAgencias()) {
+				if (usuarioAgenciaTO.getAgenciaId().equals(favoritoJSON.getAgenciaId())) {
+					for (UsuarioMunicipioTO usuarioMunicipioTO : usuarioAgenciaTO.getUsuarioMunicipios()) {
+						if (usuarioMunicipioTO.getMunicipioId().equals(favoritoJSON.getMunicipioId())) {
+							for (UsuarioPrestadoraTO usuarioPrestadora : usuarioMunicipioTO.getUsuarioPrestadoras()) {
+								if (usuarioPrestadora.getPrestadoraId().equals(favoritoJSON.getPrestadoraId())) {
+									if (favoritoJSON.getTipo().equals(TipoFavorito.DADO)) {
+										for (UsuarioDadoTO usuarioDado : usuarioPrestadora.getUsuarioDados()) {
+											if (usuarioDado.getSigla().equals(favoritoJSON.getSigla())) {
+												usuarioDado.setFavorito(favoritoJSON.isFavorito());
+												usuarioTO = this.usuarioRepository.save(usuarioTO);
+												UsuarioJSON usuarioJSON = new UsuarioJSON(usuarioTO);
+												usuarioJSON.setSenha(null);
+												response.setData(usuarioJSON);
+												return ResponseEntity.status(HttpStatus.OK).body(response);
+											}
+										}
+									} else if (favoritoJSON.getTipo().equals(TipoFavorito.INDICADOR)) {
+										for (UsuarioIndicadorTO usuarioIndicador : usuarioPrestadora
+												.getUsuarioIndicadores()) {
+											if (usuarioIndicador.getSigla().equals(favoritoJSON.getSigla())) {
+												usuarioIndicador.setFavorito(favoritoJSON.isFavorito());
+												usuarioTO = this.usuarioRepository.save(usuarioTO);
+												UsuarioJSON usuarioJSON = new UsuarioJSON(usuarioTO);
+												usuarioJSON.setSenha(null);
+												response.setData(usuarioJSON);
+												return ResponseEntity.status(HttpStatus.OK).body(response);
+											}
+										}
+									} else {
+										response.setError(new ErroJSON("nao encontrado",
+												this.getClass().getName() + "/favorito/" + userName));
+										return ResponseEntity.status(HttpStatus.OK).body(response);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			response.setError(new ErroJSON("nao encontrado", this.getClass().getName() + "/favorito/" + userName));
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/favorito/" + userName));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}

@@ -19,12 +19,14 @@ public class PrestadoraTO extends Prestadora {
 
 	public PrestadoraTO(PrestadoraJSON json) {
 		super();
-		super.setAbrangencia(json.getAbrangencia());
+		super.setAbrangenciaId(json.getAbrangenciaId());
+		super.setAbrangenciaNome(json.getAbrangenciaNome());
 		super.setCodigo(json.getCodigo());
 		super.setId(json.getId());
 		super.setNatureza(json.getNatureza());
 		super.setNome(json.getNome());
-		super.setServico(json.getServico());
+		super.setServicoId(json.getServicoId());
+		super.setServicoNome(json.getServicoNome());
 		super.setSigla(json.getSigla());
 		super.setContatoNome(json.getContatoNome());
 		super.setContatoTelefone(json.getContatoTelefone());
@@ -104,18 +106,21 @@ public class PrestadoraTO extends Prestadora {
 	@Override
 	public String toString() {
 		return "Prestadora [id=" + super.getId() + ", nome=" + super.getNome() + ", codigo=" + super.getCodigo()
-				+ ", sigla=" + super.getSigla() + ", abrangencia=" + super.getAbrangencia() + ", natureza="
-				+ super.getNatureza() + ", servico=" + super.getServico() + ", anos=" + anos + "]";
+				+ ", sigla=" + super.getSigla() + ", abrangenciaId=" + super.getAbrangenciaId() + ", abrangenciaNome="
+				+ super.getAbrangenciaNome() + ", natureza=" + super.getNatureza() + ", servicoId="
+				+ super.getServicoId() + ", servicoNome=" + super.getServicoNome() + ", anos=" + anos + "]";
 	}
 
 	public void update(PrestadoraTO prestadora) {
 		super.setNome(prestadora.getNome());
 		super.setCodigo(prestadora.getCodigo());
-		super.setAbrangencia(prestadora.getAbrangencia());
+		super.setAbrangenciaId(prestadora.getAbrangenciaId());
+		super.setAbrangenciaNome(prestadora.getAbrangenciaNome());
 		this.anos = prestadora.getAnos();
 		super.setId(prestadora.getId());
 		super.setNatureza(prestadora.getNatureza());
-		super.setServico(prestadora.getServico());
+		super.setServicoId(prestadora.getServicoId());
+		super.setServicoNome(prestadora.getServicoNome());
 		super.setSigla(prestadora.getSigla());
 		super.setContatoNome(prestadora.getContatoNome());
 		super.setContatoTelefone(prestadora.getContatoTelefone());
