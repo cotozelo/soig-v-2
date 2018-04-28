@@ -17,7 +17,7 @@ import br.com.nois.sa.rc.controller.IndicadorValorController;
 import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.model.Log;
-import br.com.nois.sa.rc.model.json.AnoIndicadorValorJSON;
+import br.com.nois.sa.rc.model.json.AnoIndicadorValoresJSON;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.to.AnoTO;
 import br.com.nois.sa.rc.model.to.IndicadorTO;
@@ -52,11 +52,11 @@ public class IndicadorValorControllerImpl implements IndicadorValorController {
 
 	@Override
 	@GetMapping("/listagem/{username}/{agenciaId}/{municipioId}/{prestadoraId}")
-	public ResponseEntity<Response<List<AnoIndicadorValorJSON>>> getAll(@PathVariable("username") String userName,
+	public ResponseEntity<Response<List<AnoIndicadorValoresJSON>>> getAll(@PathVariable("username") String userName,
 			@PathVariable("agenciaId") String agenciaId, @PathVariable("municipioId") String municipioId,
 			@PathVariable("prestadoraId") String prestadoraId) {
 
-		Response<List<AnoIndicadorValorJSON>> response = new Response<List<AnoIndicadorValorJSON>>();
+		Response<List<AnoIndicadorValoresJSON>> response = new Response<List<AnoIndicadorValoresJSON>>();
 		try {
 			if (this.indicadoresTO == null) {
 				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/lisgatem/" + userName + "/"
@@ -86,7 +86,6 @@ public class IndicadorValorControllerImpl implements IndicadorValorController {
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
 
-			@SuppressWarnings("null")
 			List<AnoTO> anosTO = prestadoraTO.getAnos();
 			if (anosTO == null || anosTO.isEmpty()) {
 				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/lisgatem/" + userName + "/"
@@ -95,9 +94,9 @@ public class IndicadorValorControllerImpl implements IndicadorValorController {
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
 
-			List<AnoIndicadorValorJSON> anosJSON = new ArrayList<AnoIndicadorValorJSON>();
+			List<AnoIndicadorValoresJSON> anosJSON = new ArrayList<AnoIndicadorValoresJSON>();
 			for (AnoTO anoTO : anosTO) {
-				AnoIndicadorValorJSON anoIndicadorValorJSON = new AnoIndicadorValorJSON(anoTO);
+				AnoIndicadorValoresJSON anoIndicadorValorJSON = new AnoIndicadorValoresJSON(anoTO);
 				anoIndicadorValorJSON.setInclinacao(inclinacao);
 				anosJSON.add(anoIndicadorValorJSON);
 			}

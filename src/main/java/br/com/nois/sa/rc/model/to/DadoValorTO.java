@@ -9,12 +9,4 @@ public class DadoValorTO extends DadoValor {
 	public DadoValorTO() {
 		super();
 	}
-
-	public DadoValorTO(DadoTO to) {
-		super();
-		super.setId();
-		super.setSigla(to.getSigla());
-		super.setDadoId(to.getId());
-	}
-
 }

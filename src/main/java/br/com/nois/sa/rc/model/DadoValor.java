@@ -8,7 +8,9 @@ public abstract class DadoValor {
 	@Id
 	private String id;
 	private String sigla;
-	private String dadoId;
+	private String confiabilidade;
+	private String exatidao;
+	private String nota;
 	private String mes01;
 	private String mes02;
 	private String mes03;
@@ -36,10 +38,83 @@ public abstract class DadoValor {
 	private String mes12Justificativa;
 	private String totalJustificativa;
 	private int versaoGlobal;
-	private String pai_id;
+	private String paiId;
 
 	public DadoValor() {
 		super();
+	}
+
+	public DadoValor(DadoValor dadoValor) {
+		super();
+		this.setId(dadoValor.getId());
+		this.setSigla(dadoValor.getSigla());
+		this.setConfiabilidade(dadoValor.getConfiabilidade());
+		this.setExatidao(dadoValor.getExatidao());
+		this.setNota(dadoValor.getNota());
+		this.setVersaoGlobal(dadoValor.getVersaoGlobal());
+		this.setPaiId(dadoValor.getPaiId());
+		this.setMes01(dadoValor.getMes01());
+		this.setMes02(dadoValor.getMes02());
+		this.setMes03(dadoValor.getMes03());
+		this.setMes04(dadoValor.getMes04());
+		this.setMes05(dadoValor.getMes05());
+		this.setMes06(dadoValor.getMes06());
+		this.setMes07(dadoValor.getMes07());
+		this.setMes08(dadoValor.getMes08());
+		this.setMes09(dadoValor.getMes09());
+		this.setMes10(dadoValor.getMes10());
+		this.setMes11(dadoValor.getMes11());
+		this.setMes12(dadoValor.getMes12());
+		this.setTotal(dadoValor.getTotal());
+		this.setMes01Justificativa(dadoValor.getMes01Justificativa());
+		this.setMes02Justificativa(dadoValor.getMes02Justificativa());
+		this.setMes03Justificativa(dadoValor.getMes03Justificativa());
+		this.setMes04Justificativa(dadoValor.getMes04Justificativa());
+		this.setMes05Justificativa(dadoValor.getMes05Justificativa());
+		this.setMes06Justificativa(dadoValor.getMes06Justificativa());
+		this.setMes07Justificativa(dadoValor.getMes07Justificativa());
+		this.setMes08Justificativa(dadoValor.getMes08Justificativa());
+		this.setMes09Justificativa(dadoValor.getMes09Justificativa());
+		this.setMes10Justificativa(dadoValor.getMes10Justificativa());
+		this.setMes11Justificativa(dadoValor.getMes11Justificativa());
+		this.setMes12Justificativa(dadoValor.getMes12Justificativa());
+		this.setTotalJustificativa(dadoValor.getTotalJustificativa());
+	}
+
+	public void update(DadoValor dadoValor) {
+		this.setId(dadoValor.getId());
+		this.setSigla(dadoValor.getSigla());
+		this.setConfiabilidade(dadoValor.getConfiabilidade());
+		this.setExatidao(dadoValor.getExatidao());
+		this.setNota(dadoValor.getNota());
+		this.setVersaoGlobal(dadoValor.getVersaoGlobal());
+		this.setPaiId(dadoValor.getPaiId());
+		this.setMes01(dadoValor.getMes01());
+		this.setMes02(dadoValor.getMes02());
+		this.setMes03(dadoValor.getMes03());
+		this.setMes04(dadoValor.getMes04());
+		this.setMes05(dadoValor.getMes05());
+		this.setMes06(dadoValor.getMes06());
+		this.setMes07(dadoValor.getMes07());
+		this.setMes08(dadoValor.getMes08());
+		this.setMes09(dadoValor.getMes09());
+		this.setMes10(dadoValor.getMes10());
+		this.setMes11(dadoValor.getMes11());
+		this.setMes12(dadoValor.getMes12());
+		this.setTotal(dadoValor.getTotal());
+		this.setMes01Justificativa(dadoValor.getMes01Justificativa());
+		this.setMes02Justificativa(dadoValor.getMes02Justificativa());
+		this.setMes03Justificativa(dadoValor.getMes03Justificativa());
+		this.setMes04Justificativa(dadoValor.getMes04Justificativa());
+		this.setMes05Justificativa(dadoValor.getMes05Justificativa());
+		this.setMes06Justificativa(dadoValor.getMes06Justificativa());
+		this.setMes07Justificativa(dadoValor.getMes07Justificativa());
+		this.setMes08Justificativa(dadoValor.getMes08Justificativa());
+		this.setMes09Justificativa(dadoValor.getMes09Justificativa());
+		this.setMes10Justificativa(dadoValor.getMes10Justificativa());
+		this.setMes11Justificativa(dadoValor.getMes11Justificativa());
+		this.setMes12Justificativa(dadoValor.getMes12Justificativa());
+		this.setTotalJustificativa(dadoValor.getTotalJustificativa());
 	}
 
 	public String getId() {
@@ -60,12 +135,28 @@ public abstract class DadoValor {
 		return sigla;
 	}
 
-	public void setDadoId(String dadoId) {
-		this.dadoId = dadoId;
+	public String getConfiabilidade() {
+		return confiabilidade;
 	}
 
-	public String getDadoId() {
-		return dadoId;
+	public void setConfiabilidade(String confiabilidade) {
+		this.confiabilidade = confiabilidade;
+	}
+
+	public String getExatidao() {
+		return exatidao;
+	}
+
+	public void setExatidao(String exatidao) {
+		this.exatidao = exatidao;
+	}
+
+	public String getNota() {
+		return nota;
+	}
+
+	public void setNota(String nota) {
+		this.nota = nota;
 	}
 
 	public void setSigla(String sigla) {
@@ -288,27 +379,27 @@ public abstract class DadoValor {
 		this.versaoGlobal = versaoGlobal;
 	}
 
-	public String getPai_id() {
-		return pai_id;
+	public String getPaiId() {
+		return paiId;
 	}
 
-	public void setPai_id(String pai_id) {
-		this.pai_id = pai_id;
+	public void setPaiId(String paiId) {
+		this.paiId = paiId;
 	}
 
 	@Override
 	public String toString() {
-		return "DadoValor [id=" + id + ", dado_id=" + sigla + ", mes01=" + mes01 + ", mes02=" + mes02 + ", mes03="
-				+ mes03 + ", mes04=" + mes04 + ", mes05=" + mes05 + ", mes06=" + mes06 + ", mes07=" + mes07 + ", mes08="
-				+ mes08 + ", mes09=" + mes09 + ", mes10=" + mes10 + ", mes11=" + mes11 + ", mes12=" + mes12 + ", total="
-				+ total + ", mes01Justificativa=" + mes01Justificativa + ", mes02Justificativa=" + mes02Justificativa
+		return "DadoValor [id=" + id + ", sigla=" + sigla + ", confiabilidade=" + confiabilidade + ", exatidao="
+				+ exatidao + ", nota=" + nota + ", mes01=" + mes01 + ", mes02=" + mes02 + ", mes03=" + mes03
+				+ ", mes04=" + mes04 + ", mes05=" + mes05 + ", mes06=" + mes06 + ", mes07=" + mes07 + ", mes08=" + mes08
+				+ ", mes09=" + mes09 + ", mes10=" + mes10 + ", mes11=" + mes11 + ", mes12=" + mes12 + ", total=" + total
+				+ ", mes01Justificativa=" + mes01Justificativa + ", mes02Justificativa=" + mes02Justificativa
 				+ ", mes03Justificativa=" + mes03Justificativa + ", mes04Justificativa=" + mes04Justificativa
 				+ ", mes05Justificativa=" + mes05Justificativa + ", mes06Justificativa=" + mes06Justificativa
 				+ ", mes07Justificativa=" + mes07Justificativa + ", mes08Justificativa=" + mes08Justificativa
 				+ ", mes09Justificativa=" + mes09Justificativa + ", mes10Justificativa=" + mes10Justificativa
 				+ ", mes11Justificativa=" + mes11Justificativa + ", mes12Justificativa=" + mes12Justificativa
-				+ ", mesTotalJustificativa=" + totalJustificativa + ", versaoGlobal=" + versaoGlobal + ", pai_id="
-				+ pai_id + "]";
+				+ ", totalJustificativa=" + totalJustificativa + ", versaoGlobal=" + versaoGlobal + ", paiId=" + paiId
+				+ "]";
 	}
-
 }

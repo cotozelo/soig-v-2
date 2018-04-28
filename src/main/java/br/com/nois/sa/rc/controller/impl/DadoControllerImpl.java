@@ -99,7 +99,7 @@ public class DadoControllerImpl implements DadoController {
 		try {
 			DadoTO dadoTO = this.dadoRepository.findById(dadoJSON.getId());
 			if (dadoTO == null) {
-				response.setError(new ErroJSON("VxMxRx00001", this.getClass().getName() + "/listagem/" + userName));
+				response.setError(new ErroJSON("VxMxRx00001", this.getClass().getName() + "/update/" + userName));
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
 
@@ -111,7 +111,7 @@ public class DadoControllerImpl implements DadoController {
 			response.setData(new DadoJSON(dadoTO));
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
-			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/update/" + userName));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}

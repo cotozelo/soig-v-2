@@ -8,14 +8,14 @@ import br.com.nois.sa.rc.model.Ano;
 import br.com.nois.sa.rc.model.to.AnoTO;
 import br.com.nois.sa.rc.model.to.IndicadorValorTO;
 
-public class AnoIndicadorValorJSON extends Ano {
-	public AnoIndicadorValorJSON() {
+public class AnoIndicadorValoresJSON extends Ano {
+	public AnoIndicadorValoresJSON() {
 		super();
 	}
 
 	private List<IndicadorValorJSON> indicadorValores;
 
-	public AnoIndicadorValorJSON(AnoTO to) {
+	public AnoIndicadorValoresJSON(AnoTO to) {
 		super();
 		super.setAno(to.getAno());
 		super.setEditar(to.isEditar());
@@ -25,7 +25,7 @@ public class AnoIndicadorValorJSON extends Ano {
 		this.setIndicadorValores(to.getIndicadorValores());
 	}
 
-	public void update(AnoIndicadorValorJSON ano) {
+	public void update(AnoIndicadorValoresJSON ano) {
 		super.setAno(ano.getAno());
 		this.setEditar(ano.isEditar());
 		this.setExibir(ano.isExibir());
