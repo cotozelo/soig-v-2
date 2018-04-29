@@ -9,10 +9,10 @@ public enum TipoDado {
 		String retorno = "";
 		switch (enumerator) {
 		case SOMATORIO:
-			retorno = new Constantes().TIPODADO_SOMATORIO.toString();
+			retorno = Constantes.TIPODADO_SOMATORIO.toString();
 			break;
 		case ULTIMOVALOR:
-			retorno = new Constantes().TIPODADO_ULTIMOVALOR.toString();
+			retorno = Constantes.TIPODADO_ULTIMOVALOR.toString();
 			break;
 		default:
 			break;

@@ -9,13 +9,13 @@ public enum Grafico {
 		String retorno = "";
 		switch (grafico) {
 		case BARRA:
-			retorno = new Constantes().GRAFICO_BARRA.toString();
+			retorno = Constantes.GRAFICO_BARRA.toString();
 			break;
 		case barra:
-			retorno = new Constantes().GRAFICO_BARRA.toString();
+			retorno = Constantes.GRAFICO_BARRA.toString();
 			break;
 		default:
-			retorno = new Constantes().GRAFICO_BARRA.toString();
+			retorno = Constantes.GRAFICO_BARRA.toString();
 			break;
 		}
 		return retorno;

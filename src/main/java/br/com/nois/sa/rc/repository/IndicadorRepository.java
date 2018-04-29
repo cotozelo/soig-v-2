@@ -11,4 +11,6 @@ public interface IndicadorRepository extends MongoRepository<IndicadorTO, String
 
 	IndicadorTO findBySigla(String sigla);
 
+	IndicadorTO findBySiglaStartingWithIgnoreCase(String sigla);
+
 }

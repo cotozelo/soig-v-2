@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.nois.sa.rc.model.json.AgenciaJSON;
+import br.com.nois.sa.rc.model.json.BooleanJSON;
 
 public interface AgenciaController {
+
+	public BooleanJSON unicidadeNome(@PathVariable("username") String userName, @PathVariable("nome") String nome);
 
 	public ResponseEntity<Response<List<AgenciaJSON>>> getAll(@PathVariable("username") String userName);
 

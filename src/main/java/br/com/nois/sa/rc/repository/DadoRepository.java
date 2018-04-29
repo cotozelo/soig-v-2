@@ -12,4 +12,6 @@ public interface DadoRepository extends MongoRepository<DadoTO, String> {
 
 	DadoTO findBySigla(String sigla);
 
+	DadoTO findBySiglaStartingWithIgnoreCase(String sigla);
+
 }

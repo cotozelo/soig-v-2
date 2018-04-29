@@ -46,10 +46,10 @@ public class UnidadeControllerImpl implements UnidadeController {
 
 	public Long countByNome(String nome) {
 		Long qtde = this.unidadeRepository.countByNome(nome);
-		this.logController.insert(new Log(new Constantes().LOG_UNIDADE_CONTROLLER_COUNTBYNOME, nome));
+		this.logController.insert(new Log(Constantes.LOG_UNIDADE_CONTROLLER_COUNTBYNOME, nome));
 		return qtde;
 	}
-	
+
 	@GetMapping("/all/{username}")
 	public ResponseEntity<Response<List<UnidadeJSON>>> getAll(@PathVariable("username") String userName) {
 		Response<List<UnidadeJSON>> response = new Response<List<UnidadeJSON>>();
@@ -60,7 +60,7 @@ public class UnidadeControllerImpl implements UnidadeController {
 				for (UnidadeTO to : unidades) {
 					unidadesJSON.add(new UnidadeJSON(to));
 				}
-				this.logController.insert(new Log(new Constantes().LOG_UNIDADE_CONTROLLER_GETALL,
+				this.logController.insert(new Log(Constantes.LOG_UNIDADE_CONTROLLER_GETALL,
 						new Util().ListColectionToString(new ArrayList<Object>(unidadesJSON))));
 
 				response.setData(unidadesJSON);
@@ -76,7 +76,7 @@ public class UnidadeControllerImpl implements UnidadeController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
-	
+
 	@PostMapping("/insert/{username}")
 	public ResponseEntity<Response<UnidadeJSON>> insert(@PathVariable("username") String userName,
 			@RequestBody UnidadeJSON unidadeJSON) {
@@ -85,7 +85,7 @@ public class UnidadeControllerImpl implements UnidadeController {
 		try {
 			UnidadeTO unidadeTO = new UnidadeTO(unidadeJSON);
 			unidadeTO = this.unidadeRepository.insert(unidadeTO);
-			this.logController.insert(new Log(new Constantes().LOG_UNIDADE_CONTROLLER_INSERT, unidadeTO.toString()));
+			this.logController.insert(new Log(Constantes.LOG_UNIDADE_CONTROLLER_INSERT, unidadeTO.toString()));
 			response.setData(unidadeJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 
@@ -100,13 +100,14 @@ public class UnidadeControllerImpl implements UnidadeController {
 		for (String item : itens) {
 			this.insert("carga", new UnidadeJSON(item));
 		}
-		this.logController.insert(new Log(new Constantes().LOG_UNIDADE_CONTROLLER_INSERTTXT, itens.toString()));
+		this.logController.insert(new Log(Constantes.LOG_UNIDADE_CONTROLLER_INSERTTXT, itens.toString()));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int rotinaCarga(ArrayList<String> itens) {
 		int quantide = 0;
-		this.logController.insert(new Log(new Constantes().LOG_UNIDADE_CONTROLLER_CARGA, "Carga"));
+		this.logController.insert(new Log(Constantes.LOG_UNIDADE_CONTROLLER_CARGA, "Carga"));
 		if (((List<UnidadeJSON>) this.getAll("carga")).size() == 0) {
 			this.insertTxt(itens);
 		} else {

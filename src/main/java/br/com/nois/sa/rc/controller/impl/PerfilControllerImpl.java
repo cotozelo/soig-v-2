@@ -70,7 +70,7 @@ public class PerfilControllerImpl implements PerfilController {
 					perfilsJSON.add(new PerfilJSON(perfilTO));
 				}
 
-				this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
+				this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
 						new Util().ListColectionToString(new ArrayList<Object>(perfilsJSON))));
 
 				response.setData(perfilsJSON);
@@ -99,7 +99,7 @@ public class PerfilControllerImpl implements PerfilController {
 					funcionalidade.setNome(this.funcionalidades.get(funcionalidade.getId()));
 				}
 				this.logController
-						.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL, perfilTO.toString()));
+						.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_GETALL, perfilTO.toString()));
 
 				perfilTO = this.perfilRepository.save(perfilTO);
 				perfilsJSONsave.add(new PerfilJSON(perfilTO));
@@ -120,8 +120,7 @@ public class PerfilControllerImpl implements PerfilController {
 		try {
 			PerfilTO perfilTO = this.perfilRepository.findById(id);
 
-			this.logController
-					.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL, perfilTO.toString()));
+			this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_GETALL, perfilTO.toString()));
 
 			this.perfilRepository.delete(perfilTO);
 

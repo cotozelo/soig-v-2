@@ -23,6 +23,7 @@ import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.controller.MunicipioController;
 import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.model.Log;
+import br.com.nois.sa.rc.model.json.BooleanJSON;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.json.MunicipioJSON;
 import br.com.nois.sa.rc.model.to.MunicipioTO;
@@ -56,6 +57,46 @@ public class MunicipioControllerImpl implements MunicipioController {
 		return this.municipioRepository.findAll(new PageRequest(pagina, porPagina, new Sort(direcao, ordenacao)));
 	}
 
+	@Override
+	@GetMapping("/unicidade/nome/{username}/{nome}")
+	public BooleanJSON unicidadeNome(@PathVariable("username") String userName, @PathVariable("nome") String nome) {
+		BooleanJSON retorno = new BooleanJSON();
+
+		retorno.setChave("nome");
+		retorno.setValor(nome);
+		retorno.setExite(false);
+
+		try {
+			if (this.municipioRepository.findByNomeStartingWithIgnoreCase(nome) != null) {
+				retorno.setExite(true);
+			}
+		} catch (Exception ex) {
+			retorno.setExite(false);
+		}
+		return retorno;
+	}
+
+	@Override
+	@GetMapping("/unicidade/codigo/{username}/{codigo}")
+	public BooleanJSON unicidadeCodigo(@PathVariable("username") String userName,
+			@PathVariable("codigo") String codigo) {
+		BooleanJSON retorno = new BooleanJSON();
+
+		retorno.setChave("codigo");
+		retorno.setValor(codigo);
+		retorno.setExite(false);
+
+		try {
+			if (this.municipioRepository.findByCodigoStartingWithIgnoreCase(codigo) != null) {
+				retorno.setExite(true);
+			}
+		} catch (Exception ex) {
+			retorno.setExite(false);
+		}
+		return retorno;
+	}
+
+	@Override
 	@GetMapping("/listagem/{username}/{agenciaId}")
 	public ResponseEntity<Response<List<MunicipioJSON>>> getByAgenciaId(@PathVariable("username") String userName,
 			@PathVariable("agenciaId") String agenciaId) {
@@ -68,7 +109,7 @@ public class MunicipioControllerImpl implements MunicipioController {
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
 
-			this.logController.insert(new Log(new Constantes().MUNICIPIO_LISTAGEM, municipiosTO.toString()));
+			this.logController.insert(new Log(Constantes.MUNICIPIO_LISTAGEM, municipiosTO.toString()));
 			List<MunicipioJSON> municipiosJSON = new ArrayList<MunicipioJSON>();
 			for (MunicipioTO to : municipiosTO) {
 				municipiosJSON.add(new MunicipioJSON(to));
@@ -81,6 +122,7 @@ public class MunicipioControllerImpl implements MunicipioController {
 		}
 	}
 
+	@Override
 	@PostMapping("/insert/{username}")
 	public ResponseEntity<Response<MunicipioJSON>> insert(@PathVariable("username") String userName,
 			@RequestBody MunicipioJSON municipioJSON) {
@@ -89,7 +131,7 @@ public class MunicipioControllerImpl implements MunicipioController {
 		try {
 			MunicipioTO municipioTO = new MunicipioTO(municipioJSON);
 
-			this.logController.insert(new Log(new Constantes().MUNICIPIO_INSERT, municipioTO.toString()));
+			this.logController.insert(new Log(Constantes.MUNICIPIO_INSERT, municipioTO.toString()));
 			municipioTO = this.municipioRepository.insert(municipioTO);
 
 			response.setData(new MunicipioJSON(municipioTO));
@@ -100,13 +142,14 @@ public class MunicipioControllerImpl implements MunicipioController {
 		}
 	}
 
+	@Override
 	@PutMapping("/update/{username}")
 	public ResponseEntity<Response<MunicipioJSON>> update(@PathVariable("username") String userName,
 			@RequestBody MunicipioJSON municipioJSON) {
 		Response<MunicipioJSON> response = new Response<MunicipioJSON>();
 		try {
 			MunicipioTO municipioTO = new MunicipioTO(municipioJSON);
-			this.logController.insert(new Log(new Constantes().MUNICIPIO_UPDATE, municipioTO.toString()));
+			this.logController.insert(new Log(Constantes.MUNICIPIO_UPDATE, municipioTO.toString()));
 
 			municipioTO = this.municipioRepository.save(municipioTO);
 			municipioJSON = new MunicipioJSON(municipioTO);
@@ -127,7 +170,7 @@ public class MunicipioControllerImpl implements MunicipioController {
 		try {
 			MunicipioTO municipioTO = this.municipioRepository.findByIdAndAgenciaId(municipioId, agenciaIdOrigem);
 
-			this.logController.insert(new Log(new Constantes().MUNICIPIO_UPDATE, municipioTO.toString()));
+			this.logController.insert(new Log(Constantes.MUNICIPIO_UPDATE, municipioTO.toString()));
 
 			municipioTO.setAgenciaId(agenciaIdDestino);
 
@@ -142,6 +185,7 @@ public class MunicipioControllerImpl implements MunicipioController {
 		}
 	}
 
+	@Override
 	@DeleteMapping("/delete/{username}/{id}")
 	public ResponseEntity<Response<MunicipioJSON>> deleteById(@PathVariable("username") String userName,
 			@PathVariable("id") String id) {
@@ -152,7 +196,7 @@ public class MunicipioControllerImpl implements MunicipioController {
 				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/delete/" + userName));
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 			}
-			this.logController.insert(new Log(new Constantes().MUNICIPIO_DELETE, municipioTO.toString()));
+			this.logController.insert(new Log(Constantes.MUNICIPIO_DELETE, municipioTO.toString()));
 			this.municipioRepository.delete(id);
 
 			response.setData(new MunicipioJSON(municipioTO));

@@ -81,7 +81,7 @@ public class EquacaoControllerImpl implements EquacaoController {
 		}
 
 		response.setData(mEquacaoJSON);
-		// this.logController.insert(new Log(new Constantes().EQUACAO_GETALL,
+		// this.logController.insert(new Log(Constantes.EQUACAO_GETALL,
 		// equacoesJSON.toString()));
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
@@ -115,7 +115,7 @@ public class EquacaoControllerImpl implements EquacaoController {
 			}
 			indicador.setEquacao(equacaoTO);
 
-			this.logController.insert(new Log(new Constantes().EQUACAO_UPDATE, equacaoJSON.toString(), versaoGlobal));
+			this.logController.insert(new Log(Constantes.EQUACAO_UPDATE, equacaoJSON.toString(), versaoGlobal));
 			indicador = this.indicadorRepository.save(indicador);
 
 			response.setData(equacaoJSON);

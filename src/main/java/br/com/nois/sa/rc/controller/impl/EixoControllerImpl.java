@@ -45,7 +45,7 @@ public class EixoControllerImpl implements EixoController {
 
 	public Long countByNome(String nome) {
 		Long qtde = this.eixoRepository.countByNome(nome);
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_COUNTBYNOME, nome));
+		this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_COUNTBYNOME, nome));
 		return qtde;
 	}
 
@@ -62,7 +62,7 @@ public class EixoControllerImpl implements EixoController {
 					eixosJSON.add(new EixoJSON(to));
 				}
 
-				this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
+				this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
 						new Util().ListColectionToString(new ArrayList<Object>(eixosJSON))));
 
 				response.setData(eixosJSON);
@@ -88,7 +88,7 @@ public class EixoControllerImpl implements EixoController {
 				EixoJSON eixoJSON = new EixoJSON(eixoTO);
 
 				this.logController
-						.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETBYNOME, eixoJSON.toString()));
+						.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_GETBYNOME, eixoJSON.toString()));
 				response.setData(eixoJSON);
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			} else {
@@ -110,8 +110,7 @@ public class EixoControllerImpl implements EixoController {
 			EixoTO eixoTO = new EixoTO(eixoJSON);
 
 			eixoTO = this.eixoRepository.insert(eixoTO);
-			this.logController
-					.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERT, eixoTO.toString()));
+			this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_INSERT, eixoTO.toString()));
 			response.setData(eixoJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
@@ -131,7 +130,7 @@ public class EixoControllerImpl implements EixoController {
 				eixosTO.add(new EixoTO(eixoJSON));
 			}
 
-			this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERTS,
+			this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_INSERTS,
 					new Util().ListColectionToString(new ArrayList<Object>(eixosTO))));
 			eixosTO = this.eixoRepository.insert(eixosTO);
 
@@ -152,13 +151,14 @@ public class EixoControllerImpl implements EixoController {
 		for (String item : itens) {
 			this.insert("carga", new EixoJSON(item));
 		}
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERTTXT, itens.toString()));
+		this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_INSERTTXT, itens.toString()));
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public int rotinaCarga(ArrayList<String> itens) {
 		int quantide = 0;
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_CARGA, "Carga"));
+		this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_CARGA, "Carga"));
 		if (((List<EixoJSON>) this.getAll("carga")).size() == 0) {
 			this.insertTxt(itens);
 		} else {
