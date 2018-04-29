@@ -45,7 +45,7 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 
 	public Long countByNome(String nome) {
 		Long qtde = this.funcionalidadeRepository.countByNome(nome);
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_COUNTBYNOME, nome));
+		this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_COUNTBYNOME, nome));
 		return qtde;
 	}
 
@@ -62,7 +62,7 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 					funcionalidadesJSON.add(new FuncionalidadeJSON(to));
 				}
 
-				this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
+				this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
 						new Util().ListColectionToString(new ArrayList<Object>(funcionalidadesJSON))));
 
 				response.setData(funcionalidadesJSON);
@@ -87,8 +87,8 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 			if (funcionalidadeTO != null) {
 				FuncionalidadeJSON funcionalidadeJSON = new FuncionalidadeJSON(funcionalidadeTO);
 
-				this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETBYNOME,
-						funcionalidadeJSON.toString()));
+				this.logController.insert(
+						new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_GETBYNOME, funcionalidadeJSON.toString()));
 				response.setData(funcionalidadeJSON);
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			} else {
@@ -110,8 +110,8 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 			FuncionalidadeTO funcionalidadeTO = new FuncionalidadeTO(funcionalidadeJSON);
 
 			funcionalidadeTO = this.funcionalidadeRepository.insert(funcionalidadeTO);
-			this.logController.insert(
-					new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERT, funcionalidadeTO.toString()));
+			this.logController
+					.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_INSERT, funcionalidadeTO.toString()));
 			response.setData(funcionalidadeJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
@@ -131,7 +131,7 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 				funcionalidadesTO.add(new FuncionalidadeTO(funcionalidadeJSON));
 			}
 
-			this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERTS,
+			this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_INSERTS,
 					new Util().ListColectionToString(new ArrayList<Object>(funcionalidadesTO))));
 			funcionalidadesTO = this.funcionalidadeRepository.insert(funcionalidadesTO);
 
@@ -153,13 +153,14 @@ public class FuncionalidadeControllerImpl implements FuncionalidadeController {
 		for (String item : itens) {
 			this.insert("carga", new FuncionalidadeJSON(item));
 		}
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERTTXT, itens.toString()));
+		this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_INSERTTXT, itens.toString()));
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public int rotinaCarga(ArrayList<String> itens) {
 		int quantide = 0;
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_CARGA, "Carga"));
+		this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_CARGA, "Carga"));
 		if (((List<FuncionalidadeJSON>) this.getAll("carga")).size() == 0) {
 			this.insertTxt(itens);
 		} else {

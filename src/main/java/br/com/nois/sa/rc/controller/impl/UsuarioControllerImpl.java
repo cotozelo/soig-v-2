@@ -20,6 +20,7 @@ import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.controller.UsuarioController;
 import br.com.nois.sa.rc.model.Log;
 import br.com.nois.sa.rc.model.TipoFavorito;
+import br.com.nois.sa.rc.model.json.BooleanJSON;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.json.FavoritoJSON;
 import br.com.nois.sa.rc.model.json.UsuarioJSON;
@@ -56,6 +57,46 @@ public class UsuarioControllerImpl implements UsuarioController {
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 	}
 
+	@Override
+	@GetMapping("/unicidade/email/{username}/{email}")
+	public BooleanJSON unicidadeEmail(@PathVariable("username") String userName, @PathVariable("email") String email) {
+		BooleanJSON retorno = new BooleanJSON();
+
+		retorno.setChave("email");
+		retorno.setValor(email);
+		retorno.setExite(false);
+
+		try {
+			if (this.usuarioRepository.findByEmailStartingWithIgnoreCase(email) != null) {
+				retorno.setExite(true);
+			}
+		} catch (Exception ex) {
+			retorno.setExite(false);
+		}
+		return retorno;
+	}
+
+	@Override
+	@GetMapping("/unicidade/nomedeusuario/{username}/{nomedeusuario}")
+	public BooleanJSON unicidadeNomeDeUsuario(@PathVariable("username") String userName,
+			@PathVariable("nomedeusuario") String nomedeusuario) {
+		BooleanJSON retorno = new BooleanJSON();
+
+		retorno.setChave("nomedeusuario");
+		retorno.setValor(nomedeusuario);
+		retorno.setExite(false);
+
+		try {
+			if (this.usuarioRepository.findByNomeDeUsuarioStartingWithIgnoreCase(nomedeusuario) != null) {
+				retorno.setExite(true);
+			}
+		} catch (Exception ex) {
+			retorno.setExite(false);
+		}
+		return retorno;
+	}
+
+	@Override
 	@PutMapping("/atribuir/{username}")
 	public ResponseEntity<Response<UsuarioJSON>> atribuir(@PathVariable("username") String userName,
 			@RequestBody UsuarioJSON usuarioJSON) {
@@ -65,7 +106,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 			usuarioJSON.setSenha(usuarioTO.getSenha());
 			usuarioTO = new UsuarioTO(usuarioJSON);
 
-			this.logController.insert(new Log(new Constantes().USUARIO_INSERT, usuarioTO.toString()));
+			this.logController.insert(new Log(Constantes.USUARIO_INSERT, usuarioTO.toString()));
 			usuarioTO = this.usuarioRepository.save(usuarioTO);
 
 			usuarioJSON = new UsuarioJSON(usuarioTO);
@@ -78,6 +119,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 		}
 	}
 
+	@Override
 	@PutMapping("/favorito/{username}")
 	public ResponseEntity<Response<UsuarioJSON>> favorito(@PathVariable("username") String userName,
 			@RequestBody FavoritoJSON favoritoJSON) {
@@ -133,6 +175,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 		}
 	}
 
+	@Override
 	@PutMapping("/update/{username}")
 	public ResponseEntity<Response<UsuarioJSON>> update(@PathVariable("username") String userName,
 			@RequestBody UsuarioJSON usuarioJSON) {
@@ -142,7 +185,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 			usuarioJSON.setSenha(usuarioTO.getSenha());
 			usuarioTO.update(usuarioJSON);
 
-			this.logController.insert(new Log(new Constantes().USUARIO_INSERT, usuarioTO.toString()));
+			this.logController.insert(new Log(Constantes.USUARIO_INSERT, usuarioTO.toString()));
 			usuarioTO = this.usuarioRepository.save(usuarioTO);
 
 			usuarioJSON = new UsuarioJSON(usuarioTO);
@@ -155,6 +198,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 		}
 	}
 
+	@Override
 	@PostMapping("/insert/{username}")
 	public ResponseEntity<Response<UsuarioJSON>> insert(@PathVariable("username") String userName,
 			@RequestBody UsuarioJSON usuarioJSON) {
@@ -162,7 +206,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 		try {
 			UsuarioTO usuarioTO = new UsuarioTO(usuarioJSON);
 
-			this.logController.insert(new Log(new Constantes().USUARIO_INSERT, usuarioTO.toString()));
+			this.logController.insert(new Log(Constantes.USUARIO_INSERT, usuarioTO.toString()));
 			usuarioTO = this.usuarioRepository.insert(usuarioTO);
 
 			usuarioJSON = new UsuarioJSON(usuarioTO);
@@ -175,6 +219,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 		}
 	}
 
+	@Override
 	@DeleteMapping("/delete/{username}/{usuarioid}")
 	public ResponseEntity<Response<UsuarioJSON>> deleteById(@PathVariable("username") String userName,
 			@PathVariable("usuarioid") String usuarioId) {
@@ -185,7 +230,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/delete/" + userName));
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 			}
-			this.logController.insert(new Log(new Constantes().USUARIO_DELETE, usuarioTO.toString()));
+			this.logController.insert(new Log(Constantes.USUARIO_DELETE, usuarioTO.toString()));
 			this.usuarioRepository.delete(usuarioId);
 
 			response.setData(new UsuarioJSON(usuarioTO));
@@ -196,6 +241,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 		}
 	}
 
+	@Override
 	@GetMapping("/informacao/{username}")
 	public ResponseEntity<Response<UsuarioJSON>> getInformacao(@PathVariable("username") String userName) {
 		Response<UsuarioJSON> response = new Response<UsuarioJSON>();
@@ -203,8 +249,8 @@ public class UsuarioControllerImpl implements UsuarioController {
 			UsuarioTO usuarioTO = this.usuarioRepository.findByNomeDeUsuario(userName);
 			if (usuarioTO != null) {
 				usuarioTO.setSenha(null);
-				this.logController.insert(
-						new Log(new Constantes().USUARIO_INFORMACAO, usuarioTO == null ? "" : usuarioTO.toString()));
+				this.logController
+						.insert(new Log(Constantes.USUARIO_INFORMACAO, usuarioTO == null ? "" : usuarioTO.toString()));
 
 				UsuarioJSON usuarioJSON = new UsuarioJSON(usuarioTO);
 
@@ -227,6 +273,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 		}
 	}
 
+	@Override
 	@GetMapping("/listagem/{username}")
 	public ResponseEntity<Response<List<UsuarioJSON>>> getAll(@PathVariable("username") String userName) {
 
@@ -240,7 +287,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
 
-			this.logController.insert(new Log(new Constantes().INDICADOR_GETALL,
+			this.logController.insert(new Log(Constantes.INDICADOR_GETALL,
 					usuariosJSON == null ? "" : new Util().ListColectionToString(new ArrayList<Object>(usuariosJSON))));
 			response.setData(usuariosJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -264,7 +311,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
 
-			this.logController.insert(new Log(new Constantes().INDICADOR_GETALL,
+			this.logController.insert(new Log(Constantes.INDICADOR_GETALL,
 					usuariosJSON == null ? "" : new Util().ListColectionToString(new ArrayList<Object>(usuariosJSON))));
 			response.setData(usuariosJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -274,6 +321,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 		}
 	}
 
+	@Override
 	@GetMapping("/listagem/{username}/{agenciaid}/{municipioid}")
 	public ResponseEntity<Response<List<UsuarioJSON>>> getAll(@PathVariable("username") String userName,
 			@PathVariable("agenciaid") String agenciaId, @PathVariable("municipioid") String municipioId) {
@@ -288,7 +336,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
 
-			this.logController.insert(new Log(new Constantes().INDICADOR_GETALL,
+			this.logController.insert(new Log(Constantes.INDICADOR_GETALL,
 					usuariosJSON == null ? "" : new Util().ListColectionToString(new ArrayList<Object>(usuariosJSON))));
 			response.setData(usuariosJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -298,6 +346,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 		}
 	}
 
+	@Override
 	@GetMapping("/listagem/{username}/{agenciaid}/{municipioid}/{prestadoraid}")
 	public ResponseEntity<Response<List<UsuarioJSON>>> getAll(@PathVariable("username") String userName,
 			@PathVariable("agenciaid") String agenciaId, @PathVariable("municipioid") String municipioId,
@@ -313,7 +362,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
 
-			this.logController.insert(new Log(new Constantes().INDICADOR_GETALL,
+			this.logController.insert(new Log(Constantes.INDICADOR_GETALL,
 					usuariosJSON == null ? "" : new Util().ListColectionToString(new ArrayList<Object>(usuariosJSON))));
 			response.setData(usuariosJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);

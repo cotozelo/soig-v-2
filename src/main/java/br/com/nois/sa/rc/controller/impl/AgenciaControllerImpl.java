@@ -20,6 +20,7 @@ import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.model.Log;
 import br.com.nois.sa.rc.model.json.AgenciaJSON;
+import br.com.nois.sa.rc.model.json.BooleanJSON;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.to.AgenciaTO;
 import br.com.nois.sa.rc.repository.AgenciaRepository;
@@ -44,6 +45,26 @@ public class AgenciaControllerImpl implements AgenciaController {
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 	}
 
+	@Override
+	@GetMapping("/unicidade/nome/{username}/{nome}")
+	public BooleanJSON unicidadeNome(@PathVariable("username") String userName, @PathVariable("nome") String nome) {
+		BooleanJSON retorno = new BooleanJSON();
+
+		retorno.setChave("nome");
+		retorno.setValor(nome);
+		retorno.setExite(false);
+
+		try {
+			if (this.agenciaRepository.findByNomeStartingWithIgnoreCase(nome) != null) {
+				retorno.setExite(true);
+			}
+		} catch (Exception ex) {
+			retorno.setExite(false);
+		}
+		return retorno;
+	}
+
+	@Override
 	@GetMapping("/listagem/{username}")
 	public ResponseEntity<Response<List<AgenciaJSON>>> getAll(@PathVariable("username") String userName) {
 		Response<List<AgenciaJSON>> response = new Response<List<AgenciaJSON>>();
@@ -60,20 +81,21 @@ public class AgenciaControllerImpl implements AgenciaController {
 			agenciasJSON.add(new AgenciaJSON(to));
 		}
 
-		this.logController.insert(new Log(new Constantes().AGENCIA_LISTAGEM,
+		this.logController.insert(new Log(Constantes.AGENCIA_LISTAGEM,
 				new Util().ListColectionToString(new ArrayList<Object>(agenciasJSON))));
 
 		response.setData(agenciasJSON);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
+	@Override
 	@PostMapping("/insert/{username}")
 	public ResponseEntity<Response<AgenciaJSON>> insert(@PathVariable("username") String userName,
 			@RequestBody AgenciaJSON agenciaJSON) {
 		Response<AgenciaJSON> response = new Response<AgenciaJSON>();
 		try {
 			AgenciaTO agenciaTO = new AgenciaTO(agenciaJSON);
-			this.logController.insert(new Log(new Constantes().AGENCIA_INSERT, agenciaTO.toString()));
+			this.logController.insert(new Log(Constantes.AGENCIA_INSERT, agenciaTO.toString()));
 			this.agenciaRepository.insert(agenciaTO);
 
 			agenciaJSON = new AgenciaJSON(agenciaTO);
@@ -85,13 +107,14 @@ public class AgenciaControllerImpl implements AgenciaController {
 		}
 	}
 
+	@Override
 	@PutMapping("/update/{username}")
 	public ResponseEntity<Response<AgenciaJSON>> update(@PathVariable("username") String userName,
 			@RequestBody AgenciaJSON agenciaJSON) {
 		Response<AgenciaJSON> response = new Response<AgenciaJSON>();
 		try {
 			AgenciaTO agenciaTO = new AgenciaTO(agenciaJSON);
-			this.logController.insert(new Log(new Constantes().AGENCIA_UPDATE, agenciaTO.toString()));
+			this.logController.insert(new Log(Constantes.AGENCIA_UPDATE, agenciaTO.toString()));
 
 			agenciaTO = this.agenciaRepository.save(agenciaTO);
 			agenciaJSON = new AgenciaJSON(agenciaTO);
@@ -106,6 +129,7 @@ public class AgenciaControllerImpl implements AgenciaController {
 
 	/// TODO talvez seja interessante colocar o como inativo ao invez
 	/// de deleta-lo, avaliar quando implementar o CRUD
+	@Override
 	@DeleteMapping("/delete/{username}/{id}")
 	public ResponseEntity<Response<AgenciaJSON>> deleteById(@PathVariable("username") String userName,
 			@PathVariable("id") String id) {
@@ -116,7 +140,7 @@ public class AgenciaControllerImpl implements AgenciaController {
 				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/delete/" + userName));
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 			}
-			this.logController.insert(new Log(new Constantes().AGENCIA_DELETE, agenciaTO.toString()));
+			this.logController.insert(new Log(Constantes.AGENCIA_DELETE, agenciaTO.toString()));
 			this.agenciaRepository.delete(id);
 
 			response.setData(new AgenciaJSON(agenciaTO));

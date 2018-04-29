@@ -18,4 +18,10 @@ public interface UsuarioRepository extends MongoRepository<UsuarioTO, String> {
 
 	@Query(fields = "{ 'nomeDeUsuario': 1, 'admin': 1, 'senha': 1 ,'perfilId': 1, 'ativo' : 1}")
 	UsuarioTO findBySenhaAndNomeDeUsuarioAndAtivo(String senha, String nomeDeUsuario, boolean ativo);
+
+	@Query(fields = "{ 'nome' : 1, 'nomeDeUsuario': 1, 'admin': 1, 'perfilId': 1, 'ativo' : 1}")
+	UsuarioTO findByEmailStartingWithIgnoreCase(String nome);
+
+	@Query(fields = "{ 'nome' : 1, 'nomeDeUsuario': 1, 'admin': 1, 'perfilId': 1, 'ativo' : 1}")
+	UsuarioTO findByNomeDeUsuarioStartingWithIgnoreCase(String nome);
 }

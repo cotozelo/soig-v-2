@@ -46,7 +46,7 @@ public class GrupoControllerImpl implements GrupoController {
 
 	public Long countByNome(String nome) {
 		Long qtde = this.grupoRepository.countByNome(nome);
-		this.logController.insert(new Log(new Constantes().LOG_GRUPO_CONTROLLER_COUNTBYNOME, nome));
+		this.logController.insert(new Log(Constantes.LOG_GRUPO_CONTROLLER_COUNTBYNOME, nome));
 		return qtde;
 	}
 
@@ -60,7 +60,7 @@ public class GrupoControllerImpl implements GrupoController {
 				for (GrupoTO to : grupos) {
 					gruposJSON.add(new GrupoJSON(to));
 				}
-				this.logController.insert(new Log(new Constantes().LOG_GRUPO_CONTROLLER_GETALL,
+				this.logController.insert(new Log(Constantes.LOG_GRUPO_CONTROLLER_GETALL,
 						new Util().ListColectionToString(new ArrayList<Object>(gruposJSON))));
 
 				response.setData(gruposJSON);
@@ -85,7 +85,7 @@ public class GrupoControllerImpl implements GrupoController {
 		try {
 			GrupoTO grupoTO = new GrupoTO(grupoJSON);
 			grupoTO = this.grupoRepository.insert(grupoTO);
-			this.logController.insert(new Log(new Constantes().LOG_GRUPO_CONTROLLER_INSERT, grupoTO.toString()));
+			this.logController.insert(new Log(Constantes.LOG_GRUPO_CONTROLLER_INSERT, grupoTO.toString()));
 			response.setData(grupoJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 
@@ -100,13 +100,14 @@ public class GrupoControllerImpl implements GrupoController {
 		for (String item : itens) {
 			this.insert("carga", new GrupoJSON(item));
 		}
-		this.logController.insert(new Log(new Constantes().LOG_GRUPO_CONTROLLER_INSERTTXT, itens.toString()));
+		this.logController.insert(new Log(Constantes.LOG_GRUPO_CONTROLLER_INSERTTXT, itens.toString()));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int rotinaCarga(ArrayList<String> itens) {
 		int quantide = 0;
-		this.logController.insert(new Log(new Constantes().LOG_GRUPO_CONTROLLER_CARGA, "Carga"));
+		this.logController.insert(new Log(Constantes.LOG_GRUPO_CONTROLLER_CARGA, "Carga"));
 		if (((List<GrupoJSON>) this.getAll("carga")).size() == 0) {
 			this.insertTxt(itens);
 		} else {

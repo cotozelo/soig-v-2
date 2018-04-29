@@ -28,4 +28,10 @@ public interface MunicipioRepository extends MongoRepository<MunicipioTO, String
 	MunicipioTO findByIdAndAgenciaId(String municipioId, String agenciaId);
 
 	MunicipioTO findByCodigo(String codigo);
+
+	@Query(fields = "{ 'nome': 1, 'ativo':1}")
+	MunicipioTO findByNomeStartingWithIgnoreCase(String nome);
+
+	@Query(fields = "{ 'nome': 1, 'codigo':1,  'ativo':1}")
+	MunicipioTO findByCodigoStartingWithIgnoreCase(String codigo);
 }

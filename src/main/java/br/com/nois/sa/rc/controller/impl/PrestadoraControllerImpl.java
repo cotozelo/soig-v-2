@@ -19,6 +19,7 @@ import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.controller.PrestadoraController;
 import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.model.Log;
+import br.com.nois.sa.rc.model.json.BooleanJSON;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.json.PrestadoraJSON;
 import br.com.nois.sa.rc.model.to.MunicipioTO;
@@ -46,6 +47,59 @@ public class PrestadoraControllerImpl implements PrestadoraController {
 		this.logController = new LogControllerImpl(this.logRepository, versaoRespository);
 	}
 
+	@Override
+	@GetMapping("/unicidade/nome/{username}/{municipioId}/{nome}")
+	public BooleanJSON unicidadeNome(@PathVariable("username") String userName,
+			@PathVariable("municipioId") String municipioId, @PathVariable("nome") String nome) {
+		BooleanJSON retorno = new BooleanJSON();
+
+		retorno.setChave("nome");
+		retorno.setValor(nome);
+		retorno.setExite(false);
+
+		try {
+			MunicipioTO municipioTO = this.municipioRepository.findById(municipioId);
+			if (municipioTO != null) {
+				for (PrestadoraTO prestadoraTO : municipioTO.getPrestadoras()) {
+					if (prestadoraTO.getNome().equalsIgnoreCase(nome)) {
+						retorno.setExite(true);
+						return retorno;
+					}
+				}
+			}
+		} catch (Exception ex) {
+			retorno.setExite(false);
+		}
+		return retorno;
+	}
+
+	@Override
+	@GetMapping("/unicidade/codigo/{username}/{municipioId}/{codigo}")
+	public BooleanJSON unicidadeCodigo(@PathVariable("username") String userName,
+			@PathVariable("municipioId") String municipioId, @PathVariable("codigo") String codigo) {
+		BooleanJSON retorno = new BooleanJSON();
+
+		retorno.setChave("codigo");
+		retorno.setValor(codigo);
+		retorno.setExite(false);
+
+		try {
+			MunicipioTO municipioTO = this.municipioRepository.findById(municipioId);
+			if (municipioTO != null) {
+				for (PrestadoraTO prestadoraTO : municipioTO.getPrestadoras()) {
+					if (prestadoraTO.getCodigo().equalsIgnoreCase(codigo)) {
+						retorno.setExite(true);
+						return retorno;
+					}
+				}
+			}
+		} catch (Exception ex) {
+			retorno.setExite(false);
+		}
+		return retorno;
+	}
+
+	@Override
 	@GetMapping("/listagem/{username}/{municipioId}")
 	public ResponseEntity<Response<List<PrestadoraJSON>>> getAll(@PathVariable("username") String userName,
 			@PathVariable("municipioId") String municipioId) {
@@ -65,13 +119,14 @@ public class PrestadoraControllerImpl implements PrestadoraController {
 			prestadorasJSON.add(new PrestadoraJSON(to));
 		}
 
-		this.logController.insert(new Log(new Constantes().PRESTADORA_LISTAGEM,
+		this.logController.insert(new Log(Constantes.PRESTADORA_LISTAGEM,
 				new Util().ListColectionToString(new ArrayList<Object>(prestadorasJSON))));
 
 		response.setData(prestadorasJSON);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
+	@Override
 	@PostMapping("/insert/{username}/{municipioId}")
 	public ResponseEntity<Response<PrestadoraJSON>> insert(@PathVariable("username") String userName,
 			@PathVariable("municipioId") String municipioId, @RequestBody PrestadoraJSON prestadoraJSON) {
@@ -88,7 +143,7 @@ public class PrestadoraControllerImpl implements PrestadoraController {
 			}
 
 			PrestadoraTO prestadoraTO = new PrestadoraTO(prestadoraJSON);
-			this.logController.insert(new Log(new Constantes().PRESTADORA_INSERT, prestadoraTO.toString()));
+			this.logController.insert(new Log(Constantes.PRESTADORA_INSERT, prestadoraTO.toString()));
 			municipioTO.setPrestadora(prestadoraTO);
 
 			this.municipioRepository.save(municipioTO);
@@ -101,6 +156,7 @@ public class PrestadoraControllerImpl implements PrestadoraController {
 		}
 	}
 
+	@Override
 	@PutMapping("/update/{username}/{municipioId}")
 	public ResponseEntity<Response<PrestadoraJSON>> update(@PathVariable("username") String userName,
 			@PathVariable("municipioId") String municipioId, @RequestBody PrestadoraJSON prestadoraJSON) {
@@ -118,7 +174,7 @@ public class PrestadoraControllerImpl implements PrestadoraController {
 
 			PrestadoraTO prestadoraTO = new PrestadoraTO(prestadoraJSON);
 			prestadoraTO.setAnos(municipioTO.getPrestadora(prestadoraJSON.getId()).getAnos());
-			this.logController.insert(new Log(new Constantes().PRESTADORA_UPDATE, prestadoraTO.toString()));
+			this.logController.insert(new Log(Constantes.PRESTADORA_UPDATE, prestadoraTO.toString()));
 			municipioTO.setPrestadora(prestadoraTO);
 
 			this.municipioRepository.save(municipioTO);
@@ -131,6 +187,7 @@ public class PrestadoraControllerImpl implements PrestadoraController {
 		}
 	}
 
+	@Override
 	@DeleteMapping("/delete/{username}/{municipioId}/{prestadoraId}")
 	public ResponseEntity<Response<PrestadoraJSON>> deleteById(@PathVariable("username") String userName,
 			@PathVariable("municipioId") String municipioId, @PathVariable("prestadoraId") String prestadoraId) {
@@ -149,7 +206,7 @@ public class PrestadoraControllerImpl implements PrestadoraController {
 			PrestadoraTO prestadoraTO = municipioTO.getPrestadora(prestadoraId);
 			municipioTO.removePrestadora(prestadoraId);
 
-			this.logController.insert(new Log(new Constantes().PRESTADORA_DELETE, prestadoraTO.toString()));
+			this.logController.insert(new Log(Constantes.PRESTADORA_DELETE, prestadoraTO.toString()));
 			this.municipioRepository.save(municipioTO);
 
 			response.setData(new PrestadoraJSON(prestadoraTO));

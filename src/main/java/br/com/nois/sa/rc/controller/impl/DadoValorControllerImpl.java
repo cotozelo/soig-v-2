@@ -90,7 +90,7 @@ public class DadoValorControllerImpl implements DadoValorController {
 				anosJSON.add(anoDadoValorJSON);
 			}
 
-			this.logController.insert(new Log(new Constantes().PRESTADORA_LISTAGEM,
+			this.logController.insert(new Log(Constantes.PRESTADORA_LISTAGEM,
 					new Util().ListColectionToString(new ArrayList<Object>(anosJSON))));
 
 			response.setData(anosJSON);

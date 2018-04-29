@@ -46,7 +46,7 @@ public class InclinacaoControllerImpl implements InclinacaoController {
 
 	public Long countByNome(String nome) {
 		Long qtde = this.inclinacaoRepository.countByNome(nome);
-		this.logController.insert(new Log(new Constantes().LOG_INCLINACAO_CONTROLLER_COUNTBYNOME, nome));
+		this.logController.insert(new Log(Constantes.LOG_INCLINACAO_CONTROLLER_COUNTBYNOME, nome));
 		return qtde;
 	}
 
@@ -60,7 +60,7 @@ public class InclinacaoControllerImpl implements InclinacaoController {
 				for (InclinacaoTO to : inclinacoes) {
 					inclinacoesJSON.add(new InclinacaoJSON(to));
 				}
-				this.logController.insert(new Log(new Constantes().LOG_INCLINACAO_CONTROLLER_GETALL,
+				this.logController.insert(new Log(Constantes.LOG_INCLINACAO_CONTROLLER_GETALL,
 						new Util().ListColectionToString(new ArrayList<Object>(inclinacoesJSON))));
 
 				response.setData(inclinacoesJSON);
@@ -76,7 +76,7 @@ public class InclinacaoControllerImpl implements InclinacaoController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
-	
+
 	@PostMapping("/insert/{username}")
 	public ResponseEntity<Response<InclinacaoJSON>> insert(@PathVariable("username") String userName,
 			@RequestBody InclinacaoJSON inclinacaoJSON) {
@@ -85,7 +85,7 @@ public class InclinacaoControllerImpl implements InclinacaoController {
 		try {
 			InclinacaoTO inclinacaoTO = new InclinacaoTO(inclinacaoJSON);
 			inclinacaoTO = this.inclinacaoRepository.insert(inclinacaoTO);
-			this.logController.insert(new Log(new Constantes().LOG_INCLINACAO_CONTROLLER_INSERT, inclinacaoTO.toString()));
+			this.logController.insert(new Log(Constantes.LOG_INCLINACAO_CONTROLLER_INSERT, inclinacaoTO.toString()));
 			response.setData(inclinacaoJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 
@@ -100,13 +100,14 @@ public class InclinacaoControllerImpl implements InclinacaoController {
 		for (String item : itens) {
 			this.insert("carga", new InclinacaoJSON(item));
 		}
-		this.logController.insert(new Log(new Constantes().LOG_INCLINACAO_CONTROLLER_INSERTTXT, itens.toString()));
+		this.logController.insert(new Log(Constantes.LOG_INCLINACAO_CONTROLLER_INSERTTXT, itens.toString()));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int rotinaCarga(ArrayList<String> itens) {
 		int quantide = 0;
-		this.logController.insert(new Log(new Constantes().LOG_INCLINACAO_CONTROLLER_CARGA, "Carga"));
+		this.logController.insert(new Log(Constantes.LOG_INCLINACAO_CONTROLLER_CARGA, "Carga"));
 		if (((List<InclinacaoJSON>) this.getAll("carga")).size() == 0) {
 			this.insertTxt(itens);
 		} else {

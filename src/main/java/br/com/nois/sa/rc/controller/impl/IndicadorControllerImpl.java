@@ -20,10 +20,12 @@ import br.com.nois.sa.rc.controller.IndicadorController;
 import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.model.Log;
+import br.com.nois.sa.rc.model.json.BooleanJSON;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.json.IndicadorJSON;
 import br.com.nois.sa.rc.model.to.EquacaoTO;
 import br.com.nois.sa.rc.model.to.IndicadorTO;
+import br.com.nois.sa.rc.repository.DadoRepository;
 import br.com.nois.sa.rc.repository.IndicadorRepository;
 import br.com.nois.sa.rc.repository.LogRepository;
 import br.com.nois.sa.rc.repository.VersaoRepository;
@@ -35,17 +37,43 @@ import br.com.nois.sa.rc.util.Util;
 public class IndicadorControllerImpl implements IndicadorController {
 	private IndicadorRepository indicadorRepository;
 	private LogRepository logRepository;
+	private DadoRepository dadoRepository;
 
 	@Autowired
 	LogController logController;
 
-	public IndicadorControllerImpl(IndicadorRepository indicadorRepository, LogRepository logRepository,
-			VersaoRepository versaoRepository) {
+	public IndicadorControllerImpl(IndicadorRepository indicadorRepository, DadoRepository dadoRepository,
+			LogRepository logRepository, VersaoRepository versaoRepository) {
 		this.indicadorRepository = indicadorRepository;
+		this.dadoRepository = dadoRepository;
 		this.logRepository = logRepository;
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 	}
 
+	@Override
+	@GetMapping("/unicidade/sigla/{username}/{sigla}")
+	public BooleanJSON unicidadeSigla(@PathVariable("username") String userName, @PathVariable("sigla") String sigla) {
+		BooleanJSON retorno = new BooleanJSON();
+
+		retorno.setChave("sigla");
+		retorno.setValor(sigla);
+		retorno.setExite(false);
+
+		try {
+			if (this.indicadorRepository.findBySiglaStartingWithIgnoreCase(sigla) == null) {
+				if (this.dadoRepository.findBySiglaStartingWithIgnoreCase(sigla) != null) {
+					retorno.setExite(true);
+				}
+			} else {
+				retorno.setExite(true);
+			}
+		} catch (Exception ex) {
+			retorno.setExite(false);
+		}
+		return retorno;
+	}
+
+	@Override
 	@GetMapping("/listagem/{username}")
 	public ResponseEntity<Response<List<IndicadorJSON>>> getAll(@PathVariable("username") String userName) {
 
@@ -64,7 +92,7 @@ public class IndicadorControllerImpl implements IndicadorController {
 				indicadoresJSON.add(new IndicadorJSON(indicadorTO));
 			}
 
-			this.logController.insert(new Log(new Constantes().INDICADOR_GETALL, indicadoresJSON == null ? ""
+			this.logController.insert(new Log(Constantes.INDICADOR_GETALL, indicadoresJSON == null ? ""
 					: new Util().ListColectionToString(new ArrayList<Object>(indicadoresJSON))));
 			response.setData(indicadoresJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -74,6 +102,7 @@ public class IndicadorControllerImpl implements IndicadorController {
 		}
 	}
 
+	@Override
 	@PutMapping("/clonar/{username}/{anoorigem}/{anodestino}")
 	public ResponseEntity<Response<String>> clonar(@PathVariable("username") String userName,
 			@PathVariable("anoorigem") String anoOrigem, @PathVariable("anodestino") String anoDestino) {
@@ -117,7 +146,7 @@ public class IndicadorControllerImpl implements IndicadorController {
 			}
 
 			indicadoresTO = this.indicadorRepository.save(indicadoresTO);
-			this.logController.insert(new Log(new Constantes().INDICADOR_GETALL, indicadoresTO == null ? ""
+			this.logController.insert(new Log(Constantes.INDICADOR_GETALL, indicadoresTO == null ? ""
 					: new Util().ListColectionToString(new ArrayList<Object>(indicadoresTO))));
 
 			String retorno = "anoOrigem" + " : " + anoOrigem + ", anoDestino : " + anoDestino;
@@ -129,6 +158,7 @@ public class IndicadorControllerImpl implements IndicadorController {
 		}
 	}
 
+	@Override
 	@PostMapping("/insert/{username}")
 	public ResponseEntity<Response<IndicadorJSON>> insert(@PathVariable("username") String userName,
 			@RequestBody IndicadorJSON indicadorJSON) {
@@ -141,7 +171,7 @@ public class IndicadorControllerImpl implements IndicadorController {
 			equacaoTO.setAtiva(true);
 			indicadorTO.setEquacao(equacaoTO);
 
-			this.logController.insert(new Log(new Constantes().INDICADOR_INSERT, indicadorTO.toString()));
+			this.logController.insert(new Log(Constantes.INDICADOR_INSERT, indicadorTO.toString()));
 			indicadorTO = this.indicadorRepository.insert(indicadorTO);
 
 			response.setData(new IndicadorJSON(indicadorTO));
@@ -152,6 +182,7 @@ public class IndicadorControllerImpl implements IndicadorController {
 		}
 	}
 
+	@Override
 	@PutMapping("/update/{username}")
 	public ResponseEntity<Response<IndicadorJSON>> update(@PathVariable("username") String userName,
 			@RequestBody IndicadorJSON indicadorJSON) {
@@ -166,7 +197,7 @@ public class IndicadorControllerImpl implements IndicadorController {
 
 			indicadorTO.update(indicadorJSON);
 
-			this.logController.insert(new Log(new Constantes().INDICADOR_UPDATE, indicadorTO.toString()));
+			this.logController.insert(new Log(Constantes.INDICADOR_UPDATE, indicadorTO.toString()));
 			indicadorTO = this.indicadorRepository.save(indicadorTO);
 
 			response.setData(new IndicadorJSON(indicadorTO));
@@ -179,6 +210,7 @@ public class IndicadorControllerImpl implements IndicadorController {
 
 	/// TODO talvez seja interessante colocar o como inativo ao invez
 	/// de deleta-lo, avaliar quando implementar o CRUD
+	@Override
 	@DeleteMapping("/delete/{username}/{indicadorid}")
 	public ResponseEntity<Response<IndicadorJSON>> deleteById(@PathVariable("username") String userName,
 			@PathVariable("indicadorid") String indicadorId) {
@@ -193,7 +225,7 @@ public class IndicadorControllerImpl implements IndicadorController {
 			IndicadorJSON indicadorJSON = new IndicadorJSON(indicadorTO);
 			this.indicadorRepository.delete(indicadorTO);
 
-			this.logController.insert(new Log(new Constantes().INDICADOR_DELETEBYID, indicadorTO.toString()));
+			this.logController.insert(new Log(Constantes.INDICADOR_DELETEBYID, indicadorTO.toString()));
 
 			response.setData(indicadorJSON);
 			response.setData(new IndicadorJSON(indicadorTO));

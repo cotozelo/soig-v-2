@@ -9,22 +9,22 @@ public enum OperadorRelacional {
 		String retorno = "";
 		switch (operadorRelacional) {
 		case IGUAL:
-			retorno = new Constantes().OPERADORRELACIONAL_LABEL_IGUAL.toString();
+			retorno = Constantes.OPERADORRELACIONAL_LABEL_IGUAL.toString();
 			break;
 		case MAIOR:
-			retorno = new Constantes().OPERADORRELACIONAL_LABEL_MAIOR.toString();
+			retorno = Constantes.OPERADORRELACIONAL_LABEL_MAIOR.toString();
 			break;
 		case MENOR:
-			retorno = new Constantes().OPERADORRELACIONAL_LABEL_MENOR.toString();
+			retorno = Constantes.OPERADORRELACIONAL_LABEL_MENOR.toString();
 			break;
 		case MAIORIGUAL:
-			retorno = new Constantes().OPERADORRELACIONAL_LABEL_MAIORIGUAL.toString();
+			retorno = Constantes.OPERADORRELACIONAL_LABEL_MAIORIGUAL.toString();
 			break;
 		case MENORIGUAL:
-			retorno = new Constantes().OPERADORRELACIONAL_LABEL_MENORIGUAL.toString();
+			retorno = Constantes.OPERADORRELACIONAL_LABEL_MENORIGUAL.toString();
 			break;
 		case DIFERENTE:
-			retorno = new Constantes().OPERADORRELACIONAL_LABEL_DIFERENTE.toString();
+			retorno = Constantes.OPERADORRELACIONAL_LABEL_DIFERENTE.toString();
 			break;
 
 		default:
@@ -37,22 +37,22 @@ public enum OperadorRelacional {
 		String retorno = "";
 		switch (operadorRelacional) {
 		case IGUAL:
-			retorno = new Constantes().OPERADORRELACIONAL_EXPRESSAO_IGUAL.toString();
+			retorno = Constantes.OPERADORRELACIONAL_EXPRESSAO_IGUAL.toString();
 			break;
 		case MAIOR:
-			retorno = new Constantes().OPERADORRELACIONAL_EXPRESSAO_MAIOR.toString();
+			retorno = Constantes.OPERADORRELACIONAL_EXPRESSAO_MAIOR.toString();
 			break;
 		case MENOR:
-			retorno = new Constantes().OPERADORRELACIONAL_EXPRESSAO_MENOR.toString();
+			retorno = Constantes.OPERADORRELACIONAL_EXPRESSAO_MENOR.toString();
 			break;
 		case MAIORIGUAL:
-			retorno = new Constantes().OPERADORRELACIONAL_EXPRESSAO_MAIORIGUAL.toString();
+			retorno = Constantes.OPERADORRELACIONAL_EXPRESSAO_MAIORIGUAL.toString();
 			break;
 		case MENORIGUAL:
-			retorno = new Constantes().OPERADORRELACIONAL_EXPRESSAO_MENORIGUAL.toString();
+			retorno = Constantes.OPERADORRELACIONAL_EXPRESSAO_MENORIGUAL.toString();
 			break;
 		case DIFERENTE:
-			retorno = new Constantes().OPERADORRELACIONAL_EXPRESSAO_DIFERENTE.toString();
+			retorno = Constantes.OPERADORRELACIONAL_EXPRESSAO_DIFERENTE.toString();
 			break;
 
 		default:

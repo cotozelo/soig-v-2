@@ -45,7 +45,7 @@ public class AbrangenciaControllerImpl implements AbrangenciaController {
 
 	public Long countByNome(String nome) {
 		Long qtde = this.abrangenciaRepository.countByNome(nome);
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_COUNTBYNOME, nome));
+		this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_COUNTBYNOME, nome));
 		return qtde;
 	}
 
@@ -62,7 +62,7 @@ public class AbrangenciaControllerImpl implements AbrangenciaController {
 					abrangenciasJSON.add(new AbrangenciaJSON(to));
 				}
 
-				this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
+				this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
 						new Util().ListColectionToString(new ArrayList<Object>(abrangenciasJSON))));
 
 				response.setData(abrangenciasJSON);
@@ -88,7 +88,7 @@ public class AbrangenciaControllerImpl implements AbrangenciaController {
 				AbrangenciaJSON abrangenciaJSON = new AbrangenciaJSON(abrangenciaTO);
 
 				this.logController.insert(
-						new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETBYNOME, abrangenciaJSON.toString()));
+						new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_GETBYNOME, abrangenciaJSON.toString()));
 				response.setData(abrangenciaJSON);
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			} else {
@@ -111,7 +111,7 @@ public class AbrangenciaControllerImpl implements AbrangenciaController {
 
 			abrangenciaTO = this.abrangenciaRepository.insert(abrangenciaTO);
 			this.logController
-					.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERT, abrangenciaTO.toString()));
+					.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_INSERT, abrangenciaTO.toString()));
 			response.setData(abrangenciaJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
@@ -131,7 +131,7 @@ public class AbrangenciaControllerImpl implements AbrangenciaController {
 				abrangenciasTO.add(new AbrangenciaTO(abrangenciaJSON));
 			}
 
-			this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERTS,
+			this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_INSERTS,
 					new Util().ListColectionToString(new ArrayList<Object>(abrangenciasTO))));
 			abrangenciasTO = this.abrangenciaRepository.insert(abrangenciasTO);
 
@@ -153,14 +153,14 @@ public class AbrangenciaControllerImpl implements AbrangenciaController {
 		for (String item : itens) {
 			this.insert("carga", new AbrangenciaJSON(item));
 		}
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERTTXT, itens.toString()));
+		this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_INSERTTXT, itens.toString()));
 
 	}
 
 	@SuppressWarnings("unchecked")
 	public int rotinaCarga(ArrayList<String> itens) {
 		int quantide = 0;
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_CARGA, "Carga"));
+		this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_CARGA, "Carga"));
 		if (((List<AbrangenciaJSON>) this.getAll("carga")).size() == 0) {
 			this.insertTxt(itens);
 		} else {

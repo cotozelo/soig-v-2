@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import br.com.nois.sa.rc.model.json.BooleanJSON;
 import br.com.nois.sa.rc.model.json.IndicadorJSON;
 
 public interface IndicadorController {
@@ -22,4 +23,6 @@ public interface IndicadorController {
 
 	public ResponseEntity<Response<String>> clonar(@PathVariable("username") String userName,
 			@PathVariable("anoorigem") String anoOrigem, @PathVariable("anodestino") String anoDestino);
+
+	public BooleanJSON unicidadeSigla(@PathVariable("username") String userName, @PathVariable("sigla") String sigla);
 }

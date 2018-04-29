@@ -6,11 +6,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import br.com.nois.sa.rc.model.json.BooleanJSON;
 import br.com.nois.sa.rc.model.json.MunicipioJSON;
 
 public interface MunicipioController {
+	public BooleanJSON unicidadeNome(@PathVariable("username") String userName, @PathVariable("nome") String nome);
+
 	public ResponseEntity<Response<List<MunicipioJSON>>> getByAgenciaId(@PathVariable("username") String userName,
 			@PathVariable("agenciaId") String agenciaId);
+
+	public BooleanJSON unicidadeCodigo(@PathVariable("username") String userName,
+			@PathVariable("codigo") String codigo);
 
 	public ResponseEntity<Response<MunicipioJSON>> insert(@PathVariable("username") String userName,
 			@RequestBody MunicipioJSON municipio);

@@ -45,7 +45,7 @@ public class ServicoControllerImpl implements ServicoController {
 
 	public Long countByNome(String nome) {
 		Long qtde = this.servicoRepository.countByNome(nome);
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_COUNTBYNOME, nome));
+		this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_COUNTBYNOME, nome));
 		return qtde;
 	}
 
@@ -62,7 +62,7 @@ public class ServicoControllerImpl implements ServicoController {
 					servicosJSON.add(new ServicoJSON(to));
 				}
 
-				this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
+				this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_GETALL,
 						new Util().ListColectionToString(new ArrayList<Object>(servicosJSON))));
 
 				response.setData(servicosJSON);
@@ -87,8 +87,8 @@ public class ServicoControllerImpl implements ServicoController {
 			if (servicoTO != null) {
 				ServicoJSON servicoJSON = new ServicoJSON(servicoTO);
 
-				this.logController.insert(
-						new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_GETBYNOME, servicoJSON.toString()));
+				this.logController
+						.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_GETBYNOME, servicoJSON.toString()));
 				response.setData(servicoJSON);
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			} else {
@@ -110,8 +110,7 @@ public class ServicoControllerImpl implements ServicoController {
 			ServicoTO servicoTO = new ServicoTO(servicoJSON);
 
 			servicoTO = this.servicoRepository.insert(servicoTO);
-			this.logController
-					.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERT, servicoTO.toString()));
+			this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_INSERT, servicoTO.toString()));
 			response.setData(servicoJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
@@ -131,7 +130,7 @@ public class ServicoControllerImpl implements ServicoController {
 				servicosTO.add(new ServicoTO(servicoJSON));
 			}
 
-			this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERTS,
+			this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_INSERTS,
 					new Util().ListColectionToString(new ArrayList<Object>(servicosTO))));
 			servicosTO = this.servicoRepository.insert(servicosTO);
 
@@ -153,13 +152,14 @@ public class ServicoControllerImpl implements ServicoController {
 		for (String item : itens) {
 			this.insert("carga", new ServicoJSON(item));
 		}
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_INSERTTXT, itens.toString()));
+		this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_INSERTTXT, itens.toString()));
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public int rotinaCarga(ArrayList<String> itens) {
 		int quantide = 0;
-		this.logController.insert(new Log(new Constantes().LOG_FUNCIONALIDADE_CONTROLLER_CARGA, "Carga"));
+		this.logController.insert(new Log(Constantes.LOG_FUNCIONALIDADE_CONTROLLER_CARGA, "Carga"));
 		if (((List<ServicoJSON>) this.getAll("carga")).size() == 0) {
 			this.insertTxt(itens);
 		} else {

@@ -9,10 +9,10 @@ public enum TipoCalculo {
 		String retorno = "";
 		switch (tipoIndicador) {
 		case ACUMLADO:
-			retorno = new Constantes().TIPOCALCULO_ACUMULADO.toString();
+			retorno = Constantes.TIPOCALCULO_ACUMULADO.toString();
 			break;
 		case MENSAL:
-			retorno = new Constantes().TIPOCALCULO_MENSAL.toString();
+			retorno = Constantes.TIPOCALCULO_MENSAL.toString();
 			break;
 
 		default:

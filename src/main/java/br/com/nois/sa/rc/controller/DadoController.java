@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import br.com.nois.sa.rc.model.json.BooleanJSON;
 import br.com.nois.sa.rc.model.json.DadoJSON;
 
 public interface DadoController {
@@ -20,4 +21,6 @@ public interface DadoController {
 
 	public ResponseEntity<Response<DadoJSON>> deleteById(@PathVariable("username") String userName,
 			@PathVariable("dadoid") String dadoId);
+
+	public BooleanJSON unicidadeSigla(@PathVariable("username") String userName, @PathVariable("sigla") String sigla);
 }

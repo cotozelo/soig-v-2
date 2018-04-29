@@ -9,10 +9,10 @@ public enum TipoFavorito {
 		String retorno = "";
 		switch (enumerator) {
 		case DADO:
-			retorno = new Constantes().DADO.toString();
+			retorno = Constantes.DADO.toString();
 			break;
 		case INDICADOR:
-			retorno = new Constantes().INDICADOR.toString();
+			retorno = Constantes.INDICADOR.toString();
 			break;
 		default:
 			break;
