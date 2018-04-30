@@ -78,7 +78,6 @@ public class PainelControllerImpl implements PainelController {
 		this.versaoRepository = versaoRepository;
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	@GetMapping("/listagem/{username}/{agenciaId}/{municipioId}/{prestadoraId}")
 	public ResponseEntity<Response<List<PainelJSON>>> getPainel(@PathVariable("username") String userName,
