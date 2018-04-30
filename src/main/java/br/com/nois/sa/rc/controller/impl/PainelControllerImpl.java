@@ -18,6 +18,7 @@ import br.com.nois.sa.rc.controller.PainelController;
 import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.json.PainelJSON;
+import br.com.nois.sa.rc.model.json.UsuarioJSON;
 import br.com.nois.sa.rc.model.to.AnoTO;
 import br.com.nois.sa.rc.model.to.DadoTO;
 import br.com.nois.sa.rc.model.to.DadoValorTO;
@@ -99,9 +100,17 @@ public class PainelControllerImpl implements PainelController {
 				response.setData(new ArrayList<>());
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
-			UsuarioTO usuarioTO = new UsuarioTO(
-					(new UsuarioControllerImpl(usuarioRepository, logRepository, perfilRepository, versaoRepository))
-							.getInformacao(userName).getBody().getData());
+
+			UsuarioJSON usuarioJSON = new UsuarioControllerImpl(usuarioRepository, logRepository, perfilRepository,
+					versaoRepository).getInformacao(userName).getBody().getData();
+			if (usuarioJSON == null) {
+				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/painel/" + userName + "/"
+						+ agenciaId + "/" + municipioId + "/" + prestadoraId));
+				response.setData(new ArrayList<>());
+				return ResponseEntity.status(HttpStatus.OK).body(response);
+			}
+
+			UsuarioTO usuarioTO = new UsuarioTO(usuarioJSON);
 			if (usuarioTO == null) {
 				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/painel/" + userName + "/"
 						+ agenciaId + "/" + municipioId + "/" + prestadoraId));
