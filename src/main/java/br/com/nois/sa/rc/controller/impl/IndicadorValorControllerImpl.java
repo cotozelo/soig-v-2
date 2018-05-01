@@ -47,7 +47,6 @@ public class IndicadorValorControllerImpl implements IndicadorValorController {
 		this.logRepository = logRepository;
 		this.indicadorRepository = indicadorRepository;
 		this.logController = new LogControllerImpl(this.logRepository, versaoRespository);
-		this.indicadoresTO = this.indicadorRepository.findAll();
 	}
 
 	@Override
@@ -58,6 +57,7 @@ public class IndicadorValorControllerImpl implements IndicadorValorController {
 
 		Response<List<AnoIndicadorValoresJSON>> response = new Response<List<AnoIndicadorValoresJSON>>();
 		try {
+			this.indicadoresTO = this.indicadorRepository.findAll();
 			if (this.indicadoresTO == null) {
 				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/lisgatem/" + userName + "/"
 						+ agenciaId + "/" + municipioId + "/" + prestadoraId));
@@ -96,9 +96,11 @@ public class IndicadorValorControllerImpl implements IndicadorValorController {
 
 			List<AnoIndicadorValoresJSON> anosJSON = new ArrayList<AnoIndicadorValoresJSON>();
 			for (AnoTO anoTO : anosTO) {
-				AnoIndicadorValoresJSON anoIndicadorValorJSON = new AnoIndicadorValoresJSON(anoTO);
-				anoIndicadorValorJSON.setInclinacao(inclinacao);
-				anosJSON.add(anoIndicadorValorJSON);
+				if (anoTO.getIndicadorValores() != null) {
+					AnoIndicadorValoresJSON anoIndicadorValorJSON = new AnoIndicadorValoresJSON(anoTO);
+					anoIndicadorValorJSON.setInclinacao(inclinacao);
+					anosJSON.add(anoIndicadorValorJSON);
+				}
 			}
 
 			this.logController.insert(new Log(Constantes.PRESTADORA_LISTAGEM,

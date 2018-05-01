@@ -50,7 +50,6 @@ public class PerfilControllerImpl implements PerfilController {
 		this.funcionalidadeRepository = funcionalidadeRepository;
 		this.logRepository = logRepository;
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
-
 		for (FuncionalidadeTO funcionalidade : this.funcionalidadeRepository.findAll()) {
 			this.funcionalidades.put(funcionalidade.getId(), funcionalidade.getNome());
 		}

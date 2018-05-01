@@ -65,13 +65,7 @@ public class PainelControllerImpl implements PainelController {
 		this.municipioRepository = municipioRepository;
 		this.logRepository = logRepository;
 		this.indicadorRepository = indicadorRepository;
-		for (IndicadorTO indicadorTO : this.indicadorRepository.findAll()) {
-			this.indicadoresTO.put(indicadorTO.getSigla(), indicadorTO);
-		}
 		this.dadoRepository = dadoRepository;
-		for (DadoTO dadoTO : this.dadoRepository.findAll()) {
-			this.dadosTO.put(dadoTO.getSigla(), dadoTO);
-		}
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 		this.usuarioRepository = usuarioRepository;
 		this.perfilRepository = perfilRepository;
@@ -87,6 +81,12 @@ public class PainelControllerImpl implements PainelController {
 		Response<List<PainelJSON>> response = new Response<List<PainelJSON>>();
 		List<PainelJSON> paineisJSON = new ArrayList<PainelJSON>();
 		try {
+			for (IndicadorTO indicadorTO : this.indicadorRepository.findAll()) {
+				this.indicadoresTO.put(indicadorTO.getSigla(), indicadorTO);
+			}
+			for (DadoTO dadoTO : this.dadoRepository.findAll()) {
+				this.dadosTO.put(dadoTO.getSigla(), dadoTO);
+			}
 			if (this.indicadoresTO == null) {
 				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/painel/" + userName + "/"
 						+ agenciaId + "/" + municipioId + "/" + prestadoraId));

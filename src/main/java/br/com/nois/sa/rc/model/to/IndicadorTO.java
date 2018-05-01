@@ -21,7 +21,8 @@ public class IndicadorTO extends Indicador {
 		super();
 		super.setAtivo(json.isAtivo());
 		super.setDescricao(json.getDescricao());
-		super.setGrafico(json.getGrafico());
+		super.setGraficoId(json.getGraficoId());
+		super.setGraficoNome(json.getGraficoNome());
 		super.setGrupoId(json.getGrupoId());
 		super.setGrupoNome(json.getGrupoNome());
 		super.setInclinacaoId(json.getInclinacaoId());
@@ -36,7 +37,8 @@ public class IndicadorTO extends Indicador {
 	public void update(IndicadorJSON json) {
 		super.setAtivo(json.isAtivo());
 		super.setDescricao(json.getDescricao());
-		super.setGrafico(json.getGrafico());
+		super.setGraficoId(json.getGraficoId());
+		super.setGraficoNome(json.getGraficoNome());
 		super.setGrupoId(json.getGrupoId());
 		super.setGrupoNome(json.getGrupoNome());
 		super.setInclinacaoId(json.getInclinacaoId());
@@ -128,8 +130,8 @@ public class IndicadorTO extends Indicador {
 				+ ", observacao=" + super.getObservacao() + ", grupoId=" + super.getGrupoId() + ", grupoName="
 				+ super.getGrupoNome() + ", inclinacaoId=" + super.getInclinacaoId() + ", inclinacaoNome="
 				+ super.getInclinacaoNome() + ", unidadeId=" + super.getUnidadeId() + ", unidadeNome="
-				+ super.getUnidadeNome() + ", grafico=" + super.getGrafico() + ", ativo=" + super.isAtivo()
-				+ ", equacoes=" + equacoes.toString() + "]";
+				+ super.getUnidadeNome() + ", graficoId=" + super.getGraficoId() + ", graficoNome="
+				+ super.getGraficoNome() + ", ativo=" + super.isAtivo() + ", equacoes=" + equacoes.toString() + "]";
 	}
 
 }

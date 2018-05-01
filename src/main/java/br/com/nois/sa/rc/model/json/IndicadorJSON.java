@@ -13,7 +13,8 @@ public class IndicadorJSON extends Indicador {
 		super();
 		super.setAtivo(to.isAtivo());
 		super.setDescricao(to.getDescricao());
-		super.setGrafico(to.getGrafico());
+		super.setGraficoId(to.getGraficoId());
+		super.setGraficoNome(to.getGraficoNome());
 		super.setGrupoId(to.getGrupoId());
 		super.setGrupoNome(to.getGrupoNome());
 		super.setInclinacaoId(to.getInclinacaoId());

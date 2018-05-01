@@ -16,7 +16,8 @@ public abstract class Indicador {
 	private String inclinacaoNome;
 	private String unidadeId;
 	private String unidadeNome;
-	private String grafico;
+	private String graficoId;
+	private String graficoNome;
 	private boolean ativo = false;
 
 	public Indicador() {
@@ -117,13 +118,21 @@ public abstract class Indicador {
 		}
 	}
 
-	public String getGrafico() {
-		return grafico;
+	public String getGraficoId() {
+		return graficoId;
 	}
 
-	public void setGrafico(String grafico) {
-		if (grafico != null) {
-			this.grafico = grafico.toUpperCase();
+	public void setGraficoId(String graficoId) {
+		this.graficoId = graficoId;
+	}
+
+	public String getGraficoNome() {
+		return graficoNome;
+	}
+
+	public void setGraficoNome(String graficoNome) {
+		if (graficoNome != null) {
+			this.graficoNome = graficoNome.toUpperCase();
 		}
 	}
 
@@ -146,15 +155,16 @@ public abstract class Indicador {
 		this.inclinacaoNome = indicador.getInclinacaoNome();
 		this.unidadeId = indicador.getUnidadeId();
 		this.unidadeNome = indicador.getUnidadeNome();
-		this.grafico = indicador.getGrafico();
+		this.graficoId = indicador.getGraficoId();
+		this.graficoNome = indicador.getGraficoNome();
 		this.ativo = indicador.isAtivo();
 	}
 
 	@Override
 	public String toString() {
 		return "Indicador [id=" + id + ", sigla=" + sigla + ", descricao=" + descricao + ", observacao=" + observacao
-				+ ", grupoId=" + grupoId + ", grupoNome=" + grupoNome + ", inclinacao_id=" + inclinacaoId
+				+ ", grupoId=" + grupoId + ", grupoNome=" + grupoNome + ", inclinacaoId=" + inclinacaoId
 				+ ", inclinacaoNome=" + inclinacaoNome + ", unidadeId=" + unidadeId + ", unidadeNome=" + unidadeNome
-				+ ", grafico=" + grafico + ", ativo=" + ativo + "]";
+				+ ", graficoId=" + graficoId + ", graficoNome=" + graficoNome + ", ativo=" + ativo + "]";
 	}
 }
