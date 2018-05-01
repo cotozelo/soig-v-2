@@ -58,10 +58,18 @@ public class AnoIndicadorValoresJSON extends Ano {
 		}
 	}
 
-	public void setInclinacao(Map<String, String> inclinacao) {
+	public void setInclinacaoNome(Map<String, String> inclinacaoNome) {
 		if (this.indicadorValores != null) {
 			for (IndicadorValorJSON indicadorValorJSON : this.indicadorValores) {
-				indicadorValorJSON.setInclinacao(inclinacao.get(indicadorValorJSON.getSigla()));
+				indicadorValorJSON.setInclinacaoNome(inclinacaoNome.get(indicadorValorJSON.getSigla()));
+			}
+		}
+	}
+
+	public void setInclinacaoId(Map<String, String> inclinacaoId) {
+		if (this.indicadorValores != null) {
+			for (IndicadorValorJSON indicadorValorJSON : this.indicadorValores) {
+				indicadorValorJSON.setInclinacaoId(inclinacaoId.get(indicadorValorJSON.getSigla()));
 			}
 		}
 	}

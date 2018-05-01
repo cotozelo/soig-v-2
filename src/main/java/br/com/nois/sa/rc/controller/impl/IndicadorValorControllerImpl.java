@@ -64,9 +64,11 @@ public class IndicadorValorControllerImpl implements IndicadorValorController {
 				response.setData(new ArrayList<>());
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
-			Map<String, String> inclinacao = new HashMap<String, String>();
+			Map<String, String> inclinacaoNome = new HashMap<String, String>();
+			Map<String, String> inclinacaoId = new HashMap<String, String>();
 			for (IndicadorTO indicadorTO : this.indicadoresTO) {
-				inclinacao.put(indicadorTO.getSigla(), indicadorTO.getInclinacaoNome());
+				inclinacaoNome.put(indicadorTO.getSigla(), indicadorTO.getInclinacaoNome());
+				inclinacaoId.put(indicadorTO.getSigla(), indicadorTO.getInclinacaoId());
 			}
 
 			MunicipioTO municipioTO = this.municipioRepository.findById(municipioId);
@@ -98,7 +100,8 @@ public class IndicadorValorControllerImpl implements IndicadorValorController {
 			for (AnoTO anoTO : anosTO) {
 				if (anoTO.getIndicadorValores() != null) {
 					AnoIndicadorValoresJSON anoIndicadorValorJSON = new AnoIndicadorValoresJSON(anoTO);
-					anoIndicadorValorJSON.setInclinacao(inclinacao);
+					anoIndicadorValorJSON.setInclinacaoNome(inclinacaoNome);
+					anoIndicadorValorJSON.setInclinacaoId(inclinacaoId);
 					anosJSON.add(anoIndicadorValorJSON);
 				}
 			}
