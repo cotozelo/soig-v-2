@@ -209,15 +209,15 @@ public class PainelControllerImpl implements PainelController {
 		String municipio;
 		String prestadora;
 		for (UsuarioAgenciaTO usuarioAgenciaTO : usuarioTO.getUsuarioAgencias()) {
-			if (usuarioAgenciaTO.getAgenciaId().equals(agenciaId)) {
+			if (usuarioAgenciaTO.getAgenciaId() != null && usuarioAgenciaTO.getAgenciaId().equals(agenciaId)) {
 				agencia = usuarioAgenciaTO.getNome();
 
 				for (UsuarioMunicipioTO usuarioMunicipioTO : usuarioAgenciaTO.getUsuarioMunicipios()) {
-					if (usuarioMunicipioTO.getMunicipioId().equals(municipioId)) {
+					if (usuarioMunicipioTO.getMunicipioId() != null && usuarioMunicipioTO.getMunicipioId().equals(municipioId)) {
 						municipio = usuarioMunicipioTO.getNome();
 
 						for (UsuarioPrestadoraTO usuarioPrestadoraTO : usuarioMunicipioTO.getUsuarioPrestadoras()) {
-							if (usuarioPrestadoraTO.getPrestadoraId().equals(prestadoraId)) {
+							if (usuarioPrestadoraTO.getPrestadoraId() != null && usuarioPrestadoraTO.getPrestadoraId().equals(prestadoraId)) {
 								prestadora = usuarioPrestadoraTO.getNome();
 								for (UsuarioDadoTO usuarioDado : usuarioPrestadoraTO.getUsuarioDados()) {
 									this.usuarioDados.put(usuarioDado.getSigla(), usuarioDado.isFavorito());
