@@ -129,7 +129,7 @@ public class IndicadorTO extends Indicador {
 				+ super.getGrupoNome() + ", inclinacaoId=" + super.getInclinacaoId() + ", inclinacaoNome="
 				+ super.getInclinacaoNome() + ", unidadeId=" + super.getUnidadeId() + ", unidadeNome="
 				+ super.getUnidadeNome() + ", grafico=" + super.getGrafico() + ", ativo=" + super.isAtivo()
-				+ ", equacoes=" + equacoes.toString() + "]";
+				+ ", equacoes=" + (equacoes == null ? "" : equacoes.toString()) + "]";
 	}
 
 }

@@ -18,6 +18,7 @@ import br.com.nois.sa.rc.controller.PainelController;
 import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.json.PainelJSON;
+import br.com.nois.sa.rc.model.json.UsuarioJSON;
 import br.com.nois.sa.rc.model.to.AnoTO;
 import br.com.nois.sa.rc.model.to.DadoTO;
 import br.com.nois.sa.rc.model.to.DadoValorTO;
@@ -64,20 +65,13 @@ public class PainelControllerImpl implements PainelController {
 		this.municipioRepository = municipioRepository;
 		this.logRepository = logRepository;
 		this.indicadorRepository = indicadorRepository;
-		for (IndicadorTO indicadorTO : this.indicadorRepository.findAll()) {
-			this.indicadoresTO.put(indicadorTO.getSigla(), indicadorTO);
-		}
 		this.dadoRepository = dadoRepository;
-		for (DadoTO dadoTO : this.dadoRepository.findAll()) {
-			this.dadosTO.put(dadoTO.getSigla(), dadoTO);
-		}
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 		this.usuarioRepository = usuarioRepository;
 		this.perfilRepository = perfilRepository;
 		this.versaoRepository = versaoRepository;
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	@GetMapping("/listagem/{username}/{agenciaId}/{municipioId}/{prestadoraId}")
 	public ResponseEntity<Response<List<PainelJSON>>> getPainel(@PathVariable("username") String userName,
@@ -87,6 +81,12 @@ public class PainelControllerImpl implements PainelController {
 		Response<List<PainelJSON>> response = new Response<List<PainelJSON>>();
 		List<PainelJSON> paineisJSON = new ArrayList<PainelJSON>();
 		try {
+			for (IndicadorTO indicadorTO : this.indicadorRepository.findAll()) {
+				this.indicadoresTO.put(indicadorTO.getSigla(), indicadorTO);
+			}
+			for (DadoTO dadoTO : this.dadoRepository.findAll()) {
+				this.dadosTO.put(dadoTO.getSigla(), dadoTO);
+			}
 			if (this.indicadoresTO == null) {
 				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/painel/" + userName + "/"
 						+ agenciaId + "/" + municipioId + "/" + prestadoraId));
@@ -99,9 +99,17 @@ public class PainelControllerImpl implements PainelController {
 				response.setData(new ArrayList<>());
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
-			UsuarioTO usuarioTO = new UsuarioTO(
-					(new UsuarioControllerImpl(usuarioRepository, logRepository, perfilRepository, versaoRepository))
-							.getInformacao(userName).getBody().getData());
+
+			UsuarioJSON usuarioJSON = new UsuarioControllerImpl(usuarioRepository, logRepository, perfilRepository,
+					versaoRepository).getInformacao(userName).getBody().getData();
+			if (usuarioJSON == null) {
+				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/painel/" + userName + "/"
+						+ agenciaId + "/" + municipioId + "/" + prestadoraId));
+				response.setData(new ArrayList<>());
+				return ResponseEntity.status(HttpStatus.OK).body(response);
+			}
+
+			UsuarioTO usuarioTO = new UsuarioTO(usuarioJSON);
 			if (usuarioTO == null) {
 				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/painel/" + userName + "/"
 						+ agenciaId + "/" + municipioId + "/" + prestadoraId));
@@ -201,15 +209,15 @@ public class PainelControllerImpl implements PainelController {
 		String municipio;
 		String prestadora;
 		for (UsuarioAgenciaTO usuarioAgenciaTO : usuarioTO.getUsuarioAgencias()) {
-			if (usuarioAgenciaTO.getAgenciaId().equals(agenciaId)) {
+			if (usuarioAgenciaTO.getAgenciaId() != null && usuarioAgenciaTO.getAgenciaId().equals(agenciaId)) {
 				agencia = usuarioAgenciaTO.getNome();
 
 				for (UsuarioMunicipioTO usuarioMunicipioTO : usuarioAgenciaTO.getUsuarioMunicipios()) {
-					if (usuarioMunicipioTO.getMunicipioId().equals(municipioId)) {
+					if (usuarioMunicipioTO.getMunicipioId() != null && usuarioMunicipioTO.getMunicipioId().equals(municipioId)) {
 						municipio = usuarioMunicipioTO.getNome();
 
 						for (UsuarioPrestadoraTO usuarioPrestadoraTO : usuarioMunicipioTO.getUsuarioPrestadoras()) {
-							if (usuarioPrestadoraTO.getPrestadoraId().equals(prestadoraId)) {
+							if (usuarioPrestadoraTO.getPrestadoraId() != null && usuarioPrestadoraTO.getPrestadoraId().equals(prestadoraId)) {
 								prestadora = usuarioPrestadoraTO.getNome();
 								for (UsuarioDadoTO usuarioDado : usuarioPrestadoraTO.getUsuarioDados()) {
 									this.usuarioDados.put(usuarioDado.getSigla(), usuarioDado.isFavorito());

@@ -153,7 +153,7 @@ public abstract class Indicador {
 	@Override
 	public String toString() {
 		return "Indicador [id=" + id + ", sigla=" + sigla + ", descricao=" + descricao + ", observacao=" + observacao
-				+ ", grupoId=" + grupoId + ", grupoNome=" + grupoNome + ", inclinacao_id=" + inclinacaoId
+				+ ", grupoId=" + grupoId + ", grupoNome=" + grupoNome + ", inclinacaoId=" + inclinacaoId
 				+ ", inclinacaoNome=" + inclinacaoNome + ", unidadeId=" + unidadeId + ", unidadeNome=" + unidadeNome
 				+ ", grafico=" + grafico + ", ativo=" + ativo + "]";
 	}

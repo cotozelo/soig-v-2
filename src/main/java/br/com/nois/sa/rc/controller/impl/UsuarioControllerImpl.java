@@ -128,14 +128,19 @@ public class UsuarioControllerImpl implements UsuarioController {
 			UsuarioTO usuarioTO = this.usuarioRepository.findByNomeDeUsuario(userName);
 
 			for (UsuarioAgenciaTO usuarioAgenciaTO : usuarioTO.getUsuarioAgencias()) {
-				if (usuarioAgenciaTO.getAgenciaId().equals(favoritoJSON.getAgenciaId())) {
+				if (usuarioAgenciaTO.getAgenciaId() != null
+						&& usuarioAgenciaTO.getAgenciaId().equals(favoritoJSON.getAgenciaId())) {
 					for (UsuarioMunicipioTO usuarioMunicipioTO : usuarioAgenciaTO.getUsuarioMunicipios()) {
-						if (usuarioMunicipioTO.getMunicipioId().equals(favoritoJSON.getMunicipioId())) {
+						if (usuarioMunicipioTO.getMunicipioId() != null
+								&& usuarioMunicipioTO.getMunicipioId().equals(favoritoJSON.getMunicipioId())) {
 							for (UsuarioPrestadoraTO usuarioPrestadora : usuarioMunicipioTO.getUsuarioPrestadoras()) {
-								if (usuarioPrestadora.getPrestadoraId().equals(favoritoJSON.getPrestadoraId())) {
-									if (favoritoJSON.getTipo().equals(TipoFavorito.DADO)) {
+								if (usuarioPrestadora.getPrestadoraId() != null
+										&& usuarioPrestadora.getPrestadoraId().equals(favoritoJSON.getPrestadoraId())) {
+									if (favoritoJSON.getTipo() != null
+											&& favoritoJSON.getTipo().equals(TipoFavorito.DADO)) {
 										for (UsuarioDadoTO usuarioDado : usuarioPrestadora.getUsuarioDados()) {
-											if (usuarioDado.getSigla().equals(favoritoJSON.getSigla())) {
+											if (usuarioDado.getSigla() != null
+													&& usuarioDado.getSigla().equals(favoritoJSON.getSigla())) {
 												usuarioDado.setFavorito(favoritoJSON.isFavorito());
 												usuarioTO = this.usuarioRepository.save(usuarioTO);
 												UsuarioJSON usuarioJSON = new UsuarioJSON(usuarioTO);
@@ -144,10 +149,12 @@ public class UsuarioControllerImpl implements UsuarioController {
 												return ResponseEntity.status(HttpStatus.OK).body(response);
 											}
 										}
-									} else if (favoritoJSON.getTipo().equals(TipoFavorito.INDICADOR)) {
+									} else if (favoritoJSON.getTipo() != null
+											&& favoritoJSON.getTipo().equals(TipoFavorito.INDICADOR)) {
 										for (UsuarioIndicadorTO usuarioIndicador : usuarioPrestadora
 												.getUsuarioIndicadores()) {
-											if (usuarioIndicador.getSigla().equals(favoritoJSON.getSigla())) {
+											if (usuarioIndicador.getSigla() != null
+													&& usuarioIndicador.getSigla().equals(favoritoJSON.getSigla())) {
 												usuarioIndicador.setFavorito(favoritoJSON.isFavorito());
 												usuarioTO = this.usuarioRepository.save(usuarioTO);
 												UsuarioJSON usuarioJSON = new UsuarioJSON(usuarioTO);

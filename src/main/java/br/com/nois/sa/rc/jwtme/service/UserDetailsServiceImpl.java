@@ -47,6 +47,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (!usuarioTO.isAdmin()) {
 			role = usuarioTO.getPerfilId();
 		}
+		if (role == null || role.isEmpty()) {
+			throw new PerfilNotExistsException("Perfil nao existe no User '" + username + "'");
+		}
 
 		return org.springframework.security.core.userdetails.User//
 				.withUsername(username)//
