@@ -2,11 +2,11 @@ package br.com.nois.sa.rc.model.to;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import br.com.nois.sa.rc.model.Abrangencia;
+import br.com.nois.sa.rc.model.NomeId;
 import br.com.nois.sa.rc.model.json.AbrangenciaJSON;
 
 @Document(collection = "abrangencia")
-public class AbrangenciaTO extends Abrangencia {
+public class AbrangenciaTO extends NomeId {
 
 	public AbrangenciaTO() {
 		super();

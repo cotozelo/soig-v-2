@@ -1,6 +1,6 @@
 package br.com.nois.sa.rc.model;
 
-public class AnoListagem {
+public abstract class AnoListagem {
 
 	private String editar;
 	private String exibir;

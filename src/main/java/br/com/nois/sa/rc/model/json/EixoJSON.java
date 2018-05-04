@@ -1,9 +1,9 @@
 package br.com.nois.sa.rc.model.json;
 
-import br.com.nois.sa.rc.model.Eixo;
-import br.com.nois.sa.rc.model.to.EixoTO;
+import br.com.nois.sa.rc.model.NomeId;
 
-public class EixoJSON extends Eixo {
+
+public class EixoJSON extends NomeId {
 	public EixoJSON() {
 		super();
 	}
@@ -14,7 +14,7 @@ public class EixoJSON extends Eixo {
 		super.setNome(nome);
 	}
 
-	public EixoJSON(EixoTO to) {
+	public EixoJSON(NomeId to) {
 		super();
 		super.setId(to.getId());
 		super.setNome(to.getNome());

@@ -19,7 +19,7 @@ public class MunicipioTO extends Municipio {
 
 	public MunicipioTO(MunicipioJSON json) {
 		super.setAgenciaId(json.getAgenciaId());
-		super.setAtiva(json.isAtiva());
+		super.setAtivo(json.isAtivo());
 		super.setCidade(json.getCidade());
 		super.setCodigo(json.getCodigo());
 		super.setContatoEmail(json.getContatoEmail());
@@ -94,7 +94,7 @@ public class MunicipioTO extends Municipio {
 		return "Municipio [id=" + super.getId() + ", nome=" + super.getNome() + ", codigo=" + super.getCodigo()
 				+ ", cidade=" + super.getCidade() + ", estado=" + super.getEstado() + ", contatoTelefone="
 				+ super.getContatoTelefone() + ", contatoNome=" + super.getContatoNome() + ", contatoEmail="
-				+ super.getContatoEmail() + ", ativa=" + super.isAtiva() + ", idAgencia = " + super.getAgenciaId()
+				+ super.getContatoEmail() + ", ativa=" + super.isAtivo() + ", idAgencia = " + super.getAgenciaId()
 				+ " \n\t\t\tprestadoras=[" + new Util().ListColectionToString((List<Object>) (List<?>) prestadoras)
 				+ "]]";
 	}

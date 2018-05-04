@@ -4,7 +4,6 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 public abstract class UsuarioIndicador {
-
 	@Id
 	private String id;
 	private String indicadorId;

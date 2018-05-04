@@ -1,9 +1,8 @@
 package br.com.nois.sa.rc.model.json;
 
-import br.com.nois.sa.rc.model.Grupo;
-import br.com.nois.sa.rc.model.to.GrupoTO;
+import br.com.nois.sa.rc.model.NomeId;
 
-public class GrupoJSON extends Grupo {
+public class GrupoJSON extends NomeId {
 
 	public GrupoJSON() {
 		super();
@@ -15,7 +14,7 @@ public class GrupoJSON extends Grupo {
 		super.setNome(nome);
 	}
 
-	public GrupoJSON(GrupoTO to) {
+	public GrupoJSON(NomeId to) {
 		super();
 		super.setId(to.getId());
 		super.setNome(to.getNome());

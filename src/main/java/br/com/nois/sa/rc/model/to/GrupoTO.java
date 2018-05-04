@@ -2,17 +2,16 @@ package br.com.nois.sa.rc.model.to;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import br.com.nois.sa.rc.model.Grupo;
-import br.com.nois.sa.rc.model.json.GrupoJSON;
+import br.com.nois.sa.rc.model.NomeId;
 
 @Document(collection = "grupo")
-public class GrupoTO extends Grupo {
+public class GrupoTO extends NomeId {
 
 	public GrupoTO() {
 		super();
 	}	
 
-	public GrupoTO(GrupoJSON json) {
+	public GrupoTO(NomeId json) {
 		super();
 		super.setId(json.getId());
 		super.setNome(json.getNome());

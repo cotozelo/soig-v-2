@@ -2,17 +2,16 @@ package br.com.nois.sa.rc.model.to;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import br.com.nois.sa.rc.model.Servico;
-import br.com.nois.sa.rc.model.json.ServicoJSON;
+import br.com.nois.sa.rc.model.NomeId;
 
 @Document(collection = "servico")
-public class ServicoTO extends Servico {
+public class ServicoTO extends NomeId {
 
 	public ServicoTO() {
 		super();
 	}
 
-	public ServicoTO(ServicoJSON json) {
+	public ServicoTO(NomeId json) {
 		super();
 		super.setId(json.getId());
 		super.setNome(json.getNome());
