@@ -2,6 +2,7 @@ package br.com.nois.sa.rc.controller.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,8 @@ public class DadoValorControllerImpl implements DadoValorController {
 
 	@Autowired
 	LogController logController;
+	
+	static Random gerador = new Random();
 
 	public DadoValorControllerImpl(MunicipioRepository municipioRepository, LogRepository logRepository,
 			DadoRepository dadoRepository, VersaoRepository versaoRespository) {
@@ -134,6 +137,44 @@ public class DadoValorControllerImpl implements DadoValorController {
 			for (DadoValorTO dadoValorTO : anoTO.getDadoValores()) {
 				if (dadoValorTO.getSigla().equalsIgnoreCase(anoDadoValorJSON.getDadoValor().getSigla())) {
 					dadoValorTO.update(anoDadoValorJSON.getDadoValor());
+					
+					if(dadoValorTO.getMes01() == null || dadoValorTO.getMes01().isEmpty()) {
+						dadoValorTO.setMes01(String.valueOf(gerador.nextInt()));
+					}
+					if(dadoValorTO.getMes02() == null || dadoValorTO.getMes02().isEmpty()) {
+						dadoValorTO.setMes02(String.valueOf(gerador.nextInt()));
+					}
+					if(dadoValorTO.getMes03() == null || dadoValorTO.getMes03().isEmpty()) {
+						dadoValorTO.setMes03(String.valueOf(gerador.nextInt()));
+					}
+					if(dadoValorTO.getMes04() == null || dadoValorTO.getMes04().isEmpty()) {
+						dadoValorTO.setMes04(String.valueOf(gerador.nextInt()));
+					}
+					if(dadoValorTO.getMes05() == null || dadoValorTO.getMes05().isEmpty()) {
+						dadoValorTO.setMes05(String.valueOf(gerador.nextInt()));
+					}
+					if(dadoValorTO.getMes06() == null || dadoValorTO.getMes06().isEmpty()) {
+						dadoValorTO.setMes06(String.valueOf(gerador.nextInt()));
+					}
+					if(dadoValorTO.getMes07() == null || dadoValorTO.getMes07().isEmpty()) {
+						dadoValorTO.setMes07(String.valueOf(gerador.nextInt()));
+					}
+					if(dadoValorTO.getMes08() == null || dadoValorTO.getMes08().isEmpty()) {
+						dadoValorTO.setMes08(String.valueOf(gerador.nextInt()));
+					}
+					if(dadoValorTO.getMes09() == null || dadoValorTO.getMes09().isEmpty()) {
+						dadoValorTO.setMes09(String.valueOf(gerador.nextInt()));
+					}
+					if(dadoValorTO.getMes10() == null || dadoValorTO.getMes10().isEmpty()) {
+						dadoValorTO.setMes10(String.valueOf(gerador.nextInt()));
+					}
+					if(dadoValorTO.getMes11() == null || dadoValorTO.getMes11().isEmpty()) {
+						dadoValorTO.setMes11(String.valueOf(gerador.nextInt()));
+					}
+					if(dadoValorTO.getMes12() == null || dadoValorTO.getMes12().isEmpty()) {
+						dadoValorTO.setMes12(String.valueOf(gerador.nextInt()));
+					}
+					
 					this.municipioRepository.save(municipioTO);
 
 					response.setData(anoDadoValorJSON);
