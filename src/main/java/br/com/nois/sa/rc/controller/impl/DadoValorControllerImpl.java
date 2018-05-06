@@ -18,6 +18,7 @@ import br.com.nois.sa.rc.controller.DadoValorController;
 import br.com.nois.sa.rc.controller.LogController;
 import br.com.nois.sa.rc.controller.Response;
 import br.com.nois.sa.rc.model.Log;
+import br.com.nois.sa.rc.model.TipoCalculo;
 import br.com.nois.sa.rc.model.json.AnoDadoValorJSON;
 import br.com.nois.sa.rc.model.json.AnoDadoValoresJSON;
 import br.com.nois.sa.rc.model.json.ErroJSON;
@@ -159,13 +160,21 @@ public class DadoValorControllerImpl implements DadoValorController {
 
 		Response<AnoDadoValorJSON> response = new Response<AnoDadoValorJSON>();
 		try {
-			for (MunicipioTO municipioTO : this.municipioRepository.findAll()) {
-
+			List<MunicipioTO> municipiosTO = this.municipioRepository.findByAtivo(false);
+			for (MunicipioTO municipioTO : municipiosTO) {
 				try {
-					for (PrestadoraTO prestadoraTO : municipioTO.getPrestadoras()) {
+					System.out.println(municipioTO.getNome() );
+					municipioTO = this.municipioRepository.findById(municipioTO.getId());
+					List<PrestadoraTO> prestadorasTO = municipioTO.getPrestadoras();
+					for (PrestadoraTO prestadoraTO : prestadorasTO) {
 
+						System.out.println(municipioTO.getNome() + " | " + prestadoraTO.getNome());
 						for (AnoTO anoTO : prestadoraTO.getAnos()) {
+							
+							System.out.println(municipioTO.getNome() + " | " + prestadoraTO.getNome() + " | "
+									+ anoTO.getAno());
 							for (DadoValorTO valorTO : anoTO.getDadoValores()) {
+
 								if (valorTO.getMes01() == null || valorTO.getMes01().isEmpty()) {
 									valorTO.setMes01(String.valueOf(gerador.nextInt(99999)));
 								}
@@ -216,7 +225,8 @@ public class DadoValorControllerImpl implements DadoValorController {
 								total += Integer.valueOf(valorTO.getMes11());
 								total += Integer.valueOf(valorTO.getMes12());
 								valorTO.setTotal(String.valueOf(total));
-
+								System.out.println(municipioTO.getNome() + " | " + prestadoraTO.getNome() + " | "
+										+ anoTO.getAno() + " | " + valorTO.getSigla());
 								this.municipioRepository.save(municipioTO);
 							}
 							for (IndicadorValorTO valorTO : anoTO.getIndicadorValores()) {
@@ -271,13 +281,74 @@ public class DadoValorControllerImpl implements DadoValorController {
 								total += Integer.valueOf(valorTO.getMes11());
 								total += Integer.valueOf(valorTO.getMes12());
 								valorTO.setTotal(String.valueOf(total));
+								
+								System.out.println(municipioTO.getNome() + " | " + prestadoraTO.getNome() + " | "
+										+ anoTO.getAno() + " | " + valorTO.getSigla() + " | " + TipoCalculo.ACUMULADO);
+								valorTO.setTipo(TipoCalculo.ACUMULADO);
+								this.municipioRepository.save(municipioTO);
+							}
+							for (IndicadorValorTO valorTO : anoTO.getIndicadorValores()) {
 
+								if (valorTO.getMes01() == null || valorTO.getMes01().isEmpty()) {
+									valorTO.setMes01(String.valueOf(gerador.nextInt(99999)));
+								}
+								if (valorTO.getMes02() == null || valorTO.getMes02().isEmpty()) {
+									valorTO.setMes02(String.valueOf(gerador.nextInt(99999)));
+								}
+								if (valorTO.getMes03() == null || valorTO.getMes03().isEmpty()) {
+									valorTO.setMes03(String.valueOf(gerador.nextInt(99999)));
+								}
+								if (valorTO.getMes04() == null || valorTO.getMes04().isEmpty()) {
+									valorTO.setMes04(String.valueOf(gerador.nextInt(99999)));
+								}
+								if (valorTO.getMes05() == null || valorTO.getMes05().isEmpty()) {
+									valorTO.setMes05(String.valueOf(gerador.nextInt(99999)));
+								}
+								if (valorTO.getMes06() == null || valorTO.getMes06().isEmpty()) {
+									valorTO.setMes06(String.valueOf(gerador.nextInt(99999)));
+								}
+								if (valorTO.getMes07() == null || valorTO.getMes07().isEmpty()) {
+									valorTO.setMes07(String.valueOf(gerador.nextInt(99999)));
+								}
+								if (valorTO.getMes08() == null || valorTO.getMes08().isEmpty()) {
+									valorTO.setMes08(String.valueOf(gerador.nextInt(99999)));
+								}
+								if (valorTO.getMes09() == null || valorTO.getMes09().isEmpty()) {
+									valorTO.setMes09(String.valueOf(gerador.nextInt(99999)));
+								}
+								if (valorTO.getMes10() == null || valorTO.getMes10().isEmpty()) {
+									valorTO.setMes10(String.valueOf(gerador.nextInt(99999)));
+								}
+								if (valorTO.getMes11() == null || valorTO.getMes11().isEmpty()) {
+									valorTO.setMes11(String.valueOf(gerador.nextInt(99999)));
+								}
+								if (valorTO.getMes12() == null || valorTO.getMes12().isEmpty()) {
+									valorTO.setMes12(String.valueOf(gerador.nextInt(99999)));
+								}
+
+								int total = Integer.valueOf(valorTO.getMes01());
+								total += Integer.valueOf(valorTO.getMes02());
+								total += Integer.valueOf(valorTO.getMes03());
+								total += Integer.valueOf(valorTO.getMes04());
+								total += Integer.valueOf(valorTO.getMes05());
+								total += Integer.valueOf(valorTO.getMes06());
+								total += Integer.valueOf(valorTO.getMes07());
+								total += Integer.valueOf(valorTO.getMes08());
+								total += Integer.valueOf(valorTO.getMes09());
+								total += Integer.valueOf(valorTO.getMes10());
+								total += Integer.valueOf(valorTO.getMes11());
+								total += Integer.valueOf(valorTO.getMes12());
+								valorTO.setTotal(String.valueOf(total));
+								
+								System.out.println(municipioTO.getNome() + " | " + prestadoraTO.getNome() + " | "
+										+ anoTO.getAno() + " | " + valorTO.getSigla()+ " | " + TipoCalculo.MENSAL);
+								valorTO.setTipo(TipoCalculo.MENSAL);
 								this.municipioRepository.save(municipioTO);
 							}
 						}
 					}
 				} catch (Exception ex) {
-
+					System.out.println("Erro" + ex.getMessage());
 				}
 			}
 			response.setError(new ErroJSON("não achou dado", this.getClass().getName() + "/update/" + userName));

@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import br.com.nois.sa.rc.model.Ano;
+import br.com.nois.sa.rc.model.TipoCalculo;
 import br.com.nois.sa.rc.model.json.AnoIndicadorValoresJSON;
+import br.com.nois.sa.rc.model.json.AnoJSON;
 import br.com.nois.sa.rc.util.Util;
 
 @Document(collection = "ano")
@@ -23,8 +25,44 @@ public class AnoTO extends Ano {
 		super.setId(json.getId());
 	}
 
+	public AnoTO(AnoJSON json) {
+		super();
+		super.setAno(json.getAno());
+		super.setEditar(Boolean.valueOf(json.isEditar()).booleanValue());
+		super.setExibir(Boolean.valueOf(json.isExibir()).booleanValue());
+		super.setId(json.getId());
+	}
+
 	private List<IndicadorValorTO> indicadorValores;
 	private List<DadoValorTO> dadoValores;
+
+	public void setDado(List<DadoTO> dados) {
+		if (this.dadoValores == null) {
+			this.dadoValores = new ArrayList<DadoValorTO>();
+		}
+		for (DadoTO dado : dados) {
+			DadoValorTO dadoValor = new DadoValorTO();
+			dadoValor.setSigla(dado.getSigla());
+			this.dadoValores.add(dadoValor);
+		}
+	}
+
+	public void setIndicador(List<IndicadorTO> indicadores) {
+		if (this.indicadorValores == null) {
+			this.indicadorValores = new ArrayList<IndicadorValorTO>();
+		}
+		for (IndicadorTO indicador : indicadores) {
+			IndicadorValorTO indicadorValor = new IndicadorValorTO();
+			indicadorValor.setSigla(indicador.getSigla());
+			indicadorValor.setTipo(TipoCalculo.ACUMULADO);
+			this.indicadorValores.add(indicadorValor);
+
+			IndicadorValorTO indicadorValorM = new IndicadorValorTO();
+			indicadorValorM.setSigla(indicador.getSigla());
+			indicadorValorM.setTipo(TipoCalculo.MENSAL);
+			this.indicadorValores.add(indicadorValorM);
+		}
+	}
 
 	public List<IndicadorValorTO> getIndicadorValores() {
 		return indicadorValores;

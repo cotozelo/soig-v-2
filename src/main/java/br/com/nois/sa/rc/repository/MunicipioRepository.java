@@ -16,8 +16,13 @@ public interface MunicipioRepository extends MongoRepository<MunicipioTO, String
 	// 'ativo':1}")
 
 	List<MunicipioTO> findAll();
-
+	
+	@Query(fields = "{ 'nome': 1, 'agenciaId': 1}")
+	List<MunicipioTO> findByAtivo(Boolean ativo);
+	
 	MunicipioTO findById(String id);
+
+	MunicipioTO findByIdAndAgenciaIdAndAtivo(String id, String agenciaId, Boolean ativo);
 
 	MunicipioTO findByNome(String nome);
 
