@@ -1,9 +1,8 @@
 package br.com.nois.sa.rc.model.json;
 
-import br.com.nois.sa.rc.model.Servico;
-import br.com.nois.sa.rc.model.to.ServicoTO;
+import br.com.nois.sa.rc.model.NomeId;
 
-public class ServicoJSON extends Servico {
+public class ServicoJSON extends NomeId {
 
 	public ServicoJSON() {
 		super();
@@ -15,7 +14,7 @@ public class ServicoJSON extends Servico {
 		super.setNome(nome);
 	}
 
-	public ServicoJSON(ServicoTO to) {
+	public ServicoJSON(NomeId to) {
 		super();
 		super.setId(to.getId());
 		super.setNome(to.getNome());

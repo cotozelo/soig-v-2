@@ -2,16 +2,15 @@ package br.com.nois.sa.rc.model.to;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import br.com.nois.sa.rc.model.Eixo;
-import br.com.nois.sa.rc.model.json.EixoJSON;
+import br.com.nois.sa.rc.model.NomeId;
 
 @Document(collection = "eixo")
-public class EixoTO extends Eixo {
+public class EixoTO extends NomeId {
 	public EixoTO() {
 		super();
 	}
 
-	public EixoTO(EixoJSON json) {
+	public EixoTO(NomeId json) {
 		super();
 		super.setId(json.getId());
 		super.setNome(json.getNome());

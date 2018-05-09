@@ -1,9 +1,9 @@
 package br.com.nois.sa.rc.model.json;
 
-import br.com.nois.sa.rc.model.Unidade;
+import br.com.nois.sa.rc.model.NomeId;
 import br.com.nois.sa.rc.model.to.UnidadeTO;
 
-public class UnidadeJSON extends Unidade {
+public class UnidadeJSON extends NomeId {
 
 	public UnidadeJSON() {
 		super();

@@ -1,9 +1,8 @@
 package br.com.nois.sa.rc.model.json;
 
-import br.com.nois.sa.rc.model.Funcionalidade;
-import br.com.nois.sa.rc.model.to.FuncionalidadeTO;
+import br.com.nois.sa.rc.model.NomeId;
 
-public class FuncionalidadeJSON extends Funcionalidade {
+public class FuncionalidadeJSON extends NomeId {
 
 	public FuncionalidadeJSON() {
 		super();
@@ -15,7 +14,7 @@ public class FuncionalidadeJSON extends Funcionalidade {
 		super.setNome(nome);
 	}
 
-	public FuncionalidadeJSON(FuncionalidadeTO to) {
+	public FuncionalidadeJSON(NomeId to) {
 		super();
 		super.setId(to.getId());
 		super.setNome(to.getNome());
@@ -28,6 +27,6 @@ public class FuncionalidadeJSON extends Funcionalidade {
 
 	@Override
 	public String toString() {
-		return "FuncionalidadeJSON [id=" + super.getId() + ", nome=" + super.getNome() + "]";
+		return "FuncionalidadeJSON " + super.toString();
 	}
 }

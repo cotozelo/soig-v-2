@@ -3,7 +3,7 @@ package br.com.nois.sa.rc.model;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
-public class Municipio {
+public abstract class Municipio {
 
 	@Id
 	private String id;
@@ -15,7 +15,7 @@ public class Municipio {
 	private String contatoTelefone;
 	private String contatoNome;
 	private String contatoEmail;
-	private Boolean ativa = false;
+	private Boolean ativo = false;
 	// private List<Prestadora> prestadoras;
 
 	public Municipio() {
@@ -92,12 +92,12 @@ public class Municipio {
 		this.contatoEmail = contatoEmail;
 	}
 
-	public Boolean isAtiva() {
-		return ativa;
+	public Boolean isAtivo() {
+		return ativo;
 	}
 
-	public void setAtiva(Boolean ativa) {
-		this.ativa = ativa;
+	public void setAtivo(Boolean ativa) {
+		this.ativo = ativa;
 	}
 
 	public String getAgenciaId() {
@@ -116,7 +116,7 @@ public class Municipio {
 		this.contatoTelefone = municipio.getContatoTelefone();
 		this.contatoNome = municipio.getContatoNome();
 		this.contatoEmail = municipio.getContatoEmail();
-		this.ativa = municipio.isAtiva();
+		this.ativo = municipio.isAtivo();
 		this.agenciaId = municipio.getAgenciaId();
 	}
 }

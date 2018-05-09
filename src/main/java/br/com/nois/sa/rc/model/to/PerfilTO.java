@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import br.com.nois.sa.rc.model.Funcionalidade;
+import br.com.nois.sa.rc.model.NomeId;
 import br.com.nois.sa.rc.model.Perfil;
 import br.com.nois.sa.rc.model.json.PerfilJSON;
 
@@ -46,7 +46,7 @@ public class PerfilTO extends Perfil {
 	@Override
 	public String toString() {
 		String sFuncionalidade = "";
-		for (Funcionalidade funcionalidade : funcionalidades) {
+		for (NomeId funcionalidade : funcionalidades) {
 			sFuncionalidade += funcionalidade.toString() + ", ";
 		}
 		return "PerfilJSON [id=" + super.getId() + ", funcionalidades=[" + sFuncionalidade + "], nome="

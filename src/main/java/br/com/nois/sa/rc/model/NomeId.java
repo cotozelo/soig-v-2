@@ -3,16 +3,21 @@ package br.com.nois.sa.rc.model;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
-public abstract class Servico {
+public abstract class NomeId {
 
 	@Id
 	private String id;
 	private String nome;
 
-	public Servico() {
+	public NomeId() {
 		super();
 	}
 
+	public NomeId(String nome) {
+		super();
+		this.nome = nome;
+	} 
+	
 	public String getId() {
 		if (this.id == null || this.id.isEmpty())
 			this.id = ObjectId.get().toString();
@@ -36,6 +41,6 @@ public abstract class Servico {
 	}
 
 	public String toString() {
-		return "Servico [id=" + this.id + ", nome=" + this.getNome() + "]";
+		return " [id=" + this.id + ", nome=" + this.getNome() + "]";
 	}
 }

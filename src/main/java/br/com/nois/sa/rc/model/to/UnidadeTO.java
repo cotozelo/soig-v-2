@@ -2,17 +2,16 @@ package br.com.nois.sa.rc.model.to;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import br.com.nois.sa.rc.model.Unidade;
-import br.com.nois.sa.rc.model.json.UnidadeJSON;
+import br.com.nois.sa.rc.model.NomeId;
 
 @Document(collection = "unidade")
-public class UnidadeTO extends Unidade {
+public class UnidadeTO extends NomeId {
 
 	public UnidadeTO() {
 		super();
 	}
 
-	public UnidadeTO(UnidadeJSON json) {
+	public UnidadeTO(NomeId json) {
 		super();
 		super.setId(json.getId());
 		super.setNome(json.getNome());

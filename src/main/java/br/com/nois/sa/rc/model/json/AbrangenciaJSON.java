@@ -1,9 +1,9 @@
 package br.com.nois.sa.rc.model.json;
 
-import br.com.nois.sa.rc.model.Abrangencia;
+import br.com.nois.sa.rc.model.NomeId;
 import br.com.nois.sa.rc.model.to.AbrangenciaTO;
 
-public class AbrangenciaJSON extends Abrangencia {
+public class AbrangenciaJSON extends NomeId {
 	public AbrangenciaJSON() {
 		super();
 	}
@@ -27,6 +27,6 @@ public class AbrangenciaJSON extends Abrangencia {
 
 	@Override
 	public String toString() {
-		return "AbrangenciaJSON [id=" + super.getId() + ", nome=" + super.getNome() + "]";
+		return "AbrangenciaJSON " + super.toString();
 	}
 }
