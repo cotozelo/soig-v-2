@@ -110,13 +110,7 @@ public class PainelControllerImpl implements PainelController {
 			}
 
 			UsuarioTO usuarioTO = new UsuarioTO(usuarioJSON);
-			if (usuarioTO == null) {
-				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/painel/" + userName + "/"
-						+ agenciaId + "/" + municipioId + "/" + prestadoraId));
-				response.setData(new ArrayList<>());
-				return ResponseEntity.status(HttpStatus.OK).body(response);
-			}
-
+			
 			PainelJSON painelJSON = getDadosIndicadores(agenciaId, municipioId, prestadoraId, usuarioTO);
 			if (painelJSON == null) {
 				response.setError(new ErroJSON("VxAxRx00001", this.getClass().getName() + "/lisgatem/" + userName + "/"

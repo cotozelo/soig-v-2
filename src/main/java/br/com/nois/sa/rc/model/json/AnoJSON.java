@@ -54,6 +54,10 @@ public class AnoJSON {
 	public String isEditar() {
 		return editar;
 	}
+	
+	public String getEditar() {
+		return editar;
+	}
 
 	public void setEditar(String editar) {
 		this.editar = editar;
@@ -65,6 +69,10 @@ public class AnoJSON {
 
 
 	public String isExibir() {
+		return exibir;
+	}
+	
+	public String getExibir() {
 		return exibir;
 	}
 
