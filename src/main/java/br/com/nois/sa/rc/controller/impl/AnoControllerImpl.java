@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -56,42 +57,46 @@ public class AnoControllerImpl implements AnoContoller {
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 	}
 
-	@PostMapping("/insert/{username}/{agenciaId}/{municipioId}/{prestadoraId}")
+	@GetMapping("/listagem/{username}/{agenciaId}/{municipioId}/{prestadoraId}")
 	public ResponseEntity<Response<List<AnoJSON>>> getAll(@PathVariable("username") String userName,
 			@PathVariable("agenciaId") String agenciaId, @PathVariable("municipioId") String municipioId,
 			@PathVariable("prestadoraId") String prestadoraId) {
 
 		return this.getAno(agenciaId, municipioId, prestadoraId);
 	}
-	
-	@PostMapping("/insert/{username}/{agenciaId}/{municipioId}")
+
+	@GetMapping("/listagem/{username}/{agenciaId}/{municipioId}")
 	public ResponseEntity<Response<List<AnoJSON>>> getAll(@PathVariable("username") String userName,
 			@PathVariable("agenciaId") String agenciaId, @PathVariable("municipioId") String municipioId) {
 
 		return this.getAno(agenciaId, municipioId, "");
 	}
-	
-	@PostMapping("/insert/{username}/{agenciaId}")
+
+	@GetMapping("/listagem/{username}/{agenciaId}")
 	public ResponseEntity<Response<List<AnoJSON>>> getAll(@PathVariable("username") String userName,
 			@PathVariable("agenciaId") String agenciaId) {
 
 		return this.getAno(agenciaId, "", "");
 	}
 
-	@SuppressWarnings("null")
 	public ResponseEntity<Response<List<AnoJSON>>> getAno(String agenciaId, String municipioId, String prestadoraId) {
 
 		List<MunicipioTO> municipiosTO = null;
+		List<AnoJSON> anosJSON = new ArrayList<AnoJSON>();
+		Response<List<AnoJSON>> response = new Response<List<AnoJSON>>();
+
 		if (municipioId.isEmpty()) {
-			municipiosTO = this.municipioRepository.findByAgenciaId(agenciaId);
+			municipiosTO = this.municipioRepository.findByAgenciaIdAndAtivo(agenciaId, true);
 		} else {
 			MunicipioTO municipioTO = this.municipioRepository.findById(municipioId);
-			if (municipioTO != null)
+			if (municipioTO != null) {
+				municipiosTO = new ArrayList<>();
 				municipiosTO.add(municipioTO);
+			} else {
+				response.setError(new ErroJSON("ERRO", this.getClass().getName()));
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
 		}
-
-		Response<List<AnoJSON>> response = new Response<List<AnoJSON>>();
-		List<AnoJSON> anosJSON = new ArrayList<AnoJSON>();
 
 		for (MunicipioTO municipioTO : municipiosTO) {
 			if (municipioTO.getPrestadoras() != null && !municipioTO.getPrestadoras().isEmpty()) {
@@ -99,27 +104,33 @@ public class AnoControllerImpl implements AnoContoller {
 					if (prestadoraId.isEmpty()) {
 						if (prestadoraTO != null && prestadoraTO.getAnos() != null) {
 							for (AnoTO to : prestadoraTO.getAnos()) {
-								AnoJSON anoJSON = null;
-								for (AnoJSON anoAux : anosJSON) {
-									if (to.getAno().equals(anoAux.getAno())) {
-										anoJSON = new AnoJSON(to);
-										if (anoAux.isEditar() == null
-												|| anoAux.isEditar().equals(String.valueOf(to.isEditar()))) {
-											anoJSON.setEditar("diferente");
-										}
-										if (anoAux.isExibir() == null
-												|| anoAux.isExibir().equals(String.valueOf(to.isExibir()))) {
-											anoJSON.setExibir("diferente");
-										}
-									}
+								AnoJSON anoJSON = new AnoJSON(to);
+
+								if (anosJSON.isEmpty()) {
 									anosJSON.add(anoJSON);
+								} else {
+									int sizeAnosJSON = anosJSON.size();
+									boolean isNovo = true;
+									for (int ii = 0; ii < sizeAnosJSON; ii++) {
+										AnoJSON anoAux = anosJSON.get(ii);
+										if (anoJSON.getAno().equals(anoAux.getAno())) {
+											if (anoAux.isEditar() == null
+													|| anoAux.isEditar().equals(String.valueOf(to.isEditar()))) {
+												anoAux.setEditar("diferente");
+												isNovo = false;
+											}
+											if (anoAux.isExibir() == null
+													|| anoAux.isExibir().equals(String.valueOf(to.isExibir()))) {
+												anoAux.setExibir("diferente");
+												isNovo = false;
+											}
+										}
+									}									
+									if(isNovo) {
+										anosJSON.add(anoJSON);
+									}
 								}
 							}
-							this.logController.insert(new Log(Constantes.ANO_LISTAGEM,
-									new Util().ListColectionToString(new ArrayList<Object>(anosJSON))));
-
-							response.setData(anosJSON);
-							return ResponseEntity.status(HttpStatus.OK).body(response);
 						}
 					} else {
 						if (prestadoraTO != null && prestadoraTO.getId().equals(prestadoraId)
@@ -127,14 +138,14 @@ public class AnoControllerImpl implements AnoContoller {
 							for (AnoTO to : prestadoraTO.getAnos()) {
 								anosJSON.add(new AnoJSON(to));
 							}
-							this.logController.insert(new Log(Constantes.ANO_LISTAGEM,
-									new Util().ListColectionToString(new ArrayList<Object>(anosJSON))));
-
-							response.setData(anosJSON);
-							return ResponseEntity.status(HttpStatus.OK).body(response);
 						}
 					}
 				}
+				this.logController.insert(new Log(Constantes.ANO_LISTAGEM,
+						new Util().ListColectionToString(new ArrayList<Object>(anosJSON))));
+
+				response.setData(anosJSON);
+				return ResponseEntity.status(HttpStatus.OK).body(response);
 			}
 		}
 		response.setError(new ErroJSON("ERRO", this.getClass().getName()));
@@ -264,7 +275,7 @@ public class AnoControllerImpl implements AnoContoller {
 
 			this.municipioRepository.save(municipioTO);
 
-			this.logController.insert(new Log( Constantes.ANO_DELETE, anoJSON.toString()));
+			this.logController.insert(new Log(Constantes.ANO_DELETE, anoJSON.toString()));
 			response.setData(anoJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
