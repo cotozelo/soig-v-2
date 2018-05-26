@@ -23,12 +23,11 @@ public interface MunicipioRepository extends MongoRepository<MunicipioTO, String
 	MunicipioTO findById(String id);
 
 	MunicipioTO findByIdAndAgenciaIdAndAtivo(String id, String agenciaId, boolean ativo);
-
+	
 	MunicipioTO findByNome(String nome);
 
 	@Query(fields = "{ 'nome': 1, 'agenciaId': 1, 'codigo': 1, 'cidade': 1, 'estado': 1, 'contatoTelefone': 1, 'contatoNome': 1, 'contatoEmail': 1, 'ativo':1}")
-	List<MunicipioTO> findByAgenciaId(String agenciaId);
-	
+	List<MunicipioTO> findByAgenciaId(String agenciaId);	
 	
 	@Query(value = "{'agenciaId' : ?0, 'ativo' : ?1}",fields = "{ 'nome': 1, 'agenciaId': 1, 'codigo': 1, 'cidade': 1, 'estado': 1, 'contatoTelefone': 1, 'contatoNome': 1, 'contatoEmail': 1, 'ativo':1, 'prestadoras':1}")
 	List<MunicipioTO> findByAgenciaIdAndAtivo(String agenciaId, boolean ativo);

@@ -81,21 +81,13 @@ public class AnoControllerImpl implements AnoContoller {
 
 	public ResponseEntity<Response<List<AnoJSON>>> getAno(String agenciaId, String municipioId, String prestadoraId) {
 
-		List<MunicipioTO> municipiosTO = null;
 		List<AnoJSON> anosJSON = new ArrayList<AnoJSON>();
 		Response<List<AnoJSON>> response = new Response<List<AnoJSON>>();
 
-		if (municipioId.isEmpty()) {
-			municipiosTO = this.municipioRepository.findByAgenciaIdAndAtivo(agenciaId, true);
-		} else {
-			MunicipioTO municipioTO = this.municipioRepository.findById(municipioId);
-			if (municipioTO != null) {
-				municipiosTO = new ArrayList<>();
-				municipiosTO.add(municipioTO);
-			} else {
-				response.setError(new ErroJSON("ERRO", this.getClass().getName()));
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-			}
+		List<MunicipioTO> municipiosTO = this.getMunicipios(agenciaId, municipioId);
+		if (municipiosTO == null) {
+			response.setError(new ErroJSON("ERRO", this.getClass().getName()));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 
 		for (MunicipioTO municipioTO : municipiosTO) {
@@ -116,17 +108,17 @@ public class AnoControllerImpl implements AnoContoller {
 										if (anoJSON.getAno().equals(anoAux.getAno())) {
 											if (anoAux.isEditar() == null
 													|| anoAux.isEditar().equals(String.valueOf(to.isEditar()))) {
-												anoAux.setEditar("diferente");
+												anoAux.setEditar(Constantes.DIFERENTE);
 												isNovo = false;
 											}
 											if (anoAux.isExibir() == null
 													|| anoAux.isExibir().equals(String.valueOf(to.isExibir()))) {
-												anoAux.setExibir("diferente");
+												anoAux.setExibir(Constantes.DIFERENTE);
 												isNovo = false;
 											}
 										}
-									}									
-									if(isNovo) {
+									}
+									if (isNovo) {
 										anosJSON.add(anoJSON);
 									}
 								}
@@ -150,6 +142,23 @@ public class AnoControllerImpl implements AnoContoller {
 		}
 		response.setError(new ErroJSON("ERRO", this.getClass().getName()));
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+	}
+
+	public List<MunicipioTO> getMunicipios(String agenciaId, String municipioId) {
+		List<MunicipioTO> municipiosTO = null;
+
+		if (municipioId.isEmpty()) {
+			municipiosTO = this.municipioRepository.findByAgenciaIdAndAtivo(agenciaId, true);
+		} else {
+			MunicipioTO municipioTO = this.municipioRepository.findById(municipioId);
+			if (municipioTO != null) {
+				municipiosTO = new ArrayList<>();
+				municipiosTO.add(municipioTO);
+			} else {
+				return null;
+			}
+		}
+		return municipiosTO;
 	}
 
 	@PostMapping("/insert/{username}")
@@ -212,8 +221,151 @@ public class AnoControllerImpl implements AnoContoller {
 		}
 	}
 
-	@PutMapping("/update/{username}/{municipioId}/{prestadoraId}")
+	@PutMapping("/update/{username}/{agenciaId}/{municipioId}/{prestadoraId}")
 	public ResponseEntity<Response<AnoJSON>> update(@PathVariable("username") String userName,
+			@PathVariable("agenciaId") String agenciaId, @PathVariable("municipioId") String municipioId,
+			@PathVariable("prestadoraId") String prestadoraId, @RequestBody AnoJSON anoJSON) {
+		Response<AnoJSON> response = new Response<AnoJSON>();
+
+		try {
+
+			List<MunicipioTO> municipiosTO = this.getMunicipios(agenciaId, municipioId);
+			if (municipiosTO == null) {
+				response.setError(new ErroJSON("ERRO", this.getClass().getName()));
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
+
+			boolean salvar = false;
+			for (MunicipioTO municipioTO : municipiosTO) {
+				if (municipioTO.getPrestadoras() != null && !municipioTO.getPrestadoras().isEmpty()) {
+					for (PrestadoraTO prestadoraTO : municipioTO.getPrestadoras()) {
+						if (!prestadoraId.isEmpty() && prestadoraTO != null && prestadoraTO.getAnos() != null
+								&& prestadoraId.equals(prestadoraTO.getId())) {
+							for (AnoTO to : prestadoraTO.getAnos()) {
+								if (anoJSON.getAno().equals(to.getAno())) {
+									if (!anoJSON.getEditar().toUpperCase().equals(Constantes.DIFERENTE)) {
+										to.setEditar(Boolean.parseBoolean(anoJSON.getEditar()));
+										salvar = true;
+									}
+									if (!anoJSON.getExibir().toUpperCase().equals(Constantes.DIFERENTE)) {
+										to.setExibir(Boolean.parseBoolean(anoJSON.getExibir()));
+										salvar = true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if (salvar) {
+				this.municipioRepository.save(municipiosTO);
+			}
+			this.logController.insert(new Log(Constantes.ANO_LISTAGEM, anoJSON.toString()));
+
+			response.setData(anoJSON);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch ( Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+	
+	@PutMapping("/update/{username}/{agenciaId}/{municipioId}")
+	public ResponseEntity<Response<AnoJSON>> update(@PathVariable("username") String userName,
+			@PathVariable("agenciaId") String agenciaId, @PathVariable("municipioId") String municipioId, @RequestBody AnoJSON anoJSON) {
+		Response<AnoJSON> response = new Response<AnoJSON>();
+
+		try {
+
+			List<MunicipioTO> municipiosTO = this.getMunicipios(agenciaId, municipioId);
+			if (municipiosTO == null) {
+				response.setError(new ErroJSON("ERRO", this.getClass().getName()));
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
+
+			boolean salvar = false;
+			for (MunicipioTO municipioTO : municipiosTO) {
+				if (municipioTO.getPrestadoras() != null && !municipioTO.getPrestadoras().isEmpty()) {
+					for (PrestadoraTO prestadoraTO : municipioTO.getPrestadoras()) {
+						if (prestadoraTO != null && prestadoraTO.getAnos() != null ) {
+							for (AnoTO to : prestadoraTO.getAnos()) {
+								if (anoJSON.getAno().equals(to.getAno())) {
+									if (!anoJSON.getEditar().toUpperCase().equals(Constantes.DIFERENTE)) {
+										to.setEditar(Boolean.parseBoolean(anoJSON.getEditar()));
+										salvar = true;
+									}
+									if (!anoJSON.getExibir().toUpperCase().equals(Constantes.DIFERENTE)) {
+										to.setExibir(Boolean.parseBoolean(anoJSON.getExibir()));
+										salvar = true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if (salvar) {
+				this.municipioRepository.save(municipiosTO);
+			}
+			this.logController.insert(new Log(Constantes.ANO_LISTAGEM, anoJSON.toString()));
+
+			response.setData(anoJSON);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch ( Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+	
+	@PutMapping("/update/{username}/{agenciaId}")
+	public ResponseEntity<Response<AnoJSON>> update(@PathVariable("username") String userName,
+			@PathVariable("agenciaId") String agenciaId, @RequestBody AnoJSON anoJSON) {
+		Response<AnoJSON> response = new Response<AnoJSON>();
+
+		try {
+
+			List<MunicipioTO> municipiosTO = this.getMunicipios(agenciaId, "");
+			if (municipiosTO == null) {
+				response.setError(new ErroJSON("ERRO", this.getClass().getName()));
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
+
+			boolean salvar = false;
+			for (MunicipioTO municipioTO : municipiosTO) {
+				if (municipioTO.getPrestadoras() != null && !municipioTO.getPrestadoras().isEmpty()) {
+					for (PrestadoraTO prestadoraTO : municipioTO.getPrestadoras()) {
+						if (prestadoraTO != null && prestadoraTO.getAnos() != null ) {
+							for (AnoTO to : prestadoraTO.getAnos()) {
+								if (anoJSON.getAno().equals(to.getAno())) {
+									if (!anoJSON.getEditar().toUpperCase().equals(Constantes.DIFERENTE)) {
+										to.setEditar(Boolean.parseBoolean(anoJSON.getEditar()));
+										salvar = true;
+									}
+									if (!anoJSON.getExibir().toUpperCase().equals(Constantes.DIFERENTE)) {
+										to.setExibir(Boolean.parseBoolean(anoJSON.getExibir()));
+										salvar = true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if (salvar) {
+				this.municipioRepository.save(municipiosTO);
+			}
+			this.logController.insert(new Log(Constantes.ANO_LISTAGEM, anoJSON.toString()));
+
+			response.setData(anoJSON);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch ( Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
+	@PutMapping("/update_1/{username}/{municipioId}/{prestadoraId}")
+	public ResponseEntity<Response<AnoJSON>> update_1(@PathVariable("username") String userName,
 			@PathVariable("municipioId") String municipioId, @PathVariable("prestadoraId") String prestadoraId,
 			@RequestBody AnoJSON anoJSON) {
 
