@@ -16,11 +16,21 @@ public interface AnoContoller {
 	public ResponseEntity<Response<AnoJSON>> insert(@PathVariable("username") String userName,
 			@RequestBody AnoJSON anoJSON);
 
-	public ResponseEntity<Response<AnoJSON>> update(@PathVariable("username") String userName,
-			@PathVariable("municipioId") String municipioId, @PathVariable("prestadoraId") String prestadoraId,
-			@RequestBody AnoJSON anoJSON);
-
 	public ResponseEntity<Response<AnoJSON>> delete(@PathVariable("username") String userName,
 			@PathVariable("municipioId") String municipioId, @PathVariable("prestadoraId") String prestadoraId,
 			@PathVariable("dadoId") String dadoId);
+
+	public ResponseEntity<Response<AnoJSON>> update(@PathVariable("username") String userName,
+			@PathVariable("agenciaId") String agenciaId, @PathVariable("municipioId") String municipioId,
+	    	@PathVariable("prestadoraId") String prestadoraId, @RequestBody AnoJSON anoJSON);
+	
+	public ResponseEntity<Response<AnoJSON>> update(@PathVariable("username") String userName,
+			@PathVariable("agenciaId") String agenciaId, @PathVariable("municipioId") String municipioId, @RequestBody AnoJSON anoJSON);
+	
+	public ResponseEntity<Response<AnoJSON>> update(@PathVariable("username") String userName,
+			@PathVariable("agenciaId") String agenciaId, @RequestBody AnoJSON anoJSON);
+	
+	public ResponseEntity<Response<AnoJSON>> update_1(@PathVariable("username") String userName,
+			@PathVariable("municipioId") String municipioId, @PathVariable("prestadoraId") String prestadoraId,
+			@RequestBody AnoJSON anoJSON);
 }
