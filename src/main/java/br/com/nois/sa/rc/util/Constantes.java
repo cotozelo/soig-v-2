@@ -119,5 +119,7 @@ public final class Constantes {
 	public static final String DADO_INSERT = "dado_insert";
 	public static final String DADO_UPDATE = "dado_update";
 	public static final String DADO_DELETEBYID = "dado_deletebyid";
+	// Ano
+	public static final String DIFERENTE = "DIFERENTE";
 
 }
