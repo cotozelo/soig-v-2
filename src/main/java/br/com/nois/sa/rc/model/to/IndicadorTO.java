@@ -66,6 +66,26 @@ public class IndicadorTO extends Indicador {
 		}
 		return aux;
 	}
+	
+	public EquacaoTO getEquacaoAtiva(String ano) {
+		EquacaoTO aux = null;
+		for(EquacaoTO equacao : this.getEquacaoAtiva()) {
+			if( equacao.getAno().equals(ano) ) {
+				aux = equacao;
+			}
+		}
+		return aux;
+	}
+	
+	public EquacaoTO getEquacaoAtivaUltimoAno() {
+		EquacaoTO aux = null;
+		for(EquacaoTO equacao : this.getEquacaoAtiva()) {
+			if( aux == null || Integer.valueOf(aux.getAno()) < Integer.valueOf(equacao.getAno()) ) {
+				aux = equacao;
+			}
+		}
+		return aux;
+	}
 
 	public EquacaoTO getEquacao(String equacaoId) {
 		for (int ii = 0; ii < this.equacoes.size(); ii++) {

@@ -161,8 +161,8 @@ public class AnoControllerImpl implements AnoContoller {
 		return municipiosTO;
 	}
 
-	@PostMapping("/insert/{username}")
-	public ResponseEntity<Response<AnoJSON>> insert(@PathVariable("username") String userName,
+	@PostMapping("/insert/{username}/{anoCopia}")
+	public ResponseEntity<Response<AnoJSON>> insert(@PathVariable("username") String userName, @PathVariable("anoCopia") String anoCopia,
 			@RequestBody AnoJSON anoJSON) {
 
 		Response<AnoJSON> response = new Response<AnoJSON>();
@@ -185,34 +185,40 @@ public class AnoControllerImpl implements AnoContoller {
 			for (MunicipioTO municipioTO : municipiosTO) {
 				List<PrestadoraTO> prestadorasTO = municipioTO.getPrestadoras();
 
-				if (prestadorasTO == null || prestadorasTO.isEmpty()) {
-					response.setError(new ErroJSON("VxPxRx00002", this.getClass().getName() + "/insert/" + userName));
-					return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-				}
-				for (PrestadoraTO prestadoraTO : prestadorasTO) {
-					prestadoraTO.setAno(anoTO);
-					this.municipioRepository.save(municipioTO);
-					this.logController.insert(new Log(Constantes.ANO_INSERT, prestadoraTO.toString()));
+				if (prestadorasTO != null && !prestadorasTO.isEmpty()) {
+
+					for (PrestadoraTO prestadoraTO : prestadorasTO) {
+						if (prestadoraTO.getAnoNumero(anoTO.getAno()) == null) {
+							prestadoraTO.setAno(anoTO);
+							this.municipioRepository.save(municipioTO);
+							this.logController.insert(new Log(Constantes.ANO_INSERT, prestadoraTO.toString()));
+						}
+					}
 				}
 			}
 
 			for (IndicadorTO indicadorTO : indicadoresTO) {
-				for (EquacaoTO equacaoTO : indicadorTO.getEquacaoAtiva()) {
-					if (equacaoTO.getAno() != null && equacaoTO.getAno().equals(anoJSON.getAno())) {
+				if(indicadorTO.getEquacaoAtiva(anoJSON.getAno()) == null ) {
+					EquacaoTO equacaoTO = indicadorTO.getEquacaoAtiva(anoCopia);
+					if(equacaoTO == null) {
+						 equacaoTO = indicadorTO.getEquacaoAtivaUltimoAno();
+					}
+					
+					if (equacaoTO != null) {
 						EquacaoTO aux = new EquacaoTO();
-						aux.setAno(equacaoTO.getAno());
+						aux.setAno(anoJSON.getAno());
 						aux.setAtiva(true);
 						aux.setFormula(equacaoTO.getFormula());
 						aux.setId();
 						aux.setPaiId("-1");
 						aux.setVersaoGlobal(this.versaoRepository.count());
 						indicadorTO.setEquacao(aux);
-						break;
+						this.indicadorRepository.save(indicadorTO);
+						this.logController.insert(new Log(Constantes.ANO_INSERT, indicadorTO.toString()));
 					}
 				}
 			}
-			this.indicadorRepository.save(indicadoresTO);
-
+			
 			response.setData(new AnoJSON(anoTO));
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception ex) {
@@ -264,15 +270,16 @@ public class AnoControllerImpl implements AnoContoller {
 
 			response.setData(anoJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
-		} catch ( Exception ex) {
+		} catch (Exception ex) {
 			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
-	
+
 	@PutMapping("/update/{username}/{agenciaId}/{municipioId}")
 	public ResponseEntity<Response<AnoJSON>> update(@PathVariable("username") String userName,
-			@PathVariable("agenciaId") String agenciaId, @PathVariable("municipioId") String municipioId, @RequestBody AnoJSON anoJSON) {
+			@PathVariable("agenciaId") String agenciaId, @PathVariable("municipioId") String municipioId,
+			@RequestBody AnoJSON anoJSON) {
 		Response<AnoJSON> response = new Response<AnoJSON>();
 
 		try {
@@ -287,7 +294,7 @@ public class AnoControllerImpl implements AnoContoller {
 			for (MunicipioTO municipioTO : municipiosTO) {
 				if (municipioTO.getPrestadoras() != null && !municipioTO.getPrestadoras().isEmpty()) {
 					for (PrestadoraTO prestadoraTO : municipioTO.getPrestadoras()) {
-						if (prestadoraTO != null && prestadoraTO.getAnos() != null ) {
+						if (prestadoraTO != null && prestadoraTO.getAnos() != null) {
 							for (AnoTO to : prestadoraTO.getAnos()) {
 								if (anoJSON.getAno().equals(to.getAno())) {
 									if (!anoJSON.getEditar().toUpperCase().equals(Constantes.DIFERENTE)) {
@@ -311,12 +318,12 @@ public class AnoControllerImpl implements AnoContoller {
 
 			response.setData(anoJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
-		} catch ( Exception ex) {
+		} catch (Exception ex) {
 			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
-	
+
 	@PutMapping("/update/{username}/{agenciaId}")
 	public ResponseEntity<Response<AnoJSON>> update(@PathVariable("username") String userName,
 			@PathVariable("agenciaId") String agenciaId, @RequestBody AnoJSON anoJSON) {
@@ -334,7 +341,7 @@ public class AnoControllerImpl implements AnoContoller {
 			for (MunicipioTO municipioTO : municipiosTO) {
 				if (municipioTO.getPrestadoras() != null && !municipioTO.getPrestadoras().isEmpty()) {
 					for (PrestadoraTO prestadoraTO : municipioTO.getPrestadoras()) {
-						if (prestadoraTO != null && prestadoraTO.getAnos() != null ) {
+						if (prestadoraTO != null && prestadoraTO.getAnos() != null) {
 							for (AnoTO to : prestadoraTO.getAnos()) {
 								if (anoJSON.getAno().equals(to.getAno())) {
 									if (!anoJSON.getEditar().toUpperCase().equals(Constantes.DIFERENTE)) {
@@ -358,7 +365,7 @@ public class AnoControllerImpl implements AnoContoller {
 
 			response.setData(anoJSON);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
-		} catch ( Exception ex) {
+		} catch (Exception ex) {
 			response.setError(new ErroJSON(ex, this.getClass().getName() + "/insert/" + userName));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
