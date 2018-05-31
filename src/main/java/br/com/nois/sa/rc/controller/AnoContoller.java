@@ -13,7 +13,7 @@ public interface AnoContoller {
 	public ResponseEntity<Response<List<AnoJSON>>> getAll(@PathVariable("username") String userName,
 			@PathVariable("municipioId") String municipioId, @PathVariable("prestadoraId") String prestadoraId);
 
-	public ResponseEntity<Response<AnoJSON>> insert(@PathVariable("username") String userName,
+	public ResponseEntity<Response<AnoJSON>> insert(@PathVariable("username") String userName, @PathVariable("anoCopia") String anoCopia,
 			@RequestBody AnoJSON anoJSON);
 
 	public ResponseEntity<Response<AnoJSON>> delete(@PathVariable("username") String userName,
