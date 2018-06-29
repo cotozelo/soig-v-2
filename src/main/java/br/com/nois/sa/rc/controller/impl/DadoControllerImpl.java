@@ -55,18 +55,18 @@ public class DadoControllerImpl implements DadoController {
 
 		retorno.setChave("sigla");
 		retorno.setValor(sigla);
-		retorno.setExite(false);
+		retorno.setExiste(false);
 
 		try {
 			if (this.indicadorRepository.findBySiglaStartingWithIgnoreCase(sigla) == null) {
 				if (this.dadoRepository.findBySiglaStartingWithIgnoreCase(sigla) != null) {
-					retorno.setExite(true);
+					retorno.setExiste(true);
 				}
 			} else {
-				retorno.setExite(true);
+				retorno.setExiste(true);
 			}
 		} catch (Exception ex) {
-			retorno.setExite(false);
+			retorno.setExiste(false);
 		}
 		return retorno;
 	}

@@ -55,20 +55,20 @@ public class PrestadoraControllerImpl implements PrestadoraController {
 
 		retorno.setChave("nome");
 		retorno.setValor(nome);
-		retorno.setExite(false);
+		retorno.setExiste(false);
 
 		try {
 			MunicipioTO municipioTO = this.municipioRepository.findById(municipioId);
 			if (municipioTO != null) {
 				for (PrestadoraTO prestadoraTO : municipioTO.getPrestadoras()) {
 					if (prestadoraTO.getNome().equalsIgnoreCase(nome)) {
-						retorno.setExite(true);
+						retorno.setExiste(true);
 						return retorno;
 					}
 				}
 			}
 		} catch (Exception ex) {
-			retorno.setExite(false);
+			retorno.setExiste(false);
 		}
 		return retorno;
 	}
@@ -81,20 +81,20 @@ public class PrestadoraControllerImpl implements PrestadoraController {
 
 		retorno.setChave("codigo");
 		retorno.setValor(codigo);
-		retorno.setExite(false);
+		retorno.setExiste(false);
 
 		try {
 			MunicipioTO municipioTO = this.municipioRepository.findById(municipioId);
 			if (municipioTO != null) {
 				for (PrestadoraTO prestadoraTO : municipioTO.getPrestadoras()) {
 					if (prestadoraTO.getCodigo().equalsIgnoreCase(codigo)) {
-						retorno.setExite(true);
+						retorno.setExiste(true);
 						return retorno;
 					}
 				}
 			}
 		} catch (Exception ex) {
-			retorno.setExite(false);
+			retorno.setExiste(false);
 		}
 		return retorno;
 	}

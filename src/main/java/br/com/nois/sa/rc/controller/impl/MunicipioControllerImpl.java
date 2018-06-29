@@ -64,14 +64,14 @@ public class MunicipioControllerImpl implements MunicipioController {
 
 		retorno.setChave("nome");
 		retorno.setValor(nome);
-		retorno.setExite(false);
+		retorno.setExiste(false);
 
 		try {
 			if (this.municipioRepository.findByNomeStartingWithIgnoreCase(nome) != null) {
-				retorno.setExite(true);
+				retorno.setExiste(true);
 			}
 		} catch (Exception ex) {
-			retorno.setExite(false);
+			retorno.setExiste(false);
 		}
 		return retorno;
 	}
@@ -84,14 +84,14 @@ public class MunicipioControllerImpl implements MunicipioController {
 
 		retorno.setChave("codigo");
 		retorno.setValor(codigo);
-		retorno.setExite(false);
+		retorno.setExiste(false);
 
 		try {
 			if (this.municipioRepository.findByCodigoStartingWithIgnoreCase(codigo) != null) {
-				retorno.setExite(true);
+				retorno.setExiste(true);
 			}
 		} catch (Exception ex) {
-			retorno.setExite(false);
+			retorno.setExiste(false);
 		}
 		return retorno;
 	}

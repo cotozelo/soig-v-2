@@ -52,14 +52,14 @@ public class AgenciaControllerImpl implements AgenciaController {
 
 		retorno.setChave("nome");
 		retorno.setValor(nome);
-		retorno.setExite(false);
+		retorno.setExiste(false);
 
 		try {
 			if (this.agenciaRepository.findByNome(nome) != null) {
-				retorno.setExite(true);
+				retorno.setExiste(true);
 			}
 		} catch (Exception ex) {
-			retorno.setExite(false);
+			retorno.setExiste(false);
 		}
 		
 		/* Acredito que o ideal seria pesquisar o nome completo e não partes dele como Stating...

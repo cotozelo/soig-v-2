@@ -64,14 +64,14 @@ public class UsuarioControllerImpl implements UsuarioController {
 
 		retorno.setChave("email");
 		retorno.setValor(email);
-		retorno.setExite(false);
+		retorno.setExiste(false);
 
 		try {
 			if (this.usuarioRepository.findByEmailStartingWithIgnoreCase(email) != null) {
-				retorno.setExite(true);
+				retorno.setExiste(true);
 			}
 		} catch (Exception ex) {
-			retorno.setExite(false);
+			retorno.setExiste(false);
 		}
 		return retorno;
 	}
@@ -84,14 +84,14 @@ public class UsuarioControllerImpl implements UsuarioController {
 
 		retorno.setChave("nomedeusuario");
 		retorno.setValor(nomedeusuario);
-		retorno.setExite(false);
+		retorno.setExiste(false);
 
 		try {
 			if (this.usuarioRepository.findByNomeDeUsuarioStartingWithIgnoreCase(nomedeusuario) != null) {
-				retorno.setExite(true);
+				retorno.setExiste(true);
 			}
 		} catch (Exception ex) {
-			retorno.setExite(false);
+			retorno.setExiste(false);
 		}
 		return retorno;
 	}

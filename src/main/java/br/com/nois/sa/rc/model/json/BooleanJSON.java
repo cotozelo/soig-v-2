@@ -3,7 +3,7 @@ package br.com.nois.sa.rc.model.json;
 public class BooleanJSON {
 	private String chave;
 	private String valor;
-	private boolean exite;
+	private boolean existe;
 
 	public String getChave() {
 		return chave;
@@ -21,16 +21,16 @@ public class BooleanJSON {
 		this.valor = valor;
 	}
 
-	public boolean isExite() {
-		return exite;
+	public boolean isExiste() {
+		return existe;
 	}
 
-	public void setExite(boolean exite) {
-		this.exite = exite;
+	public void setExiste(boolean existe) {
+		this.existe = existe;
 	}
 
 	@Override
 	public String toString() {
-		return "BooleanJSON [chave=" + chave + ", valor=" + valor + ", exite=" + exite + "]";
+		return "BooleanJSON [chave=" + chave + ", valor=" + valor + ", existe=" + existe + "]";
 	}
 }
