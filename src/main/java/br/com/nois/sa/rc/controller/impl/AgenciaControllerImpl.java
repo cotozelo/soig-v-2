@@ -55,12 +55,23 @@ public class AgenciaControllerImpl implements AgenciaController {
 		retorno.setExite(false);
 
 		try {
-			if (this.agenciaRepository.findByNomeStartingWithIgnoreCase(nome) != null) {
+			if (this.agenciaRepository.findByNome(nome) != null) {
 				retorno.setExite(true);
 			}
 		} catch (Exception ex) {
 			retorno.setExite(false);
 		}
+		
+		/* Acredito que o ideal seria pesquisar o nome completo e não partes dele como Stating...
+		try {
+			if (this.agenciaRepository.findByNomeStartingWithIgnoreCase(nome) != null) {
+				System.out.println("true");
+				retorno.setExite(true);
+			}
+		} catch (Exception ex) {
+			System.out.println("false");
+			retorno.setExite(false);
+		}*/
 		return retorno;
 	}
 
