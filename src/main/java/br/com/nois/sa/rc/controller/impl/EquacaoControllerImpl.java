@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +27,7 @@ import br.com.nois.sa.rc.model.json.EquacaoJSON;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.to.EquacaoTO;
 import br.com.nois.sa.rc.model.to.IndicadorTO;
+import br.com.nois.sa.rc.repository.EquacaoRepository;
 import br.com.nois.sa.rc.repository.IndicadorRepository;
 import br.com.nois.sa.rc.repository.LogRepository;
 import br.com.nois.sa.rc.repository.VersaoRepository;
@@ -33,14 +38,16 @@ import br.com.nois.sa.rc.util.Constantes;
 public class EquacaoControllerImpl implements EquacaoController {
 	private IndicadorRepository indicadorRepository;
 	private LogRepository logRepository;
+	private EquacaoRepository equacaoRepository;
 
 	@Autowired
 	LogController logController;
 
 	public EquacaoControllerImpl(IndicadorRepository indicadorRepository, LogRepository logRepository,
-			VersaoRepository versaoRepository) {
+			EquacaoRepository equacaoRepository, VersaoRepository versaoRepository) {
 		this.indicadorRepository = indicadorRepository;
 		this.logRepository = logRepository;
+		this.equacaoRepository = equacaoRepository;
 		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 	}
 
@@ -126,17 +133,32 @@ public class EquacaoControllerImpl implements EquacaoController {
 		}
 	}
 
-	/*
-	 * public Double result(Map<String, Double> variaveis, String formula)
-	 * throws ScriptException { ScriptEngineManager manager = new
-	 * ScriptEngineManager(); ScriptEngine engine =
-	 * manager.getEngineByName("JavaScript");
-	 * 
-	 * for (String key : variaveis.keySet()) { engine.put(key,
-	 * variaveis.get(key)); }
-	 * 
-	 * engine.eval("resultado = " + formula + ";");
-	 * 
-	 * return Double.parseDouble("" + engine.get("resultado")); }
-	 */
+	public Double result(Map<String, Double> variaveis, String formula) throws ScriptException {
+		ScriptEngineManager manager = new ScriptEngineManager();
+		ScriptEngine engine = manager.getEngineByName("JavaScript");
+
+		for (String key : variaveis.keySet()) {
+			engine.put(key, variaveis.get(key));
+		}
+
+		engine.eval("resultado = " + formula + ";");
+		return Double.parseDouble("" + engine.get("resultado"));
+	}
+	
+	public String getIndicador(String formula) {
+	     return formula.substring(0, formula.indexOf(" =")-1);
+	} 
+
+	@Override
+	@GetMapping("/formula/{formula}")
+	public ResponseEntity<Response<Map<String, Object>>> getAllDado(@PathVariable("formula") String formula) {
+		List<EquacaoTO> equacoes = this.equacaoRepository.findByFormulaLike(formula);
+		for (EquacaoTO equacao : equacoes) {
+			System.out.println("Aline aqui" + equacao.getFormula());
+		}
+		// TODO Auto-generated method stub*/
+		System.out.println("Aline");
+		return null;
+	}
+
 }

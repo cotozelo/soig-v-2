@@ -1,14 +1,19 @@
 package br.com.nois.sa.rc;
 //http://blog.algaworks.com/spring-boot/
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.nois.sa.rc.controller.RotinaCargaController;
+import br.com.nois.sa.rc.controller.impl.EquacaoControllerImpl;
 import br.com.nois.sa.rc.repository.AgenciaRepository;
 import br.com.nois.sa.rc.repository.DadoRepository;
+import br.com.nois.sa.rc.repository.EquacaoRepository;
 import br.com.nois.sa.rc.repository.FuncionalidadeRepository;
 import br.com.nois.sa.rc.repository.GrupoRepository;
 import br.com.nois.sa.rc.repository.InclinacaoRepository;
@@ -44,11 +49,14 @@ public class Application implements CommandLineRunner {
 	VersaoRepository versaoRepository;
 	@Autowired
 	UsuarioRepository usuarioRepository;
+	@Autowired
+	EquacaoRepository equacaoRepository;
 
 	RotinaCargaController rotinaCargaController;
 
 	// private Scanner ler;
-	//private String PATH_CARGA = "/home/dev/Work/SOIG_V2/src/main/java/br/com/nois/sa/rc/carga/arquivos/";
+	// private String PATH_CARGA =
+	// "/home/dev/Work/SOIG_V2/src/main/java/br/com/nois/sa/rc/carga/arquivos/";
 
 	@Override
 	public void run(String... strings) throws Exception {
@@ -66,65 +74,64 @@ public class Application implements CommandLineRunner {
 		 * repositorios.put("municipioRepository", this.municipioRepository);
 		 * repositorios.put("indicadorRepository", this.indicadorRepository);
 		 * repositorios.put("versaoRepository", this.versaoRepository);
-		 
-
-		Indicador indicador = null;
-		Dado dado = null;
-
-		// System.out.println("fazer carga dos municipios:\n");
-		// MunicipioPrestadora municipioPrestadora = new
-		// MunicipioPrestadora(repositorios);
-		// municipioPrestadora.run(PATH_CARGA + "MunicipiosPrestadoras.csv");
-		/*
+		 * 
+		 * 
+		 * Indicador indicador = null; Dado dado = null;
+		 * 
+		 * // System.out.println("fazer carga dos municipios:\n"); //
+		 * MunicipioPrestadora municipioPrestadora = new //
+		 * MunicipioPrestadora(repositorios); // municipioPrestadora.run(PATH_CARGA +
+		 * "MunicipiosPrestadoras.csv"); /*
 		 * System.out.println("fazer carga dos dados:\n"); dado = new
 		 * Dado(repositorios); dado.run(PATH_CARGA + "DADOS_2016.csv", "2016");
 		 * 
 		 * System.out.println("fazer carga dos dados:\n"); indicador = new
-		 * Indicador(repositorios); indicador.run(PATH_CARGA +
-		 * "INDICADORES_2016.csv", "2016");
+		 * Indicador(repositorios); indicador.run(PATH_CARGA + "INDICADORES_2016.csv",
+		 * "2016");
 		 * 
 		 * System.out.println("fazer carga dos dados:\n"); dado = new
 		 * Dado(repositorios); dado.run(PATH_CARGA + "DADOS_2015.csv", "2015");
 		 * 
 		 * System.out.println("fazer carga dos dados:\n"); indicador = new
-		 * Indicador(repositorios); indicador.run(PATH_CARGA +
-		 * "INDICADORES_2015.csv", "2015");
+		 * Indicador(repositorios); indicador.run(PATH_CARGA + "INDICADORES_2015.csv",
+		 * "2015");
 		 * 
 		 * System.out.println("fazer carga dos dados:\n"); dado = new
 		 * Dado(repositorios); dado.run(PATH_CARGA + "DADOS_2014.csv", "2014");
 		 * 
 		 * System.out.println("fazer carga dos dados:\n"); indicador = new
-		 * Indicador(repositorios); indicador.run(PATH_CARGA +
-		 * "INDICADORES_2014.csv", "2014");
+		 * Indicador(repositorios); indicador.run(PATH_CARGA + "INDICADORES_2014.csv",
+		 * "2014");
 		 * 
 		 * System.out.println("fazer carga dos dados:\n"); Equacao equacao = new
 		 * Equacao(repositorios); equacao.run(PATH_CARGA + "Equacao.csv");
 		 * 
-		 * System.out.println("Fim da Carga de Dados"); /* ler = new
-		 * Scanner(System.in); System.out.
-		 * println("Informe o caminho dos arquivos para carga seguido da barra:\n"
-		 * ); System.out.
-		 * println("EXEMPLO: C:\\Users\\aline.silva\\Desktop\\carga\\ \n");
+		 * System.out.println("Fim da Carga de Dados"); /* ler = new Scanner(System.in);
+		 * System.out.
+		 * println("Informe o caminho dos arquivos para carga seguido da barra:\n" );
+		 * System.out. println("EXEMPLO: C:\\Users\\aline.silva\\Desktop\\carga\\ \n");
 		 * System.out.println("TESTE"); String caminho = ler.nextLine();
 		 * System.out.println("caminho" + caminho);
 		 * 
-		 * this.rotinaCargaController = new
-		 * RotinaCargaControllerImpl(repositorios);
+		 * this.rotinaCargaController = new RotinaCargaControllerImpl(repositorios);
 		 * this.rotinaCargaController.executaRotina(caminho);
-		 *
-		 * 
-		 * Map<String, Double> example = new HashMap<String, Double>();
-		 * DadoControllerImpl dados = new DadoControllerImpl(dadoRepository,
-		 * logRepository, versaoRepository); List<Dado> listaDados =
-		 * dados.getAll(); for (Dado teste : listaDados) {
-		 * example.put(teste.getSigla(), teste.getValor()); }
-		 * 
-		 * EquacaoControllerImpl equacao = new
-		 * EquacaoControllerImpl(indicadorRepository, logRepository,
-		 * versaoRepository); Double resultado = equacao.result(example,
-		 * "IN001 = (( AG003 + AG004 ) / (AG005 - AG006) ) * 100");
-		 * System.out.println("Resultado: " + resultado.toString());
 		 */
+
+		Map<String, Double> example = new HashMap<String, Double>();
+		example.put("AG003", 3.0);
+		/*DadoControllerImpl dados = new DadoControllerImpl(dadoRepository, logRepository, versaoRepository);
+		List<Dado> listaDados = dados.getAll();
+		for (Dado teste : listaDados) {
+			example.put(teste.getSigla(), teste.getValor());
+		}*/
+
+		EquacaoControllerImpl equacao = new EquacaoControllerImpl(indicadorRepository, logRepository, equacaoRepository, versaoRepository);
+		String formula = "IN001 = (( AG003 + AG004 ) / (AG005 - AG006) ) * 100";
+		/*formula = "IN001 = 100 * AG003";
+		Double resultado = equacao.result(example, formula);
+		System.out.println("Resultado: " + resultado.toString());*/
+		//equacao.getAllDado("AG003");
+		System.out.println("Resultado: ." + equacao.getIndicador(formula) + ".");
 	}
 
 	public static void main(String[] args) {
