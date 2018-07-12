@@ -10,16 +10,5 @@ import br.com.nois.sa.rc.model.json.EquacaoJSON;
 
 public interface EquacaoController {
 	public ResponseEntity<Response<Map<String, Object>>> getAll(@PathVariable("idIndicador") String idIndicador);
-	
-	public ResponseEntity<Response<Map<String, Object>>> getAllDado(@PathVariable("formula") String dado);
-
-	public ResponseEntity<Response<EquacaoJSON>> update(@PathVariable("userName") String userName,
-			@RequestBody EquacaoJSON equacaoJSON);
-
-	/*
-	 * public Double result(MunicipioRepository municipioRepository,
-	 * DadoRepository dadoRepository, LogRepository logRepository,
-	 * VersaoRepository versaoRepository, String formula) throws
-	 * ScriptException;
-	 */
+	public ResponseEntity<Response<EquacaoJSON>> update(@PathVariable("userName") String userName, @RequestBody EquacaoJSON equacaoJSON);
 }

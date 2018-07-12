@@ -402,4 +402,47 @@ public abstract class DadoValor {
 				+ ", totalJustificativa=" + totalJustificativa + ", versaoGlobal=" + versaoGlobal + ", paiId=" + paiId
 				+ "]";
 	}
+	
+	public Double getMes(String mes) {
+		String valor;
+		switch (mes) {
+		case "01":
+			valor = getMes01();
+			break;
+		case "02":
+			valor = getMes02();
+			break;
+		case "03":
+			valor = getMes03();
+			break;
+		case "04":
+			valor = getMes04();
+			break;
+		case "05":
+			valor = getMes05();
+			break;
+		case "06":
+			valor = getMes06();
+			break;
+		case "07":
+			valor = getMes07();
+			break;
+		case "08":
+			valor = getMes08();
+			break;
+		case "09":
+			valor = getMes09();
+			break;
+		case "10":
+			valor = getMes10();
+			break;
+		case "11":
+			valor = getMes11();
+			break;
+		default:
+			valor = getMes12();
+			break;
+		}
+		return Double.parseDouble(valor);
+	}
 }

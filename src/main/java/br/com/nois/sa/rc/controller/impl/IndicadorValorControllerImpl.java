@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +25,7 @@ import br.com.nois.sa.rc.model.json.AnoIndicadorValoresJSON;
 import br.com.nois.sa.rc.model.json.ErroJSON;
 import br.com.nois.sa.rc.model.to.AnoTO;
 import br.com.nois.sa.rc.model.to.IndicadorTO;
+import br.com.nois.sa.rc.model.to.IndicadorValorTO;
 import br.com.nois.sa.rc.model.to.MunicipioTO;
 import br.com.nois.sa.rc.model.to.PrestadoraTO;
 import br.com.nois.sa.rc.repository.IndicadorRepository;
@@ -115,6 +120,58 @@ public class IndicadorValorControllerImpl implements IndicadorValorController {
 			response.setError(new ErroJSON(ex, this.getClass().getName() + "/lisgatem/" + userName + "/" + agenciaId
 					+ "/" + municipioId + "/" + prestadoraId));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
+	public String getResultado(Map<String, Double> variaveis, String formula) throws ScriptException {
+		ScriptEngineManager manager = new ScriptEngineManager();
+		ScriptEngine engine = manager.getEngineByName("JavaScript");
+
+		for (String key : variaveis.keySet()) {
+			engine.put(key, variaveis.get(key));
+		}
+
+		engine.eval("resultado = " + formula);
+		return "" + engine.get("resultado");
+	}
+
+	public Boolean updateByDado(String agenciaId, String municipioId, String prestadoraId, String ano, String mes,
+			Map<String, String> equacoes, Map<String, Double> variaveis) throws ScriptException {
+
+		MunicipioTO municipioTO = this.municipioRepository.findById(municipioId);
+		if (municipioTO == null || !municipioTO.getAgenciaId().equals(agenciaId)) {
+			System.out.println("municipio");
+			return false;
+		}
+
+		PrestadoraTO prestadoraTO = municipioTO.getPrestadora(prestadoraId);
+		if (prestadoraTO == null) {
+			System.out.println("prestadora");
+			return false;
+		}
+
+		AnoTO anoTO = prestadoraTO.getAno(ano);
+		if (anoTO == null) {
+			System.out.println("ano");
+			return false;
+		}
+		
+		try {
+			List<IndicadorValorTO> novos = new ArrayList<IndicadorValorTO>();
+			for (IndicadorValorTO indicadorValor : anoTO.getIndicadorValores()) {
+				if (equacoes.containsKey(indicadorValor.getSigla())) {
+					indicadorValor.setMes(mes, getResultado(variaveis, equacoes.get(indicadorValor.getSigla())));
+				}
+				novos.add(indicadorValor);
+			}
+			anoTO.setIndicadorValores(novos);
+			prestadoraTO.setAno(anoTO);
+			municipioTO.setPrestadora(prestadoraTO);
+			this.municipioRepository.save(municipioTO);
+			return true;
+		} catch (Exception ex) {
+			System.out.println("antes calculo");
+			return false;
 		}
 	}
 }

@@ -376,5 +376,46 @@ public abstract class IndicadorValor {
 				+ mes11Justificativa + ", mes12Justificativa=" + mes12Justificativa + ", totalJustificativa="
 				+ totalJustificativa + "]";
 	}
+	
+	public void setMes(String mes, String valor) {
+		switch (mes) {
+		case "01":
+			setMes01(valor);
+			break;
+		case "02":
+			setMes02(valor);
+			break;
+		case "03":
+			setMes03(valor);
+			break;
+		case "04":
+			setMes04(valor);
+			break;
+		case "05":
+			setMes05(valor);
+			break;
+		case "06":
+			setMes06(valor);
+			break;
+		case "07":
+			setMes07(valor);
+			break;
+		case "08":
+			setMes08(valor);
+			break;
+		case "09":
+			setMes09(valor);
+			break;
+		case "10":
+			setMes10(valor);
+			break;
+		case "11":
+			setMes11(valor);
+			break;
+		default:
+			setMes12(valor);
+			break;
+		}
+	}
 
 }

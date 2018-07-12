@@ -1,7 +1,9 @@
 package br.com.nois.sa.rc.controller.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import br.com.nois.sa.rc.model.to.IndicadorValorTO;
 import br.com.nois.sa.rc.model.to.MunicipioTO;
 import br.com.nois.sa.rc.model.to.PrestadoraTO;
 import br.com.nois.sa.rc.repository.DadoRepository;
+import br.com.nois.sa.rc.repository.IndicadorRepository;
 import br.com.nois.sa.rc.repository.LogRepository;
 import br.com.nois.sa.rc.repository.MunicipioRepository;
 import br.com.nois.sa.rc.repository.VersaoRepository;
@@ -41,6 +44,8 @@ public class DadoValorControllerImpl implements DadoValorController {
 	// private DadoRepository dadoRepository;
 	private LogRepository logRepository;
 	// private List<DadoTO> dadosTO;
+	private VersaoRepository versaoRepository;
+	private IndicadorRepository indicadorRepository;
 
 	@Autowired
 	LogController logController;
@@ -48,12 +53,14 @@ public class DadoValorControllerImpl implements DadoValorController {
 	static Random gerador = new Random();
 
 	public DadoValorControllerImpl(MunicipioRepository municipioRepository, LogRepository logRepository,
-			DadoRepository dadoRepository, VersaoRepository versaoRespository) {
+			DadoRepository dadoRepository, VersaoRepository versaoRepository, IndicadorRepository indicadorRepository) {
 		this.municipioRepository = municipioRepository;
 		this.logRepository = logRepository;
 		// this.dadoRepository = dadoRepository;
-		this.logController = new LogControllerImpl(this.logRepository, versaoRespository);
+		this.logController = new LogControllerImpl(this.logRepository, versaoRepository);
 		// this.dadosTO = this.dadoRepository.findAll();
+		this.versaoRepository = versaoRepository;
+		this.indicadorRepository = indicadorRepository;
 	}
 
 	@Override
@@ -105,6 +112,35 @@ public class DadoValorControllerImpl implements DadoValorController {
 					+ "/" + municipioId + "/" + prestadoraId));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
+	}
+
+	public Map<String, Double> getMes(String agenciaId, String municipioId, String prestadoraId, String ano, String mes) {
+		Map<String, Double> dadosAnoMes = new HashMap<String, Double>();
+		
+		MunicipioTO municipioTO = this.municipioRepository.findById(municipioId);
+		if (municipioTO == null || !municipioTO.getAgenciaId().equals(agenciaId)) {
+			return null;
+		}
+
+		PrestadoraTO prestadoraTO = municipioTO.getPrestadora(prestadoraId);
+		if (prestadoraTO == null) {
+			return null;
+		}
+
+		List<AnoTO> anosTO = prestadoraTO.getAnos();
+		if (anosTO == null || anosTO.isEmpty()) {
+			return null;
+		}
+
+		for (AnoTO anoTO : anosTO) {
+			if (anoTO.getAno().equals(ano)) {
+				List<DadoValorTO> dadosValor = anoTO.getDadoValores();
+				for (DadoValorTO dadoValor : dadosValor) {
+					dadosAnoMes.put(dadoValor.getSigla(), dadoValor.getMes(mes));
+				}
+			}
+		}
+		return dadosAnoMes;
 	}
 
 	@PutMapping("/update/{username}/{agenciaId}/{municipioId}/{prestadoraId}")
@@ -163,16 +199,16 @@ public class DadoValorControllerImpl implements DadoValorController {
 			List<MunicipioTO> municipiosTO = this.municipioRepository.findByAtivo(false);
 			for (MunicipioTO municipioTO : municipiosTO) {
 				try {
-					System.out.println(municipioTO.getNome() );
+					System.out.println(municipioTO.getNome());
 					municipioTO = this.municipioRepository.findById(municipioTO.getId());
 					List<PrestadoraTO> prestadorasTO = municipioTO.getPrestadoras();
 					for (PrestadoraTO prestadoraTO : prestadorasTO) {
 
 						System.out.println(municipioTO.getNome() + " | " + prestadoraTO.getNome());
 						for (AnoTO anoTO : prestadoraTO.getAnos()) {
-							
-							System.out.println(municipioTO.getNome() + " | " + prestadoraTO.getNome() + " | "
-									+ anoTO.getAno());
+
+							System.out.println(
+									municipioTO.getNome() + " | " + prestadoraTO.getNome() + " | " + anoTO.getAno());
 							for (DadoValorTO valorTO : anoTO.getDadoValores()) {
 
 								if (valorTO.getMes01() == null || valorTO.getMes01().isEmpty()) {
@@ -281,7 +317,7 @@ public class DadoValorControllerImpl implements DadoValorController {
 								total += Integer.valueOf(valorTO.getMes11());
 								total += Integer.valueOf(valorTO.getMes12());
 								valorTO.setTotal(String.valueOf(total));
-								
+
 								System.out.println(municipioTO.getNome() + " | " + prestadoraTO.getNome() + " | "
 										+ anoTO.getAno() + " | " + valorTO.getSigla() + " | " + TipoCalculo.ACUMULADO);
 								valorTO.setTipo(TipoCalculo.ACUMULADO);
@@ -339,9 +375,9 @@ public class DadoValorControllerImpl implements DadoValorController {
 								total += Integer.valueOf(valorTO.getMes11());
 								total += Integer.valueOf(valorTO.getMes12());
 								valorTO.setTotal(String.valueOf(total));
-								
+
 								System.out.println(municipioTO.getNome() + " | " + prestadoraTO.getNome() + " | "
-										+ anoTO.getAno() + " | " + valorTO.getSigla()+ " | " + TipoCalculo.MENSAL);
+										+ anoTO.getAno() + " | " + valorTO.getSigla() + " | " + TipoCalculo.MENSAL);
 								valorTO.setTipo(TipoCalculo.MENSAL);
 								this.municipioRepository.save(municipioTO);
 							}
@@ -359,4 +395,34 @@ public class DadoValorControllerImpl implements DadoValorController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
+	
+	@GetMapping("/aline/{username}/{agenciaId}/{municipioId}/{prestadoraId}/{ano}/{mes}/{dado}")
+	public ResponseEntity<Response<String>> aline(@PathVariable("username") String userName,
+			@PathVariable("agenciaId") String agenciaId, @PathVariable("municipioId") String municipioId,
+			@PathVariable("prestadoraId") String prestadoraId, @PathVariable("ano") String ano, @PathVariable("mes") String mes, @PathVariable("dado") String dado) {
+		Response<String> response = new Response<String>();
+		try {
+			
+			IndicadorValorControllerImpl indicadorValorController = new IndicadorValorControllerImpl(this.municipioRepository, this.logRepository, this.indicadorRepository, this.versaoRepository);
+			
+			Map<String, Double> variaveis = getMes(agenciaId, municipioId, prestadoraId, ano, mes);
+			
+			EquacaoControllerImpl equacaoController = new EquacaoControllerImpl(this.indicadorRepository, this.logRepository, this.versaoRepository);
+			Map<String, String> equacoes = equacaoController.getIndicadoresByDado(dado, ano);
+			
+			if(indicadorValorController.updateByDado(agenciaId, municipioId, prestadoraId, ano, mes, equacoes, variaveis)) {
+				response.setData("true");
+			} else {
+				response.setData("false");
+			}
+			
+			
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (Exception ex) {
+			response.setError(new ErroJSON(ex, this.getClass().getName() + "/lisgatem/" + userName + "/" + agenciaId
+					+ "/" + municipioId + "/" + prestadoraId));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+	
 }
